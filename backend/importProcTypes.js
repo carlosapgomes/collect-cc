@@ -1,3 +1,5 @@
+// use this file before starting your local server for the first time
+// use as: "node ./importProcTypes.js"
 const neatCsv = require('neat-csv');
 const fs = require('fs');
 const sqlite3 = require('sqlite3').verbose();
