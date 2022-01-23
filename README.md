@@ -1,4 +1,4 @@
-# collect
+# collect-CC
 
 [![wakatime](https://wakatime.com/badge/github/carlosapgomes/collect.svg)](https://wakatime.com/badge/github/carlosapgomes/collect)
 
@@ -18,7 +18,7 @@ Instale o `git`:
 Após logar como `root`
 
 Clone o projeto:
-`git clone https://github.com/carlosapgomes/collect.git`
+`git clone https://github.com/carlosapgomes/collect-cc.git`
 
 Vá ao diretório do projeto,
 
