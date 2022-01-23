@@ -1233,7 +1233,7 @@ export class CollectClient extends LitElement {
             href="#"
             style="font-weight:bold;"
           >
-            Collect
+            Collect-CC
           </a>
 
           <a
@@ -1377,7 +1377,7 @@ export class CollectClient extends LitElement {
             <br />
             <br />
             <br />
-            <h1 class="title">Coleta de Produção</h1>
+            <h1 class="title">Coleta de Produção do Centro Cirúrgico</h1>
           </div>
         </section>
 
@@ -1431,7 +1431,7 @@ export class CollectClient extends LitElement {
         class="navbar is-fixed-bottom has-background-light
               has-text-centered is-vcentered"
       >
-        <div class="column"><small>2021</small></div>
+        <div class="column"><small>2022</small></div>
       </footer>
 
       <!-- dynamic elements -->
