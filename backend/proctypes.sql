@@ -1,3 +1,6 @@
+-- insert procedures types data
+-- use this file after starting your local server for the first time
+-- use as: "sqlite3 collect.sqlite < ./proctypes.sql"
 PRAGMA foreign_keys=OFF;
 BEGIN TRANSACTION;
 CREATE TABLE IF NOT EXISTS `proctypes` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `descr` VARCHAR(255) NOT NULL, `code` VARCHAR(255) NOT NULL, `requireSurgReport` TINYINT(1) NOT NULL DEFAULT 0, `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL);
