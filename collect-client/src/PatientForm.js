@@ -16,6 +16,8 @@ export class PatientForm extends LitElement {
       _gender: { type: String, state: true },
       _dateOfBirth: { type: Date, state: true },
       _recNumber: { type: String, state: true },
+      _city: { type: String, state: true },
+      _state: { type: String, state: true },
     };
   }
 
@@ -27,6 +29,8 @@ export class PatientForm extends LitElement {
     this._gender = 'D';
     this._dateOfBirth = DateTime.local().toISODate();
     this._recNumber = '';
+    this._city = '';
+    this._state = '';
   }
 
   updated(changedProperties) {
@@ -38,6 +42,8 @@ export class PatientForm extends LitElement {
         this._dateOfBirth = this.patient.dateOfBirth
           ? DateTime.fromSQL(this.patient.dateOfBirth).toISODate()
           : DateTime.local().toISODate();
+        this._city = this.patient.city ? this.patient.city : '';
+        this._state = this.patient.state ? this.patient.state : '';
       }
     }
   }
@@ -59,6 +65,8 @@ export class PatientForm extends LitElement {
     this._gender = 'D';
     this._dateOfBirth = DateTime.local().toISODate();
     this._recNumber = '';
+    this._city = '';
+    this._state = '';
   }
 
   _saveForm(e) {
@@ -77,6 +85,8 @@ export class PatientForm extends LitElement {
       gender: this._gender,
       dateOfBirth: DateTime.fromISO(this._dateOfBirth).toISO(),
       recNumber: this._recNumber,
+      city: this._city,
+      state: this._state,
     };
     // eslint-disable-next-line no-console
     // console.log(`Saving patient: ${JSON.stringify(p, null, 2)}`);
@@ -201,6 +211,70 @@ export class PatientForm extends LitElement {
                   }}"
                   required
                 />
+              </div>
+              <div class="field">
+                <label class="label">Cidade:</label>
+                <input
+                  class="input"
+                  id="city"
+                  list="cities"
+                  type="text"
+                  placeholder="Cidade"
+                  .value="${this._city}"
+                  @input="${e => {
+                    this._city = e.target.value;
+                  }}"
+                />
+                <datalist id="cities">
+                  <option value="Salvador"></option>
+                  <option value="Lauro de Freitas"></option>
+                  <option value="Camaçari"></option>
+                  <option value="Simões Filho"></option>
+                  <option value="Feira de Santana"></option>
+                </datalist>
+              </div>
+              <div class="field">
+                <label class="label">Estado:</label>
+                <input
+                  class="input"
+                  id="state"
+                  list="states"
+                  type="text"
+                  placeholder="Estado"
+                  .value="${this._state}"
+                  @input="${e => {
+                    this._state = e.target.value;
+                  }}"
+                />
+                <datalist id="states">
+                  <option value="AC"></option>
+                  <option value="AL"></option>
+                  <option value="AP"></option>
+                  <option value="AM"></option>
+                  <option value="BA"></option>
+                  <option value="CE"></option>
+                  <option value="DF"></option>
+                  <option value="ES"></option>
+                  <option value="GO"></option>
+                  <option value="MA"></option>
+                  <option value="MT"></option>
+                  <option value="MS"></option>
+                  <option value="MG"></option>
+                  <option value="PA"></option>
+                  <option value="PB"></option>
+                  <option value="PR"></option>
+                  <option value="PE"></option>
+                  <option value="PI"></option>
+                  <option value="RJ"></option>
+                  <option value="RN"></option>
+                  <option value="RS"></option>
+                  <option value="RO"></option>
+                  <option value="RR"></option>
+                  <option value="SC"></option>
+                  <option value="SP"></option>
+                  <option value="SE"></option>
+                  <option value="TO"></option>
+                </datalist>
               </div>
             </form>
           </section>

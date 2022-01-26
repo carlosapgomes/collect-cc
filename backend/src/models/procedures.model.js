@@ -46,6 +46,14 @@ module.exports = function (app) {
       type: DataTypes.ENUM('M', 'F'),
       allowNull: false
     },
+    ptCity: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    ptState: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
     ptWard: {
       type: DataTypes.STRING,
       allowNull: true

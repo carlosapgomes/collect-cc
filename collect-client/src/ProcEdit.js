@@ -286,6 +286,8 @@ export class ProcEdit extends LitElement {
       ptDateOfBirth: ptDOB.toISO(),
       ptAge: age,
       ptGender: this._currentPatient.gender,
+      ptCity: this._currentPatient.city,
+      ptState: this._currentPatient.state,
       ptWard: this._ward,
       ptBed: this._bed,
       team: this._team,

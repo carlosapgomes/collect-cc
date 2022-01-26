@@ -22,6 +22,14 @@ module.exports = function (app) {
       type: DataTypes.STRING,
       allowNull: false
     },
+    city: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },  
+    state: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },  
   }, {
     hooks: {
       beforeCount(options) {
