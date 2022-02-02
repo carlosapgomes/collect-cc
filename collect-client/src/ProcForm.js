@@ -17,6 +17,10 @@ export class ProcForm extends LitElement {
       _procExecPlace: { type: String, state: true },
       activate: { type: Boolean },
       _currentProcDate: { type: String, state: true },
+      _currentProcInitSurgDateTime: { type: String, state: true },
+      _currentProcEndSurgDateTime: { type: String, state: true },
+      _currentProcInitAnestDateTime: { type: String, state: true },
+      _currentProcEndAnestDateTime: { type: String, state: true },
       _currentProcHour: { type: String, state: true },
       _currentProcMinute: { type: String, state: true },
       patients: { type: Array },
@@ -26,6 +30,7 @@ export class ProcForm extends LitElement {
       _ward: { type: String, state: true },
       _bed: { type: String, state: true },
       _team: { type: String, state: true },
+      _surgicalRoom: { type: String, state: true },
       _activateUserSearchDropDown: { type: Boolean, state: true },
       proctypes: { type: Array },
       _currentProcType: { type: Object, state: true },
@@ -53,6 +58,7 @@ export class ProcForm extends LitElement {
     this.activate = false;
     this.users = [];
     this._team = '';
+    this._surgicalRoom = '';
     this._currentUser = {};
     this._activateUserSearchDropDown = false;
     this.proctypes = [];
@@ -209,6 +215,7 @@ export class ProcForm extends LitElement {
     this._ward = '';
     this._bed = '';
     this._team = '';
+    this._surgicalRoom = '';
     this._userName = '';
     this._activateUserSearchDropDown = false;
     this._currentProcUsers = [];
@@ -279,6 +286,7 @@ export class ProcForm extends LitElement {
       ptWard: this._ward,
       ptBed: this._bed,
       team: this._team,
+      surgicalRoom: this._surgicalRoom,
       user1Name: '',
       user1ID: '',
       user1LicenceNumber: '',
@@ -518,25 +526,27 @@ export class ProcForm extends LitElement {
                   </div>
                   <div class="dropdown-menu" id="dropdown-menu" role="menu">
                     <div class="dropdown-content">
-                      ${this.patients
-                        ? this.patients.map(
-                            p => html`
-                              <a
-                                href="#"
-                                class="dropdown-item"
-                                @click="${e => {
-                                  e.preventDefault();
-                                  this._patientSelected(p);
-                                }}"
-                                @keydown="${e => {
-                                  e.preventDefault();
-                                  this._patientSelected(p);
-                                }}"
-                                >${p.name} - Reg: ${p.recNumber}</a
-                              >
-                            `
-                          )
-                        : html`<p></p>`}
+                      ${
+                        this.patients
+                          ? this.patients.map(
+                              p => html`
+                                <a
+                                  href="#"
+                                  class="dropdown-item"
+                                  @click="${e => {
+                                    e.preventDefault();
+                                    this._patientSelected(p);
+                                  }}"
+                                  @keydown="${e => {
+                                    e.preventDefault();
+                                    this._patientSelected(p);
+                                  }}"
+                                  >${p.name} - Reg: ${p.recNumber}</a
+                                >
+                              `
+                            )
+                          : html`<p></p>`
+                      }
                     </div>
                   </div>
                 </div>
@@ -655,29 +665,31 @@ export class ProcForm extends LitElement {
                 </div>
                 <div class="dropdown-menu" id="dropdown-menu" role="menu">
                   <div class="dropdown-content">
-                    ${this.proctypes
-                      ? this.proctypes.map(
-                          p => html`
-                            <a
-                              href="#"
-                              class="dropdown-item"
-                              @click="${e => {
-                                e.preventDefault();
-                                this._procTypeSelected(p);
-                              }}"
-                              @keydown="${e => {
-                                e.preventDefault();
-                                this._procTypeSelected(p);
-                              }}"
-                              ><small
-                                >${p.descr.length < 80
-                                  ? p.descr
-                                  : `${p.descr.substring(0, 77)}...`}</small
-                              ></a
-                            >
-                          `
-                        )
-                      : html`<p></p>`}
+                    ${
+                      this.proctypes
+                        ? this.proctypes.map(
+                            p => html`
+                              <a
+                                href="#"
+                                class="dropdown-item"
+                                @click="${e => {
+                                  e.preventDefault();
+                                  this._procTypeSelected(p);
+                                }}"
+                                @keydown="${e => {
+                                  e.preventDefault();
+                                  this._procTypeSelected(p);
+                                }}"
+                                ><small
+                                  >${p.descr.length < 80
+                                    ? p.descr
+                                    : `${p.descr.substring(0, 77)}...`}</small
+                                ></a
+                              >
+                            `
+                          )
+                        : html`<p></p>`
+                    }
                   </div>
                 </div>
               </div>
@@ -706,6 +718,25 @@ export class ProcForm extends LitElement {
                         .value="${this._currentProcDate}"
                         @input="${e => {
                           this._currentProcDate = e.target.value;
+                        }}"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="field is-horizontal">
+                  <div class="field-label is-normal">
+                    <label><b>Início</b></label>
+                  </div>
+                  <div class="field-body">
+                    <div class="field">
+                      <input
+                        class="input"
+                        id="datetime"
+                        type="datetime-local"
+                        .value="${this._currentProcIntTime}"
+                        @input="${e => {
+                          this._currentProcIntTime = e.target.value;
                         }}"
                         required
                       />
@@ -787,89 +818,98 @@ export class ProcForm extends LitElement {
               <div
                 class="field
                 is-flex is-flex-direction-row
-                is-justify-content-space-between"
+                is-justify-content-space-between 	
+                "
               >
-                <div>
-                  <div class="field is-horizontal">
-                    <div class="field-label is-normal">
-                      <label><b>Setor</b></label>
-                    </div>
-                    <div class="field-body">
-                      <div class="field">
-                        <div class="select">
-                          <select
-                            id="execplace"
-                            name="execplace"
-                            required
-                            .value="${this._procExecPlace}"
-                            @blur="${e => {
-                              this._procExecPlace = e.target.value;
-                            }}"
-                          >
-                            <option value="CC">CC</option>
-                            <option value="Hemodinamica">Hemodinamica</option>
-                            <option value="Emergencia">Emergencia</option>
-                            <option value="Enfermaria">Enfermaria</option>
-                            <option value="CHD">CHD</option>
-                            <option value="Bioimagem">Bioimagem</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
+                  <div class="field is-flex is-flex-grow-1 is-horizontal">
+                    <input
+                      class="input"
+                      id="surgicalRoom"
+                      list="surgicalRooms"
+                      type="text"
+                      placeholder="Sala"
+                      .value="${this._surgicalRoom}"
+                      @blur="${e => {
+                        this._surgicalRoom = e.target.value;
+                      }}"
+                    />
+                    <datalist id="surgicalRooms">
+                      <option value="Sala 01"></option>
+                      <option value="Sala 02"></option>
+                      <option value="Sala 03"></option>
+                      <option value="Sala 04"></option>
+                      <option value="Sala 05"></option>
+                      <option value="Sala 06"></option>
+                      <option value="Sala 07"></option>
+                      <option value="Sala 08"></option>
+                      <option value="Sala 09"></option>
+                      <option value="Sala 10"></option>
+                    </datalist>
+                  </div>
+                <div class="field is-flex is-flex-grow-2 is-horizontal">
+                  <!--  <div class="field-label is-normal">
+                    <label><b>Equipe</b></label>
+                    </div> -->
+                <div class="field-body">
+                  <div class="field">
+                    <input
+                      class="input" 
+                      id="team"
+                      name="team"
+                      list="teams"
+                      type="text"
+                      placeholder="Equipe"
+                      .value="${this._team}"
+                      @blur="${e => {
+                        this._team = e.target.value;
+                      }}"
+                      required
+                    />
+
+                    <datalist id="teams">
+                      <option value="Anestesiologia">Anestesiologia</option>
+                      <option value="Broncoscopia">Broncoscopia</option>
+                      <option value="Cardiologia">Cardiologia</option>
+                      <option value="Cir. Buco-maxilo-facial">Cir. Buco-maxilo-facial</option>
+                      <option value="Cirurgia Cabeça e Pescoço">Cirurgia Cabeça e Pescoço</option>
+                      <option value="Cirurgia Geral">
+                        Cirurgia Geral
+                      </option> 
+                      <option value="Cirurgia Oncológica">Cirurgia Oncológica</option>
+                      <option value="Cirurgia Pediátrica">
+                        Cirurgia Pediátrica
+                      </option> 
+                      <option value="Cirurgia Plástica">
+                        Cirurgia Plástica
+                      </option>
+                      <option value="Cirurgia Torácica">
+                        Cirurgia Torácica
+                      </option>
+                      <option value="Cirurgia Vascular">
+                        Cirurgia Vascular
+                      </option>
+                      <option value="Endocrinologia">Endocrinologia</option>
+                      <option value="Gastroenterologia">Gastroenterologia</option>
+                      <option value="Ginecologia">Ginecologia</option>
+                      <option value="Mastologia">Mastologia</option>
+                      <option value="Nefrologia (Vascular)">Nefrologia (Vascular)</option>
+                      <option value="Neurocirurgia">Neurocirurgia</option>
+                      <option value="Neuroclínica">Neuroclínica</option>
+                      <option value="Obstetrícia">Obstetrícia</option>
+                      <option value="Odontologia">Odontologia</option>
+                      <option value="Oftalmologia">Oftalmologia</option>
+                      <option value="Ortopedia">Ortopedia</option>
+                      <option value="Proctologia">Proctologia</option>
+                      <option value="Transplante Renal">Transplante Renal</option>
+                      <option value="Transplante Hepático">Transplante Hepático</option>
+                      <option value="Urologia">Urologia</option>
+                    </datalist> 
                   </div>
                 </div>
-                <div>
-                  <div class="field is-horizontal">
-                    <div class="field-label is-normal">
-                      <label><b>Equipe</b></label>
-                    </div>
-                    <div class="field-body">
-                      <div class="field">
-                        <div class="select">
-                          <select
-                            id="team"
-                            name="team"
-                            required
-                            .value="${this._team}"
-                            @blur="${e => {
-                              this._team = e.target.value;
-                            }}"
-                          >
-                            <option value="Cirurgia Geral">
-                              Cirurgia Geral
-                            </option>
-                            <option value="Cirurgia Plástica">
-                              Cirurgia Plástica
-                            </option>
-                            <option value="Cirurgia Pediátrica">
-                              Cirurgia Pediátrica
-                            </option>
-                            <option value="Cirurgia Torácica">
-                              Cirurgia Torácica
-                            </option>
-                            <option value="Cirurgia Vascular">
-                              Cirurgia Vascular
-                            </option>
-                            <option value="Clínica Médica">
-                              Clínica Médica
-                            </option>
-                            <option value="Ginecologia Obstetrícia">
-                              Ginecologia Obstetrícia
-                            </option>
-                            <option value="Neurocirurgia">Neurocirurgia</option>
-                            <option value="Proctologia">Proctologia</option>
-                            <option value="Radiointervensão">
-                              Radiointervensão
-                            </option>
-                            <option value="Urologia">Urologia</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 </div>
               </div>
-
+            </div>
+            <br />
               <div class="card">
                 <div class="card-content">
                   <div class="content">
@@ -903,56 +943,60 @@ export class ProcForm extends LitElement {
                       </div>
                       <div class="dropdown-menu" id="dropdown-menu" role="menu">
                         <div class="dropdown-content">
-                          ${this.users
-                            ? this.users.map(
-                                u => html` <a
-                                  href="#"
-                                  class="dropdown-item"
-                                  @click="${e => {
-                                    e.preventDefault();
-                                    this._userSelected(u);
-                                  }}"
-                                  @keydown="${e => {
-                                    e.preventDefault();
-                                    this._userSelected(u);
-                                  }}"
-                                >
-                                  ${u.name} - ${u.licenceNumber}
-                                </a>`
-                              )
-                            : html`<p></p>`}
+                          ${
+                            this.users
+                              ? this.users.map(
+                                  u => html` <a
+                                    href="#"
+                                    class="dropdown-item"
+                                    @click="${e => {
+                                      e.preventDefault();
+                                      this._userSelected(u);
+                                    }}"
+                                    @keydown="${e => {
+                                      e.preventDefault();
+                                      this._userSelected(u);
+                                    }}"
+                                  >
+                                    ${u.name} - ${u.licenceNumber}
+                                  </a>`
+                                )
+                              : html`<p></p>`
+                          }
                         </div>
                       </div>
                     </div>
                     <div>
-                      ${this._currentProcUsers
-                        ? this._currentProcUsers.map(
-                            (u, i) =>
-                              html`
-                                <div
-                                  class="is-flex 
+                      ${
+                        this._currentProcUsers
+                          ? this._currentProcUsers.map(
+                              (u, i) =>
+                                html`
+                                  <div
+                                    class="is-flex 
                                   is-flex-direction-row
                                     is-justify-content-space-between
                                       is-align-items-center
                                         has-background-light"
-                                >
-                                  <div class="pl-2">
-                                    ${u.name} - ${u.profBoardName} - n.:
-                                    ${u.licenceNumber}
-                                  </div>
-                                  <button
-                                    class="button is-light"
-                                    @click="${e => {
-                                      e.preventDefault();
-                                      this._removeProcUser(i);
-                                    }}"
                                   >
-                                    <icon-trash></icon-trash>
-                                  </button>
-                                </div>
-                              `
-                          )
-                        : html`<p></p> `}
+                                    <div class="pl-2">
+                                      ${u.name} - ${u.profBoardName} - n.:
+                                      ${u.licenceNumber}
+                                    </div>
+                                    <button
+                                      class="button is-light"
+                                      @click="${e => {
+                                        e.preventDefault();
+                                        this._removeProcUser(i);
+                                      }}"
+                                    >
+                                      <icon-trash></icon-trash>
+                                    </button>
+                                  </div>
+                                `
+                            )
+                          : html`<p></p> `
+                      }
                     </div>
                   </div>
                 </div>
@@ -969,10 +1013,10 @@ export class ProcForm extends LitElement {
                   Cancelar/Limpar
                 </button>
               </div>
-            </form>
-          </div>
+          </form>
         </div>
+      </div>
       </section>
-    `;
+                                    `;
   }
 }

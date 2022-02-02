@@ -66,6 +66,10 @@ module.exports = function (app) {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    surgicalRoom:{
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     user1Name: {
       type: DataTypes.STRING,
       allowNull: false
