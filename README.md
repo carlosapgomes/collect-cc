@@ -1,6 +1,6 @@
 # collect-CC
 
-[![wakatime](https://wakatime.com/badge/github/carlosapgomes/collect.svg)](https://wakatime.com/badge/github/carlosapgomes/collect)
+[![wakatime](https://wakatime.com/badge/github/carlosapgomes/collect-cc.svg)](https://wakatime.com/badge/github/carlosapgomes/collect-cc)
 
 ## Instalação
 
