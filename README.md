@@ -2,6 +2,10 @@
 
 [![wakatime](https://wakatime.com/badge/github/carlosapgomes/collect-cc.svg)](https://wakatime.com/badge/github/carlosapgomes/collect-cc)
 
+Este repositório é uma adaptação de um outro projeto
+([Collect](https://github.com/carlosapgomes/collect)) para registrar a
+produção de um Centro Cirúrgico.
+
 ## Instalação
 
 Estas instruções foram testadas numa instalação linux Debian 10.
