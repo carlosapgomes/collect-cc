@@ -70,10 +70,13 @@ export class ProcForm extends LitElement {
   }
 
   firstUpdated() {
-    const d = DateTime.local().toISODate();
+    const d = DateTime.local().toISO();
+    this._currentProcInitSurgDateTime = d.slice(0, 16);
     this._currentProcDate = d;
     // eslint-disable-next-line no-console
-    // console.log(JSON.stringify(d, null, 2));
+    console.log(JSON.stringify(d, null, 2));
+    // eslint-disable-next-line no-console
+    console.log(JSON.stringify(this._currentProcInitSurgDateTime, null, 2));
     this._currentProcHour = '00';
     this._currentProcMinute = '00';
   }
@@ -251,9 +254,10 @@ export class ProcForm extends LitElement {
     // currentProcMinute: ${this._currentProcMinute}`
     // );
 
-    const dateTime = DateTime.fromISO(
-      `${this._currentProcDate}T${this._currentProcHour}:${this._currentProcMinute}:00.000-03:00`
-    );
+    // const dateTime = DateTime.fromISO(
+    // `${this._currentProcDate}T${this._currentProcHour}:${this._currentProcMinute}:00.000-03:00`
+    // );
+    const dateTime = DateTime.fromISO(this._currentProcInitSurgDateTime);
     // eslint-disable-next-line no-console
     // console.log(JSON.stringify(dateTime, null, 2));
     // eslint-disable-next-line no-console
@@ -712,14 +716,13 @@ export class ProcForm extends LitElement {
                   <div class="field-body">
                     <div class="field">
                       <input
-                        class="input"
+                        class="input is-hidden"
                         id="date"
                         type="date"
                         .value="${this._currentProcDate}"
                         @input="${e => {
                           this._currentProcDate = e.target.value;
                         }}"
-                        required
                       />
                     </div>
                   </div>
@@ -734,16 +737,17 @@ export class ProcForm extends LitElement {
                         class="input"
                         id="datetime"
                         type="datetime-local"
-                        .value="${this._currentProcIntTime}"
+                        .value="${this._currentProcInitSurgDateTime}"
                         @input="${e => {
-                          this._currentProcIntTime = e.target.value;
+                          console.log(e.target.value);
+                          this._currentProcInitSurgDateTime = e.target.value;
                         }}"
                         required
                       />
                     </div>
                   </div>
                 </div>
-                <div class="field is-horizontal">
+                <div class="field is-horizontal is-hidden">
                   <div class="field-label is-normal">
                     <label><b>Hora</b></label>
                   </div>
@@ -752,7 +756,6 @@ export class ProcForm extends LitElement {
                       <div class="select">
                         <select
                           id="hours"
-                          required
                           .value="${this._currentProcHour}"
                           @blur="${e => {
                             this._currentProcHour = e.target.value;
@@ -789,7 +792,6 @@ export class ProcForm extends LitElement {
                       <div class="select">
                         <select
                           id="minutes"
-                          required
                           .value="${this._currentProcMinute}"
                           @blur="${e => {
                             this._currentProcMinute = e.target.value;

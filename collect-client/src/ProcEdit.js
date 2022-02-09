@@ -15,6 +15,7 @@ export class ProcEdit extends LitElement {
       procedure: { type: Object },
       _procExecPlace: { type: String, state: true },
       activate: { type: Boolean },
+      _currentProcInitSurgDateTime: { type: String, state: true },
       _currentProcDate: { type: String, state: true },
       _currentProcHour: { type: String, state: true },
       _currentProcMinute: { type: String, state: true },
@@ -64,8 +65,9 @@ export class ProcEdit extends LitElement {
   }
 
   firstUpdated() {
-    const d = DateTime.local().toISODate();
-    this._currentProcDate = d;
+    const d = DateTime.local().toISO();
+    this._currentProcInitSurgDateTime = d.slice(0, 16);
+    // this._currentProcDate = d;
     // eslint-disable-next-line no-console
     // console.log(JSON.stringify(d, null, 2));
     this._currentProcHour = '00';
@@ -85,7 +87,8 @@ export class ProcEdit extends LitElement {
         // eslint-disable-next-line no-console
         // console.log(JSON.stringify(this.procedure, null, 2));
         const procDateTime = DateTime.fromSQL(this.procedure.procDateTime);
-        this._currentProcDate = procDateTime.toISODate();
+        this._currentProcInitSurgDateTime = procDateTime.toISO().slice(0, 16);
+        // this._currentProcDate = procDateTime.toISO();
         // eslint-disable-next-line no-console
         this._currentProcHour = procDateTime.hour.toLocaleString('pt-BR', {
           minimumIntegerDigits: 2,
@@ -256,9 +259,10 @@ export class ProcEdit extends LitElement {
     // currentProcMinute: ${this._currentProcMinute}`
     // );
 
-    const dateTime = DateTime.fromISO(
-      `${this._currentProcDate}T${this._currentProcHour}:${this._currentProcMinute}:00.000-03:00`
-    );
+    // const dateTime = DateTime.fromISO(
+    // `${this._currentProcDate}T${this._currentProcHour}:${this._currentProcMinute}:00.000-03:00`
+    // );
+    const dateTime = DateTime.fromISO(this._currentProcInitSurgDateTime);
     // eslint-disable-next-line no-console
     // console.log(JSON.stringify(dateTime, null, 2));
     // eslint-disable-next-line no-console
@@ -703,24 +707,24 @@ export class ProcEdit extends LitElement {
               >
                 <div class="field is-horizontal">
                   <div class="field-label is-normal">
-                    <label><b>Data</b></label>
+                    <label><b>Data/Hora de início</b></label>
                   </div>
                   <div class="field-body">
                     <div class="field">
                       <input
                         class="input"
                         id="date"
-                        type="date"
-                        .value="${this._currentProcDate}"
+                        type="datetime-local"
+                        .value="${this._currentProcInitSurgDateTime}"
                         @input="${e => {
-                          this._currentProcDate = e.target.value;
+                          this._currentProcInitSurgDateTime = e.target.value;
                         }}"
                         required
                       />
                     </div>
                   </div>
                 </div>
-                <div class="field is-horizontal">
+                <div class="field is-horizontal is-hidden">
                   <div class="field-label is-normal">
                     <label><b>Hora</b></label>
                   </div>
@@ -729,7 +733,6 @@ export class ProcEdit extends LitElement {
                       <div class="select">
                         <select
                           id="hours"
-                          required
                           .value="${this._currentProcHour}"
                           @blur="${e => {
                             this._currentProcHour = e.target.value;
@@ -766,7 +769,6 @@ export class ProcEdit extends LitElement {
                       <div class="select">
                         <select
                           id="minutes"
-                          required
                           .value="${this._currentProcMinute}"
                           @blur="${e => {
                             this._currentProcMinute = e.target.value;
