@@ -962,6 +962,50 @@ export class ProcForm extends LitElement {
                   </div>
                 </div>
               </div>
+              <p> <b>Anestesia</b> </p>
+              <div
+                class="is-flex is-flex-direction-row
+                is-justify-content-space-between"
+              >
+                <div class="field is-horizontal">
+                  <div class="field-label is-normal">
+                    <label><b>Início</b></label>
+                  </div>
+                  <div class="field-body">
+                    <div class="field">
+                      <input
+                        class="input"
+                        id="datetime"
+                        type="datetime-local"
+                        .value="${this._currentProcStartDateTime}"
+                        @input="${e => {
+                          this._currentProcStartDateTime = e.target.value;
+                        }}"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="field is-horizontal">
+                  <div class="field-label is-normal">
+                    <label><b>Fim</b></label>
+                  </div>
+                  <div class="field-body">
+                    <div class="field">
+                      <input
+                        class="input"
+                        id="datetime"
+                        type="datetime-local"
+                        .value="${this._currentProcEndDateTime}"
+                        @input="${e => {
+                          this._currentProcEndDateTime = e.target.value;
+                        }}"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
               <br />
               <div
                 class="field is-flex is-flex-direction-row
