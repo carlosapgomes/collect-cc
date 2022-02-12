@@ -454,7 +454,7 @@ export class ProcsView extends LitElement {
                                 <strong>${p.descr}</strong>
                                 <small>
                                   Data:
-                                  ${DateTime.fromSQL(p.procDateTime, {
+                                  ${DateTime.fromSQL(p.procStartDateTime, {
                                     locale: 'pt-BR',
                                   }).toLocaleString(
                                     DateTime.DATETIME_SHORT

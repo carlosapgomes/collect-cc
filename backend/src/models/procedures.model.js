@@ -14,8 +14,28 @@ module.exports = function (app) {
       type: DataTypes.STRING,
       allowNull: false
     },
-    procDateTime: {
+    procStartDateTime: {
       type: DataTypes.DATE,
+      allowNull: false
+    },
+    procEndDateTime: {
+      type: DataTypes.DATE,
+      allowNull: false
+    },
+    procDuration: {
+      type: DataTypes.NUMBER,
+      allowNull: false
+    },
+    anestStartDateTime: {
+      type: DataTypes.DATE,
+      allowNull: false
+    },
+    anestEndDateTime: {
+      type: DataTypes.DATE,
+      allowNull: false
+    },
+    anestDuration: {
+      type: DataTypes.NUMBER,
       allowNull: false
     },
     execPlace:{

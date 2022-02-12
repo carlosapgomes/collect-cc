@@ -390,9 +390,9 @@ export class CollectClient extends LitElement {
       const query = {
         $skip: skip,
         $sort: {
-          procDateTime: 1,
+          procStartDateTime: 1,
         },
-        procDateTime: {
+        procStartDateTime: {
           $gte: startDateTime.toISO(),
           $lte: endDateTime.toISO(),
         },
@@ -549,7 +549,7 @@ export class CollectClient extends LitElement {
             // console.log(`Procedure updated: ${JSON.stringify(res, null, 2)}`);
             this.dispatchEvent(
               new CustomEvent('update-procedures-list', {
-                detail: { queryByDate: p.procDateTime },
+                detail: { queryByDate: p.procStartDateTime },
                 bubbles: true,
                 composed: true,
               })
@@ -573,7 +573,7 @@ export class CollectClient extends LitElement {
           // console.log(JSON.stringify(res, null, 2));
           this.dispatchEvent(
             new CustomEvent('update-procedures-list', {
-              detail: { queryByDate: p.procDateTime },
+              detail: { queryByDate: p.procStartDateTime },
               bubbles: true,
               composed: true,
             })

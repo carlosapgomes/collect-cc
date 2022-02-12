@@ -11,9 +11,11 @@ export default function sheets(procedures, user) {
   wb.SheetNames.push('Sheet1');
   const header = [
     'Data',
-    'Hora',
     'Procedimento',
     'Código',
+    'Início da Cirurgia',
+    'Fim da Cirurgia',
+    'Tempo de Cirurgia (min)',
     'Local do proc.',
     'Paciente',
     'Registro',
@@ -32,10 +34,12 @@ export default function sheets(procedures, user) {
     'Usuário6',
   ];
   const rows = procedures.map(p => [
-    DateTime.fromSQL(p.procDateTime).toFormat('dd/LL/yyyy'),
-    DateTime.fromSQL(p.procDateTime).toFormat('HH:mm'),
+    DateTime.fromSQL(p.procStartDateTime).toFormat('dd/LL/yyyy'),
     p.descr,
     p.code,
+    DateTime.fromSQL(p.procStartDateTime).toFormat('HH:mm'),
+    DateTime.fromSQL(p.procEndDateTime).toFormat('HH:mm'),
+    p.procDuration,
     p.execPlace,
     p.ptName,
     p.ptRecN,

@@ -16,11 +16,10 @@ export class ProcForm extends LitElement {
       // procedure: {type: Object},
       _procExecPlace: { type: String, state: true },
       activate: { type: Boolean },
-      _currentProcDate: { type: String, state: true },
-      _currentProcInitSurgDateTime: { type: String, state: true },
-      _currentProcEndSurgDateTime: { type: String, state: true },
-      _currentProcInitAnestDateTime: { type: String, state: true },
-      _currentProcEndAnestDateTime: { type: String, state: true },
+      _currentProcStartDateTime: { type: String, state: true },
+      _currentProcEndDateTime: { type: String, state: true },
+      _currentAnestStartDateTime: { type: String, state: true },
+      _currentAnestEndDateTime: { type: String, state: true },
       _currentProcHour: { type: String, state: true },
       _currentProcMinute: { type: String, state: true },
       patients: { type: Array },
@@ -71,12 +70,16 @@ export class ProcForm extends LitElement {
 
   firstUpdated() {
     const d = DateTime.local().toISO();
-    this._currentProcInitSurgDateTime = d.slice(0, 16);
-    this._currentProcDate = d;
+    // remove seconds and milliseconds from iso string date
+    const dShort = d.slice(0, 16);
+    this._currentProcStartDateTime = dShort;
+    this._currentProcEndDateTime = dShort;
+    this._currentAnestStartDateTime = dShort;
+    this._currentAnestEndDateTime = dShort;
     // eslint-disable-next-line no-console
     console.log(JSON.stringify(d, null, 2));
     // eslint-disable-next-line no-console
-    console.log(JSON.stringify(this._currentProcInitSurgDateTime, null, 2));
+    console.log(JSON.stringify(this._currentProcStartDateTime, null, 2));
     this._currentProcHour = '00';
     this._currentProcMinute = '00';
   }
@@ -225,7 +228,13 @@ export class ProcForm extends LitElement {
     this._maxUsersCount = 5;
     // try to circunvent a race condition with the above procedure-form reset
     setTimeout(() => {
-      this._currentProcDate = DateTime.local().toISODate();
+      const d = DateTime.local().toISO();
+      // remove seconds and milliseconds from iso string date
+      const dShort = d.slice(0, 16);
+      this._currentProcStartDateTime = dShort;
+      this._currentProcEndDateTime = dShort;
+      this._currentAnestStartDateTime = dShort;
+      this._currentAnestEndDateTime = dShort;
     }, 2000);
   }
 
@@ -257,7 +266,18 @@ export class ProcForm extends LitElement {
     // const dateTime = DateTime.fromISO(
     // `${this._currentProcDate}T${this._currentProcHour}:${this._currentProcMinute}:00.000-03:00`
     // );
-    const dateTime = DateTime.fromISO(this._currentProcInitSurgDateTime);
+    const procStartDateTime = DateTime.fromISO(this._currentProcStartDateTime);
+    const procEndDateTime = DateTime.fromISO(this._currentProcEndDateTime);
+    const procDuration = procEndDateTime
+      .diff(procStartDateTime, 'minutes')
+      .toObject();
+    const anestStartDateTime = DateTime.fromISO(
+      this._currentAnestStartDateTime
+    );
+    const anestEndDateTime = DateTime.fromISO(this._currentAnestEndDateTime);
+    const anestDuration = anestEndDateTime
+      .diff(anestStartDateTime, 'minutes')
+      .toObject();
     // eslint-disable-next-line no-console
     // console.log(JSON.stringify(dateTime, null, 2));
     // eslint-disable-next-line no-console
@@ -265,7 +285,7 @@ export class ProcForm extends LitElement {
     const ptDOB = DateTime.fromSQL(this._currentPatient.dateOfBirth);
     // eslint-disable-next-line no-console
     // console.log(`ptDOB: ${ptDOB}`);
-    const ageObj = dateTime.diff(ptDOB, 'years').toObject();
+    const ageObj = procStartDateTime.diff(ptDOB, 'years').toObject();
     const age = parseInt(ageObj.years, 10);
     // eslint-disable-next-line no-console
     // console.log(`age: ${age} years`);
@@ -278,7 +298,12 @@ export class ProcForm extends LitElement {
       descr: this._currentProcType.descr,
       code: this._currentProcType.code,
       execPlace: this._procExecPlace,
-      procDateTime: dateTime.toISO(),
+      procStartDateTime: procStartDateTime.toISO(),
+      procEndDateTime: procEndDateTime.toISO(),
+      procDuration: parseInt(procDuration.minutes, 10),
+      anestStartDateTime: anestStartDateTime.toISO(),
+      anestEndDateTime: anestEndDateTime.toISO(),
+      anestDuration: parseInt(anestDuration.minutes, 10),
       ptName: this._currentPatient.name,
       ptRecN: this._currentPatient.recNumber,
       ptID: this._currentPatient.id,
@@ -707,26 +732,9 @@ export class ProcForm extends LitElement {
               <br />
               <br />
               <div
-                class="is-flex is-flex-direction-row is-justify-content-space-between"
+                class="is-flex is-flex-direction-row
+                is-justify-content-space-between"
               >
-                <div class="field is-horizontal">
-                  <div class="field-label is-normal">
-                    <label><b>Data</b></label>
-                  </div>
-                  <div class="field-body">
-                    <div class="field">
-                      <input
-                        class="input is-hidden"
-                        id="date"
-                        type="date"
-                        .value="${this._currentProcDate}"
-                        @input="${e => {
-                          this._currentProcDate = e.target.value;
-                        }}"
-                      />
-                    </div>
-                  </div>
-                </div>
                 <div class="field is-horizontal">
                   <div class="field-label is-normal">
                     <label><b>Início</b></label>
@@ -737,80 +745,31 @@ export class ProcForm extends LitElement {
                         class="input"
                         id="datetime"
                         type="datetime-local"
-                        .value="${this._currentProcInitSurgDateTime}"
+                        .value="${this._currentProcStartDateTime}"
                         @input="${e => {
-                          console.log(e.target.value);
-                          this._currentProcInitSurgDateTime = e.target.value;
+                          this._currentProcStartDateTime = e.target.value;
                         }}"
                         required
                       />
                     </div>
                   </div>
                 </div>
-                <div class="field is-horizontal is-hidden">
+                <div class="field is-horizontal">
                   <div class="field-label is-normal">
-                    <label><b>Hora</b></label>
+                    <label><b>Fim</b></label>
                   </div>
                   <div class="field-body">
                     <div class="field">
-                      <div class="select">
-                        <select
-                          id="hours"
-                          .value="${this._currentProcHour}"
-                          @blur="${e => {
-                            this._currentProcHour = e.target.value;
-                          }}"
-                          name="hours"
-                        >
-                          <option value="00">00</option>
-                          <option value="01">01</option>
-                          <option value="02">02</option>
-                          <option value="03">03</option>
-                          <option value="04">04</option>
-                          <option value="05">05</option>
-                          <option value="06">06</option>
-                          <option value="07">07</option>
-                          <option value="08">08</option>
-                          <option value="09">09</option>
-                          <option value="10">10</option>
-                          <option value="11">11</option>
-                          <option value="12">12</option>
-                          <option value="13">13</option>
-                          <option value="14">14</option>
-                          <option value="15">15</option>
-                          <option value="16">16</option>
-                          <option value="17">17</option>
-                          <option value="18">18</option>
-                          <option value="19">19</option>
-                          <option value="20">20</option>
-                          <option value="21">21</option>
-                          <option value="22">22</option>
-                          <option value="23">23</option>
-                        </select>
-                      </div>
-                      <span>:</span>
-                      <div class="select">
-                        <select
-                          id="minutes"
-                          .value="${this._currentProcMinute}"
-                          @blur="${e => {
-                            this._currentProcMinute = e.target.value;
-                          }}"
-                        >
-                          <option value="00">00</option>
-                          <option value="05">05</option>
-                          <option value="10">10</option>
-                          <option value="15">15</option>
-                          <option value="20">20</option>
-                          <option value="25">25</option>
-                          <option value="30">30</option>
-                          <option value="35">35</option>
-                          <option value="40">40</option>
-                          <option value="45">45</option>
-                          <option value="50">50</option>
-                          <option value="55">55</option>
-                        </select>
-                      </div>
+                      <input
+                        class="input"
+                        id="datetime"
+                        type="datetime-local"
+                        .value="${this._currentProcEndDateTime}"
+                        @input="${e => {
+                          this._currentProcEndDateTime = e.target.value;
+                        }}"
+                        required
+                      />
                     </div>
                   </div>
                 </div>
@@ -823,31 +782,31 @@ export class ProcForm extends LitElement {
                 is-justify-content-space-between 	
                 "
               >
-                  <div class="field is-flex is-flex-grow-1 is-horizontal">
-                    <input
-                      class="input"
-                      id="surgicalRoom"
-                      list="surgicalRooms"
-                      type="text"
-                      placeholder="Sala"
-                      .value="${this._surgicalRoom}"
-                      @blur="${e => {
-                        this._surgicalRoom = e.target.value;
-                      }}"
-                    />
-                    <datalist id="surgicalRooms">
-                      <option value="Sala 01"></option>
-                      <option value="Sala 02"></option>
-                      <option value="Sala 03"></option>
-                      <option value="Sala 04"></option>
-                      <option value="Sala 05"></option>
-                      <option value="Sala 06"></option>
-                      <option value="Sala 07"></option>
-                      <option value="Sala 08"></option>
-                      <option value="Sala 09"></option>
-                      <option value="Sala 10"></option>
-                    </datalist>
-                  </div>
+                <div class="field is-flex is-flex-grow-1 is-horizontal">
+                  <input
+                    class="input"
+                    id="surgicalRoom"
+                    list="surgicalRooms"
+                    type="text"
+                    placeholder="Sala"
+                    .value="${this._surgicalRoom}"
+                    @blur="${e => {
+                      this._surgicalRoom = e.target.value;
+                    }}"
+                  />
+                  <datalist id="surgicalRooms">
+                    <option value="Sala 01"></option>
+                    <option value="Sala 02"></option>
+                    <option value="Sala 03"></option>
+                    <option value="Sala 04"></option>
+                    <option value="Sala 05"></option>
+                    <option value="Sala 06"></option>
+                    <option value="Sala 07"></option>
+                    <option value="Sala 08"></option>
+                    <option value="Sala 09"></option>
+                    <option value="Sala 10"></option>
+                  </datalist>
+                </div>
                 <div class="field is-flex is-flex-grow-2 is-horizontal">
                   <!--  <div class="field-label is-normal">
                     <label><b>Equipe</b></label>
@@ -911,7 +870,7 @@ export class ProcForm extends LitElement {
                 </div>
               </div>
             </div>
-            <br />
+              <br />
               <div class="card">
                 <div class="card-content">
                   <div class="content">
@@ -976,10 +935,10 @@ export class ProcForm extends LitElement {
                                 html`
                                   <div
                                     class="is-flex 
-                                  is-flex-direction-row
-                                    is-justify-content-space-between
-                                      is-align-items-center
-                                        has-background-light"
+                                    is-flex-direction-row
+                                      is-justify-content-space-between
+                                        is-align-items-center
+                                          has-background-light"
                                   >
                                     <div class="pl-2">
                                       ${u.name} - ${u.profBoardName} - n.:
