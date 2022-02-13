@@ -30,12 +30,19 @@ module.exports = function (app) {
     },
     isAdmin: {
       type: DataTypes.BOOLEAN,
+      defaultValue: false,
     },
-    isEnabled: {
+    isListingEnabled: {
       type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
+    isLoginEnabled: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
     },
     changePassword: {
       type: DataTypes.BOOLEAN,
+      defaultValue: false,
     }, 
     profBoardName: {
       type: DataTypes.STRING,

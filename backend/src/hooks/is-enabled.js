@@ -4,7 +4,7 @@
 // eslint-disable-next-line no-unused-vars
 module.exports = (options = {}) => {
   return async context => {
-    if ((context.params.user) && (context.params.user.isEnabled === 1)) {
+    if ((context.params.user) && (context.params.user.isLoginEnabled === 1)) {
       return context;
     }
     throw new Error('Acesso negado');

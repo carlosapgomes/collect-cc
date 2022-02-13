@@ -196,7 +196,7 @@ export class CollectClient extends LitElement {
         (await this.client.service('sys').get('timestamp')).timestamp
       );
       this._user = { ...auth.user };
-      if (!this._user.isEnabled) {
+      if (!this._user.isLoginEnabled) {
         // show msg and call logout
         this._modalMsg = 'Este usuário não está autorizado!';
         this._toggleModal = true;
@@ -351,7 +351,7 @@ export class CollectClient extends LitElement {
   }
 
   async _updateProceduresList(e) {
-    if (this._user.isEnabled) {
+    if (this._user.isLoginEnabled) {
       // eslint-disable-next-line no-console
       console.log('updating procedures list ...');
       // eslint-disable-next-line no-console
@@ -478,7 +478,7 @@ export class CollectClient extends LitElement {
   }
 
   async _removeCurrentProcedure(p) {
-    if (this._user.isEnabled) {
+    if (this._user.isLoginEnabled) {
       this.dispatchEvent(new CustomEvent('show-spinner'));
       if (p.id) {
         try {
@@ -524,7 +524,7 @@ export class CollectClient extends LitElement {
   }
 
   async _saveProcedure(e) {
-    if (this._user.isEnabled) {
+    if (this._user.isLoginEnabled) {
       // eslint-disable-next-line no-console
       // console.log(JSON.stringify(e.detail, null, 2));
       this._spinnerHidden = false;
@@ -599,7 +599,7 @@ export class CollectClient extends LitElement {
   }
 
   async _updateUsersList(e) {
-    if (this._isAdmin && this._user.isEnabled) {
+    if (this._isAdmin && this._user.isLoginEnabled) {
       // clear users list
       this._users = [];
       // eslint-disable-next-line no-console
@@ -690,7 +690,7 @@ export class CollectClient extends LitElement {
   }
 
   async _saveUser(e) {
-    if (this._isAdmin && this._user.isEnabled) {
+    if (this._isAdmin && this._user.isLoginEnabled) {
       // eslint-disable-next-line no-console
       // console.log(JSON.stringify(e.detail, null, 2));
       this._spinnerHidden = false;
@@ -740,7 +740,7 @@ export class CollectClient extends LitElement {
   }
 
   async _searchUser(e) {
-    if (this._user.isEnabled) {
+    if (this._user.isLoginEnabled) {
       this._users = [];
       // eslint-disable-next-line no-console
       console.log(`searching for users: ${e.detail}`);
@@ -757,6 +757,9 @@ export class CollectClient extends LitElement {
         const usersList = await this.client.service('users').find({
           query: {
             $skip: skip,
+            isListingEnabled: {
+              $ne: false,
+            },
             $or: [
               {
                 name: {
@@ -799,7 +802,7 @@ export class CollectClient extends LitElement {
   }
 
   async _searchPatient(e) {
-    if (this._user.isEnabled) {
+    if (this._user.isLoginEnabled) {
       // clear patient list
       this._patients = [];
       // eslint-disable-next-line no-console
@@ -850,7 +853,7 @@ export class CollectClient extends LitElement {
   }
 
   async _updatePatientsList(e) {
-    if (this._user.isEnabled) {
+    if (this._user.isLoginEnabled) {
       // clear patients list
       this._patients = [];
       // eslint-disable-next-line no-console
@@ -906,7 +909,7 @@ export class CollectClient extends LitElement {
   }
 
   async _removeCurrentPatient(p) {
-    if (this._user.isEnabled) {
+    if (this._user.isLoginEnabled) {
       // eslint-disable-next-line no-console
       // console.log(JSON.stringify(p.detail, null, 2));
       this.dispatchEvent(new CustomEvent('show-spinner'));
@@ -948,7 +951,7 @@ export class CollectClient extends LitElement {
   }
 
   async _savePatient(e) {
-    if (this._user.isEnabled) {
+    if (this._user.isLoginEnabled) {
       // eslint-disable-next-line no-console
       // console.log(JSON.stringify(e.detail, null, 2));
       this._spinnerHidden = false;
@@ -1010,7 +1013,7 @@ export class CollectClient extends LitElement {
   }
 
   async _searchProcType(e) {
-    if (this._user.isEnabled) {
+    if (this._user.isLoginEnabled) {
       // clear procedures types list
       this._proceduresTypes = [];
       // eslint-disable-next-line no-console
@@ -1058,7 +1061,7 @@ export class CollectClient extends LitElement {
   }
 
   async _updateProcTypesList(e) {
-    if (this._user.isEnabled) {
+    if (this._user.isLoginEnabled) {
       // clear users list
       // this._proceduresTypes = [];
       // eslint-disable-next-line no-console
@@ -1116,7 +1119,7 @@ export class CollectClient extends LitElement {
   }
 
   async _removeCurrentProctype(p) {
-    if (this._isAdmin && this._user.isEnabled) {
+    if (this._isAdmin && this._user.isLoginEnabled) {
       // eslint-disable-next-line no-console
       console.log(JSON.stringify(p.detail, null, 2));
       this.dispatchEvent(new CustomEvent('show-spinner'));
@@ -1160,7 +1163,7 @@ export class CollectClient extends LitElement {
   }
 
   async _saveProcType(e) {
-    if (this._isAdmin && this._user.isEnabled) {
+    if (this._isAdmin && this._user.isLoginEnabled) {
       // eslint-disable-next-line no-console
       console.log(JSON.stringify(e.detail, null, 2));
       this.dispatchEvent(new CustomEvent('show-spinner'));

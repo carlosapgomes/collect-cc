@@ -16,7 +16,8 @@ export class UserForm extends LitElement {
       _phone: { type: String, state: true },
       _username: { type: String, state: true },
       _password: { type: String, state: true },
-      _isEnabled: { type: Boolean, state: true },
+      _isListingEnabled: { type: Boolean, state: true },
+      _isLoginEnabled: { type: Boolean, state: true },
       _isAdmin: { type: Boolean, state: true },
       _changePassword: { type: Boolean, state: true },
       _profBoardName: { type: String, state: true },
@@ -33,7 +34,8 @@ export class UserForm extends LitElement {
     this._phone = '';
     this._username = '';
     this._password = '';
-    this._isEnabled = false;
+    this._isListingEnabled = false;
+    this._isLoginEnabled = false;
     this._isAdmin = false;
     this._changePassword = false;
     this._profBoardName = '';
@@ -50,7 +52,12 @@ export class UserForm extends LitElement {
         this._changePassword = this.user.changePassword
           ? this.user.changePassword
           : false;
-        this._isEnabled = this.user.isEnabled ? this.user.isEnabled : false;
+        this._isListingEnabled = this.user.isListingEnabled
+          ? this.user.isListingEnabled
+          : false;
+        this._isLoginEnabled = this.user.isLoginEnabled
+          ? this.user.isLoginEnabled
+          : false;
         this._isAdmin = this.user.isAdmin ? this.user.isAdmin : false;
         this._profBoardName = this.user.profBoardName
           ? this.user.profBoardName
@@ -80,7 +87,8 @@ export class UserForm extends LitElement {
     this._phone = '';
     this._username = '';
     this._password = '';
-    this._isEnabled = false;
+    this._isListingEnabled = false;
+    this._isLoginEnabled = false;
     this._isAdmin = false;
     this._changePassword = false;
     this._profBoardName = '';
@@ -102,7 +110,8 @@ export class UserForm extends LitElement {
       phone: this._phone,
       username: this._username,
       password: this._password,
-      isEnabled: this._isEnabled,
+      isListingEnabled: this._isListingEnabled,
+      isLoginEnabled: this._isLoginEnabled,
       isAdmin: this._isAdmin,
       changePassword: this._changePassword,
       profBoardName: this._profBoardName,
@@ -309,28 +318,37 @@ export class UserForm extends LitElement {
               >
                 <label class="checkbox">
                   <input
-                    id="force-pw-change"
-                    type="checkbox"
-                    ?checked="${this._changePassword}"
-                    @input="${e => {
-                      this._changePassword = e.target.checked;
-                    }}"
-                  />
-                  Atualizar senha</label
-                >
-                <label class="checkbox">
-                  <input
+                    class="has-tooltip-arrow
+                    has-tooltip-top"
+                    data-tooltip="Habilita na Lista de Usuários"
                     id="user-is-enabled"
                     type="checkbox"
-                    ?checked="${this._isEnabled}"
+                    ?checked="${this._isListingEnabled}"
                     @input="${e => {
-                      this._isEnabled = e.target.checked;
+                      this._isListingEnabled = e.target.checked;
                     }}"
                   />
-                  Habilitado</label
+                  Listagem</label
                 >
                 <label class="checkbox">
                   <input
+                    class="has-tooltip-arrow
+                    has-tooltip-top"
+                    data-tooltip="Habilita Login"
+                    id="user-is-login-enabled"
+                    type="checkbox"
+                    ?checked="${this._isLoginEnabled}"
+                    @input="${e => {
+                      this._isLoginEnabled = e.target.checked;
+                    }}"
+                  />
+                  Login</label
+                >
+                <label class="checkbox">
+                  <input
+                    class="has-tooltip-arrow
+                    has-tooltip-top"
+                    data-tooltip="Habilita como Admin"
                     id="user-is-admin"
                     type="checkbox"
                     ?checked="${this._isAdmin}"
@@ -339,6 +357,20 @@ export class UserForm extends LitElement {
                     }}"
                   />
                   Admin</label
+                >
+                <label class="checkbox">
+                  <input
+                    class="has-tooltip-arrow
+                    has-tooltip-top"
+                    data-tooltip="Força atualização da senha"
+                    id="force-pw-change"
+                    type="checkbox"
+                    ?checked="${this._changePassword}"
+                    @input="${e => {
+                      this._changePassword = e.target.checked;
+                    }}"
+                  />
+                  Atualizar senha</label
                 >
               </div>
             </form>
