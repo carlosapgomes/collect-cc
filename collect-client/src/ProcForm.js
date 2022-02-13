@@ -30,6 +30,8 @@ export class ProcForm extends LitElement {
       _bed: { type: String, state: true },
       _team: { type: String, state: true },
       _surgicalRoom: { type: String, state: true },
+      _surgicalComplexity: { type: String, state: true },
+      _typeOfSurgery: { type: String, state: true },
       _activateUserSearchDropDown: { type: Boolean, state: true },
       proctypes: { type: Array },
       _currentProcType: { type: Object, state: true },
@@ -58,6 +60,8 @@ export class ProcForm extends LitElement {
     this.users = [];
     this._team = '';
     this._surgicalRoom = '';
+    this._surgicalComplexity = '';
+    this._typeOfSurgery = '';
     this._currentUser = {};
     this._activateUserSearchDropDown = false;
     this.proctypes = [];
@@ -222,6 +226,8 @@ export class ProcForm extends LitElement {
     this._bed = '';
     this._team = '';
     this._surgicalRoom = '';
+    this._surgicalComplexity = '';
+    this._typeOfSurgery = '';
     this._userName = '';
     this._activateUserSearchDropDown = false;
     this._currentProcUsers = [];
@@ -316,6 +322,8 @@ export class ProcForm extends LitElement {
       ptBed: this._bed,
       team: this._team,
       surgicalRoom: this._surgicalRoom,
+      surgicalComplexity: this._surgicalComplexity,
+      typeOfSurgery: this._typeOfSurgery,
       user1Name: '',
       user1ID: '',
       user1LicenceNumber: '',
@@ -775,7 +783,58 @@ export class ProcForm extends LitElement {
                 </div>
               </div>
 
-              <!-- place of procedure execution -->
+              <!-- surgicalComplexity and typeOfSurgery -->
+              <div
+                class="field
+                is-flex is-flex-direction-row
+                is-justify-content-space-between 	
+                "
+              >
+                <div class="field is-flex is-flex-grow-1 is-horizontal">
+                  <input
+                    class="input"
+                    id="surgicalComplexity"
+                    list="surgicalComplexityDegrees"
+                    type="text"
+                    placeholder="Porte"
+                    .value="${this._surgicalComplexity}"
+                    @blur="${e => {
+                      this._surgicalComplexity = e.target.value;
+                    }}"
+                  />
+                  <datalist id="surgicalComplexityDegrees">
+                    <option value="Pequeno"></option>
+                    <option value="Médio"></option>
+                    <option value="Grande"></option>
+                  </datalist>
+                </div>
+                <div class="field is-flex is-flex-grow-2 is-horizontal">
+                <div class="field-body">
+                  <div class="field">
+                    <input
+                      class="input" 
+                      id="typeOfSurgery"
+                      name="typeOfSurgery"
+                      list="surgeryTypes"
+                      type="text"
+                      placeholder="Tipo de cirurgia"
+                      .value="${this._typeOfSurgery}"
+                      @blur="${e => {
+                        this._typeOfSurgery = e.target.value;
+                      }}"
+                      required
+                    />
+                    <datalist id="surgeryTypes">
+                      <option value="Eletiva - Ambulatorial"></option>
+                      <option value="Eletiva - Hospital Dia"></option>
+                      <option value="Eletiva - Internado"></option>
+                      <option value="Urgência/Emergência"></option>
+                    </datalist> 
+                  </div>
+                </div>
+                </div>
+              </div>
+              <!-- surgicalRoom and Team -->
               <div
                 class="field
                 is-flex is-flex-direction-row
