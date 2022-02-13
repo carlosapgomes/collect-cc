@@ -77,7 +77,7 @@ export class ProcForm extends LitElement {
     this._currentAnestStartDateTime = dShort;
     this._currentAnestEndDateTime = dShort;
     // eslint-disable-next-line no-console
-    console.log(JSON.stringify(d, null, 2));
+    // console.log(JSON.stringify(d, null, 2));
     // eslint-disable-next-line no-console
     console.log(JSON.stringify(this._currentProcStartDateTime, null, 2));
     this._currentProcHour = '00';
@@ -743,7 +743,7 @@ export class ProcForm extends LitElement {
                     <div class="field">
                       <input
                         class="input"
-                        id="datetime"
+                        id="procstartdatetime"
                         type="datetime-local"
                         .value="${this._currentProcStartDateTime}"
                         @input="${e => {
@@ -762,7 +762,7 @@ export class ProcForm extends LitElement {
                     <div class="field">
                       <input
                         class="input"
-                        id="datetime"
+                        id="procenddatetime"
                         type="datetime-local"
                         .value="${this._currentProcEndDateTime}"
                         @input="${e => {
@@ -975,11 +975,11 @@ export class ProcForm extends LitElement {
                     <div class="field">
                       <input
                         class="input"
-                        id="datetime"
+                        id="aneststartdatetime"
                         type="datetime-local"
-                        .value="${this._currentProcStartDateTime}"
+                        .value="${this._currentAnestStartDateTime}"
                         @input="${e => {
-                          this._currentProcStartDateTime = e.target.value;
+                          this._currentAnestStartDateTime = e.target.value;
                         }}"
                         required
                       />
@@ -994,11 +994,11 @@ export class ProcForm extends LitElement {
                     <div class="field">
                       <input
                         class="input"
-                        id="datetime"
+                        id="anestenddatetime"
                         type="datetime-local"
-                        .value="${this._currentProcEndDateTime}"
+                        .value="${this._currentAnestEndDateTime}"
                         @input="${e => {
-                          this._currentProcEndDateTime = e.target.value;
+                          this._currentAnestEndDateTime = e.target.value;
                         }}"
                         required
                       />
