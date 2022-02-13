@@ -162,6 +162,14 @@ module.exports = function (app) {
       type: DataTypes.STRING,
       allowNull: true
     },    
+    circulatingNurse: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },    
+    circulatingNurseID: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },    
     createdByUserName: {
       type: DataTypes.STRING,
       allowNull: false
