@@ -9,18 +9,19 @@ export default {
 };
 
 function Template() {
-  const procs = [
+  const procs = {};
+  const data = [
     {
       descr: 'procedure 1',
       ptName: 'Patient Name 1',
       user1Name: 'Doctor Name 1',
-      procDateTime: DateTime.local().toSQL(),
+      procStartDateTime: DateTime.local().toSQL(),
     },
     {
       descr: 'procedure 2',
       ptName: 'Patient Name 2',
       user1Name: 'Doctor Name 2',
-      procDateTime: DateTime.local().toSQL(),
+      procStartDateTime: DateTime.local().toSQL(),
     },
   ];
   const user = {
@@ -29,9 +30,12 @@ function Template() {
     licenceNumber: '123412',
     isAdmin: true,
   };
-
+  procs.data = [...data];
+  procs.total = 2;
+  procs.limit = 10;
+  procs.skip = 0;
   return html`
-    <procs-view .user="${user}" .procedures="${procs}"> </procs-view>
+    <procs-view .user="${user}" .procsres="${procs}"> </procs-view>
   `;
 }
 
