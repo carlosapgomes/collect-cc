@@ -178,6 +178,10 @@ module.exports = function (app) {
       type: DataTypes.STRING,
       allowNull: true,
     },
+    procGroup: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     createdByUserName: {
       type: DataTypes.STRING,
       allowNull: false,

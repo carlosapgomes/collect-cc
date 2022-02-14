@@ -32,6 +32,7 @@ export class ProcForm extends LitElement {
       _surgicalRoom: { type: String, state: true },
       _surgicalComplexity: { type: String, state: true },
       _typeOfSurgery: { type: String, state: true },
+      _procGroup: { type: String, state: true },
       _activateUserSearchDropDown: { type: Boolean, state: true },
       proctypes: { type: Array },
       _currentProcType: { type: Object, state: true },
@@ -62,6 +63,7 @@ export class ProcForm extends LitElement {
     this._surgicalRoom = '';
     this._surgicalComplexity = '';
     this._typeOfSurgery = '';
+    this._procGroup = '';
     this._currentUser = {};
     this._activateUserSearchDropDown = false;
     this.proctypes = [];
@@ -228,6 +230,7 @@ export class ProcForm extends LitElement {
     this._surgicalRoom = '';
     this._surgicalComplexity = '';
     this._typeOfSurgery = '';
+    this._procGroup = '';
     this._userName = '';
     this._activateUserSearchDropDown = false;
     this._currentProcUsers = [];
@@ -324,6 +327,7 @@ export class ProcForm extends LitElement {
       surgicalRoom: this._surgicalRoom,
       surgicalComplexity: this._surgicalComplexity,
       typeOfSurgery: this._typeOfSurgery,
+      procGroup: this._procGroup,
       user1Name: '',
       user1ID: '',
       user1LicenceNumber: '',
@@ -866,6 +870,41 @@ export class ProcForm extends LitElement {
                     <option value="Sala 10"></option>
                   </datalist>
                 </div>
+                <div class="field is-flex is-flex-grow-1 is-horizontal">
+                  <input
+                    class="input"
+                    id="procGroup"
+                    list="proceduresGroups"
+                    type="text"
+                    placeholder="Grupo de procedimento"
+                    .value="${this._procGroup}"
+                    @blur="${e => {
+                      this._procGroup = e.target.value;
+                    }}"
+                  />
+                  <datalist id="proceduresGroups">
+                    <option value="CG - Biópsias"></option>
+                    <option value="CG - Colectomias"></option>
+                    <option value="CG - Enterectomias"></option>
+                    <option value="CG - Esofagectomias"></option>
+                    <option value="CG - Gastrectomias"></option>
+                    <option value="CG - Hepatectomias"></option>
+                    <option value="CG - Pancreatectomias"></option>
+                    <option value="CG - Parede Abdominal"></option>
+                    <option value="CG - Vesícula e Vias Biliares"></option>
+                    <option value="NC - Aneurisma Cerebral"></option>
+                    <option value="NC - Biópsias"></option>
+                    <option value="NC - Bloqueios"></option>
+                    <option value="NC - Cirurgia de Coluna"></option>
+                    <option value="NC - Cranioplastia"></option>
+                    <option value="NC - Derivações/Ventriculostomia (DVE/DVP)"></option>
+                    <option value="NC - Descompressão/Drenagem de Hematoma"></option>
+                    <option value="NC - Fístulas e Malformações"></option>
+                    <option value="NC - Tumor Cerebral"></option>
+                  </datalist>
+                </div>
+              </div>
+            </div>
                 <div class="field is-flex is-flex-grow-2 is-horizontal">
                   <!--  <div class="field-label is-normal">
                     <label><b>Equipe</b></label>
@@ -927,8 +966,6 @@ export class ProcForm extends LitElement {
                   </div>
                 </div>
                 </div>
-              </div>
-            </div>
               <br />
               <div class="card">
                 <div class="card-content">
