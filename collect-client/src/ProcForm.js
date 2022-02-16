@@ -29,11 +29,14 @@ export class ProcForm extends LitElement {
       _ward: { type: String, state: true },
       _bed: { type: String, state: true },
       _team: { type: String, state: true },
+      _circulatingNurse: { type: Object, state: true },
+      _circulatingNurseName: { type: String, state: true },
       _surgicalRoom: { type: String, state: true },
       _surgicalComplexity: { type: String, state: true },
       _typeOfSurgery: { type: String, state: true },
       _procGroup: { type: String, state: true },
       _activateUserSearchDropDown: { type: Boolean, state: true },
+      _activateCirculatingNurseSearchDropDown: { type: Boolean, state: true },
       proctypes: { type: Array },
       _currentProcType: { type: Object, state: true },
       _procTypeDescr: { type: String, state: true },
@@ -52,6 +55,8 @@ export class ProcForm extends LitElement {
     super();
     this._procExecPlace = '';
     this._patientName = '';
+    this._circulatingNurse = {};
+    this._circulatingNurseName = '';
     this._currentPatient = {};
     this._activatePatientSearchDropDown = false;
     this._ward = '';
@@ -66,6 +71,7 @@ export class ProcForm extends LitElement {
     this._procGroup = '';
     this._currentUser = {};
     this._activateUserSearchDropDown = false;
+    this._activateCirculatingNurseSearchDropDown = false;
     this.proctypes = [];
     this._procTypeDescr = '';
     this._activateProcTypeSearchDropDown = false;
@@ -222,6 +228,8 @@ export class ProcForm extends LitElement {
     this._activateProcTypeSearchDropDown = false;
     this._showRequiredSurgReport = false;
     this._patientName = '';
+    this._circulatingNurse = {};
+    this._circulatingNurseName = '';
     this._currentPatient = {};
     this._activatePatientSearchDropDown = false;
     this._ward = '';
@@ -233,6 +241,7 @@ export class ProcForm extends LitElement {
     this._procGroup = '';
     this._userName = '';
     this._activateUserSearchDropDown = false;
+    this._activateCirculatingNurseSearchDropDown = false;
     this._currentProcUsers = [];
     this._maxUsersCount = 5;
     // try to circunvent a race condition with the above procedure-form reset
@@ -346,6 +355,8 @@ export class ProcForm extends LitElement {
       user6Name: '',
       user6ID: '',
       user6LicenceNumber: '',
+      circulatingNurse: '',
+      circulatingNurseID: '',
       updatedByUserName: this.user.name,
       updatedByUserID: this.user.id,
     };
@@ -396,6 +407,15 @@ export class ProcForm extends LitElement {
       p.user6LicenceNumber = u.licenceNumber;
     }
 
+    if (
+      this._circulatingNurse &&
+      this._circulatingNurse.name &&
+      this.circulatingNurseID
+    ) {
+      p.circulatingNurse = this._circulatingNurse.name;
+      p.circulatingNurseID = this._circulatingNurseID;
+    }
+
     // fire event to save/update procedure
     this.dispatchEvent(
       new CustomEvent('save-procedure-form', {
@@ -426,6 +446,46 @@ export class ProcForm extends LitElement {
       );
       this._activateUserSearchDropDown = true;
     }
+  }
+
+  _searchCirculatingNurse(e) {
+    // eslint-disable-next-line no-console
+    // console.log(e.target.value);
+    // fire event to hide procedure form from parent's view
+
+    if (e.target.value.length > 2) {
+      this.dispatchEvent(
+        new CustomEvent('search-user', {
+          detail: {
+            search: e.target.value,
+            skip: 0,
+          },
+          bubbles: true,
+          composed: true,
+        })
+      );
+      this._activateCirculatingNurseSearchDropDown = true;
+    }
+  }
+
+  _circulatingNurseSelected(u) {
+    // eslint-disable-next-line no-console
+    // console.log(JSON.stringify(u, null, 2));
+    if (!u.licenceNumber) {
+      this.dispatchEvent(
+        new CustomEvent('show-modal-message', {
+          detail: {
+            msg: 'Selecione um executante que tenha registro profissional (Coren)',
+          },
+          bubbles: true,
+          composed: true,
+        })
+      );
+    } else {
+      this._circulatingNurse = { ...u };
+      this._circulatingNurseName = u.name;
+    }
+    this._activateCirculatingNurseSearchDropDown = false;
   }
 
   _userSelected(u) {
@@ -807,9 +867,9 @@ export class ProcForm extends LitElement {
                     }}"
                   />
                   <datalist id="surgicalComplexityDegrees">
-                    <option value="Pequeno"></option>
-                    <option value="Médio"></option>
-                    <option value="Grande"></option>
+                    <option value="Pequeno porte"></option>
+                    <option value="Médio porte"></option>
+                    <option value="Grande porte"></option>
                   </datalist>
                 </div>
                 <div class="field is-flex is-flex-grow-2 is-horizontal">
@@ -1053,6 +1113,67 @@ export class ProcForm extends LitElement {
                                 `
                             )
                           : html`<p></p> `
+                      }
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- circulating nurse dropdown search -->
+              <div
+                class="is-flex
+                is-flex-direction-row"
+              >
+                <div
+                  class="dropdown 
+                  ${classMap({
+                    'is-active': this._activateCirculatingNurseSearchDropDown,
+                  })}"
+                >
+                  <div class="field is-flex-grow-5 is-horizontal">
+                    <div
+                      style="padding-right: 20px; padding-top: 8px;"
+                      class="label is-normal"
+                    >
+                      <label><b>Circulante</b></label>
+                    </div>
+                    <div class="field-body">
+                      <div class="dropdown-trigger">
+                        <div class="field">
+                          <div class="control is-expanded has-icons-right">
+                            <input
+                              class="input"
+                              type="search"
+                              @input="${this._searchCirculatingNurse}"
+                              .value="${this._circulatingNurseName}"
+                              placeholder="buscar pelo nome ou Coren"
+                              required
+                            />
+                            <icon-search></icon-search>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                    <div class="dropdown-content">
+                      ${
+                        this.users
+                          ? this.users.map(
+                              u => html` <a
+                                href="#"
+                                class="dropdown-item"
+                                @click="${e => {
+                                  e.preventDefault();
+                                  this._circulatingNurseSelected(u);
+                                }}"
+                                @keydown="${e => {
+                                  e.preventDefault();
+                                  this._circulatingNurseSelected(u);
+                                }}"
+                                >${u.name} - Reg: ${u.licenceNumber}
+                              </a>`
+                            )
+                          : html`<p></p>`
                       }
                     </div>
                   </div>
