@@ -170,6 +170,42 @@ module.exports = function (app) {
       type: DataTypes.STRING,
       allowNull: true,
     },
+    anestesiologist1Name: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    anestesiologist1LicenceNumber: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    anestesiologist1ID: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },    
+    anestesiologist2Name: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    anestesiologist2LicenceNumber: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    anestesiologist2ID: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },    
+    anestesiologist3Name: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    anestesiologist3LicenceNumber: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    anestesiologist3ID: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },    
     surgicalComplexity: {
       type: DataTypes.STRING,
       allowNull: true,

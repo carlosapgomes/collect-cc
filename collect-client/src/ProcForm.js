@@ -15,7 +15,6 @@ export class ProcForm extends LitElement {
     return {
       // procedure: {type: Object},
       _procExecPlace: { type: String, state: true },
-      activate: { type: Boolean },
       _currentProcStartDateTime: { type: String, state: true },
       _currentProcEndDateTime: { type: String, state: true },
       _currentAnestStartDateTime: { type: String, state: true },
@@ -48,6 +47,9 @@ export class ProcForm extends LitElement {
       _userName: { type: String, state: true },
       _maxUsersCount: { type: Number, state: true },
       _currentProcUsers: { type: Array, state: true },
+      _currentProcAnesthesiologists: { type: Array, state: true },
+      _maxAnesthesiologistsCount: { type: Number, state: true },
+      _anesthesiologistName: { type: String, state: true },
     };
   }
 
@@ -57,12 +59,12 @@ export class ProcForm extends LitElement {
     this._patientName = '';
     this._circulatingNurse = {};
     this._circulatingNurseName = '';
+    this._activateCirculatingNurseSearchDropDown = false;
     this._currentPatient = {};
     this._activatePatientSearchDropDown = false;
     this._ward = '';
     this._bed = '';
     this._userName = '';
-    this.activate = false;
     this.users = [];
     this._team = '';
     this._surgicalRoom = '';
@@ -71,13 +73,16 @@ export class ProcForm extends LitElement {
     this._procGroup = '';
     this._currentUser = {};
     this._activateUserSearchDropDown = false;
-    this._activateCirculatingNurseSearchDropDown = false;
     this.proctypes = [];
     this._procTypeDescr = '';
     this._activateProcTypeSearchDropDown = false;
     this._showRequiredSurgReport = false;
     this._maxUsersCount = 5;
     this._currentProcUsers = [];
+    this._maxAnesthesiologistsCount = 2;
+    this._currentProcAnesthesiologists = [];
+    this._anesthesiologistName = '';
+    this._activateAnesthesiologistSearchDropDown = false;
   }
 
   firstUpdated() {
@@ -242,8 +247,12 @@ export class ProcForm extends LitElement {
     this._userName = '';
     this._activateUserSearchDropDown = false;
     this._activateCirculatingNurseSearchDropDown = false;
+    this._activateAnesthesiologistSearchDropDown = false;
     this._currentProcUsers = [];
     this._maxUsersCount = 5;
+    this._maxAnesthesiologistsCount = 2;
+    this._currentProcAnesthesiologists = [];
+    this._anesthesiologistName = '';
     // try to circunvent a race condition with the above procedure-form reset
     setTimeout(() => {
       const d = DateTime.local().toISO();
@@ -357,6 +366,15 @@ export class ProcForm extends LitElement {
       user6LicenceNumber: '',
       circulatingNurse: '',
       circulatingNurseID: '',
+      anesthesiologist1Name: '',
+      anesthesiologist1LicenceNumber: '',
+      anesthesiologist1ID: '',
+      anesthesiologist2Name: '',
+      anesthesiologist2LicenceNumber: '',
+      anesthesiologist2ID: '',
+      anesthesiologist3Name: '',
+      anesthesiologist3LicenceNumber: '',
+      anesthesiologist3ID: '',
       updatedByUserName: this.user.name,
       updatedByUserID: this.user.id,
     };
@@ -415,6 +433,24 @@ export class ProcForm extends LitElement {
       p.circulatingNurse = this._circulatingNurse.name;
       p.circulatingNurseID = this._circulatingNurseID;
     }
+    if (this._currentProcAnesthesiologists.length > 0) {
+      const u = this._currentProcAnesthesiologists.shift();
+      p.anestesiologist1Name = u.name;
+      p.anesthesiologist1ID = u.id;
+      p.anesthesiologist1LicenceNumber = u.licenceNumber;
+    }
+    if (this._currentProcAnesthesiologists.length > 0) {
+      const u = this._currentProcAnesthesiologists.shift();
+      p.anestesiologist2Name = u.name;
+      p.anesthesiologist2ID = u.id;
+      p.anesthesiologist2LicenceNumber = u.licenceNumber;
+    }
+    if (this._currentProcAnesthesiologists.length > 0) {
+      const u = this._currentProcAnesthesiologists.shift();
+      p.anestesiologist3Name = u.name;
+      p.anesthesiologist3ID = u.id;
+      p.anesthesiologist3LicenceNumber = u.licenceNumber;
+    }
 
     // fire event to save/update procedure
     this.dispatchEvent(
@@ -445,6 +481,26 @@ export class ProcForm extends LitElement {
         })
       );
       this._activateUserSearchDropDown = true;
+    }
+  }
+
+  _searchAnesthesiologist(e) {
+    // eslint-disable-next-line no-console
+    // console.log(e.target.value);
+    // fire event to hide procedure form from parent's view
+
+    if (e.target.value.length > 2) {
+      this.dispatchEvent(
+        new CustomEvent('search-user', {
+          detail: {
+            search: e.target.value,
+            skip: 0,
+          },
+          bubbles: true,
+          composed: true,
+        })
+      );
+      this._activateAnesthesiologistSearchDropDown = true;
     }
   }
 
@@ -507,6 +563,27 @@ export class ProcForm extends LitElement {
       this._maxUsersCount -= 1;
     }
     this._activateUserSearchDropDown = false;
+  }
+
+  _anesthesiologistSelected(u) {
+    this._anesthesiologistName = u.name;
+    // eslint-disable-next-line no-console
+    // console.log(JSON.stringify(u, null, 2));
+    if (!u.licenceNumber) {
+      this.dispatchEvent(
+        new CustomEvent('show-modal-message', {
+          detail: {
+            msg: 'Selecione um executante que tenha registro profissional (CRM)',
+          },
+          bubbles: true,
+          composed: true,
+        })
+      );
+    } else if (this._maxAnesthesiologistsCount >= 0) {
+      this._currentProcAnesthesiologists.push({ ...u });
+      this._maxAnesthesiologistsCount -= 1;
+    }
+    this._activateAnesthesiologistSearchDropDown = false;
   }
 
   _searchPatient(e) {
@@ -578,6 +655,12 @@ export class ProcForm extends LitElement {
     const users = [...this._currentProcUsers];
     users.splice(i, 1);
     this._currentProcUsers = [...users];
+  }
+
+  _removeProcAnesthesiologist(i) {
+    const anesthesiologists = [...this._currentProcAnesthesiologists];
+    anesthesiologists.splice(i, 1);
+    this._currentProcAnesthesiologists = [...anesthesiologists];
   }
 
   render() {
@@ -1027,10 +1110,10 @@ export class ProcForm extends LitElement {
                 </div>
                 </div>
               <br />
+              <!-- users dropdown search -->
               <div class="card">
                 <div class="card-content">
                   <div class="content">
-                    <!-- users dropdown search -->
                     <div
                       class="dropdown is-up is-expanded ${classMap({
                         'is-active': this._activateUserSearchDropDown,
@@ -1058,7 +1141,7 @@ export class ProcForm extends LitElement {
                           </div>
                         </div>
                       </div>
-                      <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                      <div class="dropdown-menu" id="dropdown-users" role="menu">
                         <div class="dropdown-content">
                           ${
                             this.users
@@ -1154,7 +1237,7 @@ export class ProcForm extends LitElement {
                       </div>
                     </div>
                   </div>
-                  <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                  <div class="dropdown-menu" id="dropdown-nurse" role="menu">
                     <div class="dropdown-content">
                       ${
                         this.users
@@ -1180,6 +1263,98 @@ export class ProcForm extends LitElement {
                 </div>
               </div>
               <p> <b>Anestesia</b> </p>
+              <!-- anesthesiologists dropdown search -->
+              <div class="card">
+                <div class="card-content">
+                  <div class="content">
+                    <div
+                      class="dropdown is-up is-expanded ${classMap({
+                        'is-active':
+                          this._activateAnesthesiologistSearchDropDown,
+                      })}"
+                    >
+                      <div class="dropdown-trigger">
+                        <div class="field is-horizontal">
+                          <div class="field-label is-normal">
+                            <label><b>Anestesista(s)</b></label>
+                          </div>
+                          <div class="field-body">
+                            <div class="field">
+                              <div class="control is-expanded has-icons-right">
+                                <input
+                                  id="procanest"
+                                  class="input"
+                                  type="search"
+                                  @input="${this._searchAnesthesiologist}"
+                                  .value="${this._anesthesiologistName}"
+                                  placeholder="buscar pelo nome ou CRM"
+                                />
+                                <icon-search></icon-search>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="dropdown-menu" id="dropdown-anest" role="menu">
+                        <div class="dropdown-content">
+                          ${
+                            this.users
+                              ? this.users.map(
+                                  u => html` <a
+                                    href="#"
+                                    class="dropdown-item"
+                                    @click="${e => {
+                                      e.preventDefault();
+                                      this._anesthesiologistSelected(u);
+                                    }}"
+                                    @keydown="${e => {
+                                      e.preventDefault();
+                                      this._anesthesiologistSelected(u);
+                                    }}"
+                                  >
+                                    ${u.name} - ${u.licenceNumber}
+                                  </a>`
+                                )
+                              : html`<p></p>`
+                          }
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      ${
+                        this._currentProcAnesthesiologists
+                          ? this._currentProcAnesthesiologists.map(
+                              (u, i) =>
+                                html`
+                                  <div
+                                    class="is-flex 
+                                    is-flex-direction-row
+                                      is-justify-content-space-between
+                                        is-align-items-center
+                                          has-background-light"
+                                  >
+                                    <div class="pl-2">
+                                      ${u.name} - ${u.profBoardName} - n.:
+                                      ${u.licenceNumber}
+                                    </div>
+                                    <button
+                                      class="button is-light"
+                                      @click="${e => {
+                                        e.preventDefault();
+                                        this._removeProcAnesthesiologist(i);
+                                      }}"
+                                    >
+                                      <icon-trash></icon-trash>
+                                    </button>
+                                  </div>
+                                `
+                            )
+                          : html`<p></p> `
+                      }
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div
                 class="is-flex is-flex-direction-row
                 is-justify-content-space-between"

@@ -7,7 +7,7 @@ export default {
   argTypes: {},
 };
 
-function Template(activate) {
+function Template() {
   const users = [
     {
       name: 'user1',
@@ -22,10 +22,8 @@ function Template(activate) {
       profBoardName: 'crm',
     },
   ];
-  return html`<proc-form .users=${users} ?activate=${activate}></proc-form>`;
+  return html`<proc-form .users=${users}></proc-form>`;
 }
 
 export const App = Template.bind({});
-App.args = {
-  activate: true,
-};
+App.args = {};
