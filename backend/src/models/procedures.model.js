@@ -214,6 +214,18 @@ module.exports = function (app) {
       type: DataTypes.STRING,
       allowNull: true,
     },
+    anesthesiaType: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    anesthesiaSubType: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    riskClassASA: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     procGroup: {
       type: DataTypes.STRING,
       allowNull: true,
