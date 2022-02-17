@@ -222,6 +222,16 @@ module.exports = function (app) {
       type: DataTypes.STRING,
       allowNull: true,
     },
+    wasCanceled: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+      defaultValue: false,
+    },
+    cancelationReason: { 
+      type: DataTypes.STRING,
+      allowNull: true,
+      defaultValue: '',
+    },
     anesthesiaType: {
       type: DataTypes.STRING,
       allowNull: true,

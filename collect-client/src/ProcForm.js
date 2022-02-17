@@ -36,6 +36,8 @@ export class ProcForm extends LitElement {
       _surgicalComplexity: { type: String, state: true },
       _typeOfSurgery: { type: String, state: true },
       _contaminationRisk: { type: String, state: true },
+      _wasCanceled: { type: Boolean, state: true },
+      _cancelationReason: { type: String, state: true },
       _antibioticUse: { type: Boolean, state: true },
       _procGroup: { type: String, state: true },
       _activateUserSearchDropDown: { type: Boolean, state: true },
@@ -81,6 +83,8 @@ export class ProcForm extends LitElement {
     this._surgicalComplexity = '';
     this._typeOfSurgery = '';
     this._contaminationRisk = '';
+    this._wasCanceled = false;
+    this._cancelationReason = '';
     this._antibioticUse = false;
     this._procGroup = '';
     this._currentUser = {};
@@ -262,6 +266,8 @@ export class ProcForm extends LitElement {
     this._surgicalComplexity = '';
     this._typeOfSurgery = '';
     this._contaminationRisk = '';
+    this._wasCanceled = false;
+    this._cancelationReason = '';
     this._antibioticUse = false;
     this._procGroup = '';
     this._userName = '';
@@ -373,6 +379,8 @@ export class ProcForm extends LitElement {
       typeOfSurgery: this._typeOfSurgery,
       procGroup: this._procGroup,
       contaminationRisk: this._contaminationRisk,
+      wasCanceled: this._wasCanceled,
+      cancelationReason: this._cancelationReason,
       antibioticUse: this._antibioticUse,
       user1Name: '',
       user1ID: '',
@@ -884,32 +892,6 @@ export class ProcForm extends LitElement {
                         }}"
                       />
                     </div>
-                    <datalist id="wards">
-                      <option>CC</option>
-                      <option>SALA VERMELHA</option>
-                      <option>SALA AMARELA</option>
-                      <option>SALA VERDE</option>
-                      <option>CO</option>
-                      <option>CONSULTÓRIO</option>
-                      <option>UTI 1</option>
-                      <option>UTI 2</option>
-                      <option>UTI CIRURG</option>
-                      <option>CHD</option>
-                      <option>UTI CARDIO</option>
-                      <option>ENF INTERMEDIARIO</option>
-                      <option>ENF 1A</option>
-                      <option>ENF 1B</option>
-                      <option>ENF 1C</option>
-                      <option>ENF 2A</option>
-                      <option>ENF 2B</option>
-                      <option>ENF 2C</option>
-                      <option>ENF 3A</option>
-                      <option>ENF 3B</option>
-                      <option>ENF 3C</option>
-                      <option>ENF 4A</option>
-                      <option>ENF 4B</option>
-                      <option>ENF 4C</option>
-                    </datalist>
                   </div>
                 </div>
                 <div
@@ -1002,6 +984,74 @@ export class ProcForm extends LitElement {
               </p>
               <br />
               <br />
+              <!-- surgery cancelation and reason -->
+              <div
+                class="field
+                is-flex is-flex-direction-row
+                is-justify-content-space-between 	
+                is-align-content-center
+                "
+              >
+                <div
+                  class="field  
+                   is-horizontal"
+                >
+                    <label class="checkbox">
+                      <input
+                        id="wasCanceled"
+                        type="checkbox"
+                        ?checked="${this._wasCanceled}"
+                        @blur="${e => {
+                          this._wasCanceled = e.target.checked;
+                        }}"
+                      />
+                      <b>Foi cancelada?</b>
+                    </label>
+                </div>
+                <div
+                  class="field  
+                    is-horizontal"
+                >
+                  <div class="field-label is-normal
+                    is-flex is-flex-grow-0">
+                    <label class="label">Motivo</label>
+                  </div>
+                  <div class="field-body is-flex">
+                    <div class="field">
+                      <input
+                        class="input"
+                        id="cancelationReason"
+                        list="cancelationReasons"
+                        type="text"
+                        placeholder=""
+                        .value="${this._cancelationReason}"
+                        @blur="${e => {
+                          this._cancelationReason = e.target.value;
+                        }}"
+                      />
+                      <datalist id="cancelationReasons">
+                        <option value="Falta de cirurgião"></option>
+                        <option value="Falta de anestesista"></option>
+                        <option value="Falta de enfermeiro"></option>
+                        <option value="Falta de técnico de enfermagem"></option>
+                        <option value="Falta de exames"></option>
+                        <option value="Falta de hemoderivados"></option>
+                        <option value="Falta de jejum"></option>
+                        <option value="Falta de material para o procedimento"></option>
+                        <option value="Falta de vaga UTI"></option>
+                        <option value="Falta de vaga CRPA"></option>
+                        <option value="Falta de TCLE"></option>
+                        <option value="Prioridade para Cir. Urgência"></option>
+                        <option value="Mudança de conduta médica"></option>
+                        <option value="Contra indicação anestésica"></option>
+                        <option value="Óbito"></option>
+                        <option value="Tempo cirúrgico excedido"></option>
+                        <option value="Transferência para outro Hospital"></option>
+                      </datalist>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div
                 class="is-flex is-flex-direction-row
                 is-justify-content-space-between"
