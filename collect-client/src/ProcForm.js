@@ -721,25 +721,27 @@ export class ProcForm extends LitElement {
                   </div>
                   <div class="dropdown-menu" id="dropdown-menu" role="menu">
                     <div class="dropdown-content">
-                      ${this.patients
-                        ? this.patients.map(
-                            p => html`
-                              <a
-                                href="#"
-                                class="dropdown-item"
-                                @click="${e => {
-                                  e.preventDefault();
-                                  this._patientSelected(p);
-                                }}"
-                                @keydown="${e => {
-                                  e.preventDefault();
-                                  this._patientSelected(p);
-                                }}"
-                                >${p.name} - Reg: ${p.recNumber}</a
-                              >
-                            `
-                          )
-                        : html`<p></p>`}
+                      ${
+                        this.patients
+                          ? this.patients.map(
+                              p => html`
+                                <a
+                                  href="#"
+                                  class="dropdown-item"
+                                  @click="${e => {
+                                    e.preventDefault();
+                                    this._patientSelected(p);
+                                  }}"
+                                  @keydown="${e => {
+                                    e.preventDefault();
+                                    this._patientSelected(p);
+                                  }}"
+                                  >${p.name} - Reg: ${p.recNumber}</a
+                                >
+                              `
+                            )
+                          : html`<p></p>`
+                      }
                     </div>
                   </div>
                 </div>
@@ -866,29 +868,31 @@ export class ProcForm extends LitElement {
                 </div>
                 <div class="dropdown-menu" id="dropdown-menu" role="menu">
                   <div class="dropdown-content">
-                    ${this.proctypes
-                      ? this.proctypes.map(
-                          p => html`
-                            <a
-                              href="#"
-                              class="dropdown-item"
-                              @click="${e => {
-                                e.preventDefault();
-                                this._procTypeSelected(p);
-                              }}"
-                              @keydown="${e => {
-                                e.preventDefault();
-                                this._procTypeSelected(p);
-                              }}"
-                              ><small
-                                >${p.descr.length < 80
-                                  ? p.descr
-                                  : `${p.descr.substring(0, 77)}...`}</small
-                              ></a
-                            >
-                          `
-                        )
-                      : html`<p></p>`}
+                    ${
+                      this.proctypes
+                        ? this.proctypes.map(
+                            p => html`
+                              <a
+                                href="#"
+                                class="dropdown-item"
+                                @click="${e => {
+                                  e.preventDefault();
+                                  this._procTypeSelected(p);
+                                }}"
+                                @keydown="${e => {
+                                  e.preventDefault();
+                                  this._procTypeSelected(p);
+                                }}"
+                                ><small
+                                  >${p.descr.length < 80
+                                    ? p.descr
+                                    : `${p.descr.substring(0, 77)}...`}</small
+                                ></a
+                              >
+                            `
+                          )
+                        : html`<p></p>`
+                    }
                   </div>
                 </div>
               </div>
@@ -1012,7 +1016,7 @@ export class ProcForm extends LitElement {
                   </div>
                 </div>
               </div>
-              <!-- surgicalRoom and Team -->
+              <!-- surgery group and surgical room  -->
               <div
                 class="field
                 is-flex is-flex-direction-row
@@ -1020,48 +1024,14 @@ export class ProcForm extends LitElement {
                 "
               >
                 <div
-                  class="field is-flex 
-                  is-flex-grow-1 is-horizontal"
+                  class="field  
+                    is-horizontal"
                 >
-                  <div class="field-label is-normal">
-                    <label class="label">Sala</label>
-                  </div>
-                  <div class="field-body">
-                    <div class="field">
-                      <input
-                        class="input"
-                        id="surgicalRoom"
-                        list="surgicalRooms"
-                        type="text"
-                        placeholder="Sala"
-                        .value="${this._surgicalRoom}"
-                        @blur="${e => {
-                          this._surgicalRoom = e.target.value;
-                        }}"
-                      />
-                      <datalist id="surgicalRooms">
-                        <option value="Sala 01"></option>
-                        <option value="Sala 02"></option>
-                        <option value="Sala 03"></option>
-                        <option value="Sala 04"></option>
-                        <option value="Sala 05"></option>
-                        <option value="Sala 06"></option>
-                        <option value="Sala 07"></option>
-                        <option value="Sala 08"></option>
-                        <option value="Sala 09"></option>
-                        <option value="Sala 10"></option>
-                      </datalist>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="field is-flex 
-                    is-flex-grow-2 is-horizontal"
-                >
-                  <div class="field-label is-normal">
+                  <div class="field-label is-normal
+                    is-flex is-flex-grow-0">
                     <label class="label">Grupo</label>
                   </div>
-                  <div class="field-body">
+                  <div class="field-body is-flex">
                     <div class="field">
                       <input
                         class="input"
@@ -1101,12 +1071,49 @@ export class ProcForm extends LitElement {
                     </div>
                   </div>
                 </div>
+                <div
+                  class="field  
+                   is-horizontal"
+                >
+                  <div class="field-label is-normal
+                    is-flex is-flex-grow-0">
+                    <label class="label">Sala</label>
+                  </div>
+                  <div class="field-body is-flex">
+                    <div class="field">
+                      <input
+                        class="input"
+                        id="surgicalRoom"
+                        list="surgicalRooms"
+                        type="text"
+                        placeholder="Sala"
+                        .value="${this._surgicalRoom}"
+                        @blur="${e => {
+                          this._surgicalRoom = e.target.value;
+                        }}"
+                      />
+                      <datalist id="surgicalRooms">
+                        <option value="Sala 01"></option>
+                        <option value="Sala 02"></option>
+                        <option value="Sala 03"></option>
+                        <option value="Sala 04"></option>
+                        <option value="Sala 05"></option>
+                        <option value="Sala 06"></option>
+                        <option value="Sala 07"></option>
+                        <option value="Sala 08"></option>
+                        <option value="Sala 09"></option>
+                        <option value="Sala 10"></option>
+                      </datalist>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="field is-flex is-flex-grow-2 is-horizontal">
-                <!--  <div class="field-label is-normal">
-                  <label><b>Equipe</b></label>
-                  </div> -->
-                <div class="field-body">
+              <div class="field is-horizontal is-flex">
+                <div class="field-label is-normal
+                  is-flex is-flex-grow-0">
+                  <label class="label">Equipe</label>
+                </div> 
+                <div class="field-body is-flex">
                   <div class="field">
                     <input
                       class="input"
@@ -1213,56 +1220,60 @@ export class ProcForm extends LitElement {
                         role="menu"
                       >
                         <div class="dropdown-content">
-                          ${this.users
-                            ? this.users.map(
-                                u => html` <a
-                                  href="#"
-                                  class="dropdown-item"
-                                  @click="${e => {
-                                    e.preventDefault();
-                                    this._userSelected(u);
-                                  }}"
-                                  @keydown="${e => {
-                                    e.preventDefault();
-                                    this._userSelected(u);
-                                  }}"
-                                >
-                                  ${u.name} - ${u.licenceNumber}
-                                </a>`
-                              )
-                            : html`<p></p>`}
+                          ${
+                            this.users
+                              ? this.users.map(
+                                  u => html` <a
+                                    href="#"
+                                    class="dropdown-item"
+                                    @click="${e => {
+                                      e.preventDefault();
+                                      this._userSelected(u);
+                                    }}"
+                                    @keydown="${e => {
+                                      e.preventDefault();
+                                      this._userSelected(u);
+                                    }}"
+                                  >
+                                    ${u.name} - ${u.licenceNumber}
+                                  </a>`
+                                )
+                              : html`<p></p>`
+                          }
                         </div>
                       </div>
                     </div>
                     <div>
-                      ${this._currentProcUsers
-                        ? this._currentProcUsers.map(
-                            (u, i) =>
-                              html`
-                                <div
-                                  class="is-flex 
+                      ${
+                        this._currentProcUsers
+                          ? this._currentProcUsers.map(
+                              (u, i) =>
+                                html`
+                                  <div
+                                    class="is-flex 
                                     is-flex-direction-row
                                       is-justify-content-space-between
                                         is-align-items-center
                                           has-background-light"
-                                >
-                                  <div class="pl-2">
-                                    ${u.name} - ${u.profBoardName} - n.:
-                                    ${u.licenceNumber}
-                                  </div>
-                                  <button
-                                    class="button is-light"
-                                    @click="${e => {
-                                      e.preventDefault();
-                                      this._removeProcUser(i);
-                                    }}"
                                   >
-                                    <icon-trash></icon-trash>
-                                  </button>
-                                </div>
-                              `
-                          )
-                        : html`<p></p> `}
+                                    <div class="pl-2">
+                                      ${u.name} - ${u.profBoardName} - n.:
+                                      ${u.licenceNumber}
+                                    </div>
+                                    <button
+                                      class="button is-light"
+                                      @click="${e => {
+                                        e.preventDefault();
+                                        this._removeProcUser(i);
+                                      }}"
+                                    >
+                                      <icon-trash></icon-trash>
+                                    </button>
+                                  </div>
+                                `
+                            )
+                          : html`<p></p> `
+                      }
                     </div>
                   </div>
                 </div>
@@ -1306,28 +1317,31 @@ export class ProcForm extends LitElement {
                   </div>
                   <div class="dropdown-menu" id="dropdown-nurse" role="menu">
                     <div class="dropdown-content">
-                      ${this.users
-                        ? this.users.map(
-                            u => html` <a
-                              href="#"
-                              class="dropdown-item"
-                              @click="${e => {
-                                e.preventDefault();
-                                this._circulatingNurseSelected(u);
-                              }}"
-                              @keydown="${e => {
-                                e.preventDefault();
-                                this._circulatingNurseSelected(u);
-                              }}"
-                              >${u.name} - Reg: ${u.licenceNumber}
-                            </a>`
-                          )
-                        : html`<p></p>`}
+                      ${
+                        this.users
+                          ? this.users.map(
+                              u => html` <a
+                                href="#"
+                                class="dropdown-item"
+                                @click="${e => {
+                                  e.preventDefault();
+                                  this._circulatingNurseSelected(u);
+                                }}"
+                                @keydown="${e => {
+                                  e.preventDefault();
+                                  this._circulatingNurseSelected(u);
+                                }}"
+                                >${u.name} - Reg: ${u.licenceNumber}
+                              </a>`
+                            )
+                          : html`<p></p>`
+                      }
                     </div>
                   </div>
                 </div>
               </div>
               <p><b>Anestesia</b></p>
+            </br>
               <!-- Anesthesia type and subtype-->
               <div
                 class="field
@@ -1335,26 +1349,38 @@ export class ProcForm extends LitElement {
                 is-justify-content-space-between 	
                 "
               >
-                <div class="field is-flex is-flex-grow-1 is-horizontal">
-                  <input
-                    class="input"
-                    id="anesthesiaType"
-                    list="anesthesiaTypes"
-                    type="text"
-                    placeholder="Tipo de Anestesia"
-                    .value="${this._anesthesiaType}"
-                    @blur="${e => {
-                      this._anesthesiaType = e.target.value;
-                    }}"
-                  />
-                  <datalist id="anesthesiaTypes">
-                    <option value="Anestesia Geral"></option>
-                    <option value="Anestesia Local"></option>
-                    <option value="Anestesia Regional"></option>
-                    <option value="Sedação"></option>
-                  </datalist>
+                <div class="field 
+                   is-horizontal">
+                  <div class="field-label is-normal">
+                    <label class="label">Tipo</label>
+                  </div>
+                  <div class="field-body">
+                    <div class="field">
+                    <input
+                      class="input"
+                      id="anesthesiaType"
+                      list="anesthesiaTypes"
+                      type="text"
+                      placeholder="Tipo de Anestesia"
+                      .value="${this._anesthesiaType}"
+                      @blur="${e => {
+                        this._anesthesiaType = e.target.value;
+                      }}"
+                    />
+                      <datalist id="anesthesiaTypes">
+                      <option value="Anestesia Geral"></option>
+                      <option value="Anestesia Local"></option>
+                      <option value="Anestesia Regional"></option>
+                      <option value="Sedação"></option>
+                      </datalist>
+                    </div>
+                    </div>
                 </div>
-                <div class="field is-flex is-flex-grow-2 is-horizontal">
+                <div class="field  
+                  is-horizontal">
+                  <div class="field-label is-normal">
+                    <label class="label">Subtipo</label>
+                  </div>
                   <div class="field-body">
                     <div class="field">
                       <input
@@ -1380,7 +1406,12 @@ export class ProcForm extends LitElement {
                   </div>
                 </div>
               </div>
-              <div class="field is-flex is-flex-grow-2 is-horizontal">
+              <div class="field is-flex 
+                is-flex-grow-2 is-horizontal">
+                <div class="field-label is-normal
+                  is-flex is-flex-grow-0">
+                  <label class="label">ASA</label>
+                </div> 
                 <div class="field-body">
                   <div class="field">
                     <input
@@ -1488,56 +1519,60 @@ export class ProcForm extends LitElement {
                         role="menu"
                       >
                         <div class="dropdown-content">
-                          ${this.users
-                            ? this.users.map(
-                                u => html` <a
-                                  href="#"
-                                  class="dropdown-item"
-                                  @click="${e => {
-                                    e.preventDefault();
-                                    this._anesthesiologistSelected(u);
-                                  }}"
-                                  @keydown="${e => {
-                                    e.preventDefault();
-                                    this._anesthesiologistSelected(u);
-                                  }}"
-                                >
-                                  ${u.name} - ${u.licenceNumber}
-                                </a>`
-                              )
-                            : html`<p></p>`}
+                          ${
+                            this.users
+                              ? this.users.map(
+                                  u => html` <a
+                                    href="#"
+                                    class="dropdown-item"
+                                    @click="${e => {
+                                      e.preventDefault();
+                                      this._anesthesiologistSelected(u);
+                                    }}"
+                                    @keydown="${e => {
+                                      e.preventDefault();
+                                      this._anesthesiologistSelected(u);
+                                    }}"
+                                  >
+                                    ${u.name} - ${u.licenceNumber}
+                                  </a>`
+                                )
+                              : html`<p></p>`
+                          }
                         </div>
                       </div>
                     </div>
                     <div>
-                      ${this._currentProcAnesthesiologists
-                        ? this._currentProcAnesthesiologists.map(
-                            (u, i) =>
-                              html`
-                                <div
-                                  class="is-flex 
+                      ${
+                        this._currentProcAnesthesiologists
+                          ? this._currentProcAnesthesiologists.map(
+                              (u, i) =>
+                                html`
+                                  <div
+                                    class="is-flex 
                                     is-flex-direction-row
                                       is-justify-content-space-between
                                         is-align-items-center
                                           has-background-light"
-                                >
-                                  <div class="pl-2">
-                                    ${u.name} - ${u.profBoardName} - n.:
-                                    ${u.licenceNumber}
-                                  </div>
-                                  <button
-                                    class="button is-light"
-                                    @click="${e => {
-                                      e.preventDefault();
-                                      this._removeProcAnesthesiologist(i);
-                                    }}"
                                   >
-                                    <icon-trash></icon-trash>
-                                  </button>
-                                </div>
-                              `
-                          )
-                        : html`<p></p> `}
+                                    <div class="pl-2">
+                                      ${u.name} - ${u.profBoardName} - n.:
+                                      ${u.licenceNumber}
+                                    </div>
+                                    <button
+                                      class="button is-light"
+                                      @click="${e => {
+                                        e.preventDefault();
+                                        this._removeProcAnesthesiologist(i);
+                                      }}"
+                                    >
+                                      <icon-trash></icon-trash>
+                                    </button>
+                                  </div>
+                                `
+                            )
+                          : html`<p></p> `
+                      }
                     </div>
                   </div>
                 </div>
