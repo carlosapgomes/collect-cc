@@ -27,12 +27,16 @@ export class ProcForm extends LitElement {
       _activatePatientSearchDropDown: { type: Boolean, state: true },
       _ward: { type: String, state: true },
       _bed: { type: String, state: true },
+      _destWard: { type: String, state: true },
+      _destBed: { type: String, state: true },
       _team: { type: String, state: true },
       _circulatingNurse: { type: Object, state: true },
       _circulatingNurseName: { type: String, state: true },
       _surgicalRoom: { type: String, state: true },
       _surgicalComplexity: { type: String, state: true },
       _typeOfSurgery: { type: String, state: true },
+      _contaminationRisk: { type: String, state: true },
+      _antibioticUse: { type: Boolean, state: true },
       _procGroup: { type: String, state: true },
       _activateUserSearchDropDown: { type: Boolean, state: true },
       _activateCirculatingNurseSearchDropDown: { type: Boolean, state: true },
@@ -53,6 +57,7 @@ export class ProcForm extends LitElement {
       _anesthesiaType: { type: String, state: true },
       _anesthesiaSubType: { type: String, state: true },
       _riskClassASA: { type: String, state: true },
+      _notes: { type: String, state: true },
     };
   }
 
@@ -67,12 +72,16 @@ export class ProcForm extends LitElement {
     this._activatePatientSearchDropDown = false;
     this._ward = '';
     this._bed = '';
+    this._destWard = '';
+    this._destBed = '';
     this._userName = '';
     this.users = [];
     this._team = '';
     this._surgicalRoom = '';
     this._surgicalComplexity = '';
     this._typeOfSurgery = '';
+    this._contaminationRisk = '';
+    this._antibioticUse = false;
     this._procGroup = '';
     this._currentUser = {};
     this._activateUserSearchDropDown = false;
@@ -89,6 +98,7 @@ export class ProcForm extends LitElement {
     this._anesthesiaType = '';
     this._anesthesiaSubType = '';
     this._riskClassASA = '';
+    this._notes = '';
   }
 
   firstUpdated() {
@@ -245,10 +255,14 @@ export class ProcForm extends LitElement {
     this._activatePatientSearchDropDown = false;
     this._ward = '';
     this._bed = '';
+    this._destWard = '';
+    this._destBed = '';
     this._team = '';
     this._surgicalRoom = '';
     this._surgicalComplexity = '';
     this._typeOfSurgery = '';
+    this._contaminationRisk = '';
+    this._antibioticUse = false;
     this._procGroup = '';
     this._userName = '';
     this._activateUserSearchDropDown = false;
@@ -262,6 +276,7 @@ export class ProcForm extends LitElement {
     this._anesthesiaType = '';
     this._anesthesiaSubType = '';
     this._riskClassASA = '';
+    this._notes = '';
     // try to circunvent a race condition with the above procedure-form reset
     setTimeout(() => {
       const d = DateTime.local().toISO();
@@ -351,10 +366,14 @@ export class ProcForm extends LitElement {
       ptWard: this._ward,
       ptBed: this._bed,
       team: this._team,
+      destWard: this._destWard,
+      destBed: this._destBed,
       surgicalRoom: this._surgicalRoom,
       surgicalComplexity: this._surgicalComplexity,
       typeOfSurgery: this._typeOfSurgery,
       procGroup: this._procGroup,
+      contaminationRisk: this._contaminationRisk,
+      antibioticUse: this._antibioticUse,
       user1Name: '',
       user1ID: '',
       user1LicenceNumber: '',
@@ -384,8 +403,9 @@ export class ProcForm extends LitElement {
       anesthesiologist3Name: '',
       anesthesiologist3LicenceNumber: '',
       anesthesiologist3ID: '',
-      anesthesiaType: '',
-      anesthesiaSubType: '',
+      anesthesiaType: this._anesthesiaType,
+      anesthesiaSubType: this._anesthesiaSubType,
+      notes: this._notes,
       updatedByUserName: this.user.name,
       updatedByUserID: this.user.id,
     };
@@ -837,6 +857,83 @@ export class ProcForm extends LitElement {
                   </div>
                 </div>
               </div>
+              <div
+                class="field is-flex 
+                is-flex-direction-row
+                is-justify-content-space-between"
+              >
+                <div
+                  class="field is-flex 
+                  is-flex-grow-1 is-horizontal"
+                >
+                  <div class="field-label is-normal">
+                    <label class="label">Destino</label>
+                  </div>
+                  <div class="field-body">
+                    <div class="field">
+                      <input
+                        class="input"
+                        id="destWard"
+                        name="destWard"
+                        list="wards"
+                        type="text"
+                        placeholder="Setor de Destino"
+                        .value="${this._destWard}"
+                        @blur="${e => {
+                          this._destWard = e.target.value;
+                        }}"
+                      />
+                    </div>
+                    <datalist id="wards">
+                      <option>CC</option>
+                      <option>SALA VERMELHA</option>
+                      <option>SALA AMARELA</option>
+                      <option>SALA VERDE</option>
+                      <option>CO</option>
+                      <option>CONSULTÓRIO</option>
+                      <option>UTI 1</option>
+                      <option>UTI 2</option>
+                      <option>UTI CIRURG</option>
+                      <option>CHD</option>
+                      <option>UTI CARDIO</option>
+                      <option>ENF INTERMEDIARIO</option>
+                      <option>ENF 1A</option>
+                      <option>ENF 1B</option>
+                      <option>ENF 1C</option>
+                      <option>ENF 2A</option>
+                      <option>ENF 2B</option>
+                      <option>ENF 2C</option>
+                      <option>ENF 3A</option>
+                      <option>ENF 3B</option>
+                      <option>ENF 3C</option>
+                      <option>ENF 4A</option>
+                      <option>ENF 4B</option>
+                      <option>ENF 4C</option>
+                    </datalist>
+                  </div>
+                </div>
+                <div
+                  class="field is-flex 
+                  is-flex-grow-1 is-horizontal"
+                >
+                  <div class="field-label is-normal">
+                    <label class="label">Leito</label>
+                  </div>
+                  <div class="field-body">
+                    <div class="field">
+                      <input
+                        class="input"
+                        id="destBed"
+                        type="text"
+                        .value="${this._destBed}"
+                        @input="${e => {
+                          this._destBed = e.target.value;
+                        }}"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
               <!-- procedure type dropdown search -->
               <div
                 class="dropdown is-expanded 
@@ -1014,6 +1111,60 @@ export class ProcForm extends LitElement {
                       </datalist>
                     </div>
                   </div>
+                </div>
+              </div>
+              <!-- contamination risk / antibiotics use -->
+              <div
+                class="field
+                is-flex is-flex-direction-row
+                is-justify-content-space-between 	
+                "
+              >
+                <div
+                  class="field  
+                    is-horizontal"
+                >
+                  <div class="field-label is-normal
+                    is-flex is-flex-grow-0">
+                    <label class="label">Contaminação</label>
+                  </div>
+                  <div class="field-body is-flex">
+                    <div class="field">
+                      <input
+                        class="input"
+                        id="contaminationRisk"
+                        list="contaminationRiskTypes"
+                        type="text"
+                        placeholder=""
+                        .value="${this._contaminationRisk}"
+                        @blur="${e => {
+                          this._contaminationRisk = e.target.value;
+                        }}"
+                      />
+                      <datalist id="contaminationRiskTypes">
+                        <option value="Limpa"></option>
+                        <option value="Potencialmente contaminada"></option>
+                        <option value="Contaminada"></option>
+                        <option value="Infectada"></option>
+                      </datalist>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="field  
+                   is-horizontal"
+                >
+                    <label class="checkbox">
+                      <input
+                        id="antibioticUse"
+                        type="checkbox"
+                        ?checked="${this._antibioticUse}"
+                        @blur="${e => {
+                          this._antibioticUse = e.target.checked;
+                        }}"
+                      />
+                      <b>Usou antibiótico?</b>
+                    </label>
                 </div>
               </div>
               <!-- surgery group and surgical room  -->
@@ -1574,6 +1725,80 @@ export class ProcForm extends LitElement {
                           : html`<p></p> `
                       }
                     </div>
+                  </div>
+                </div>
+              </div>
+          </br>
+              <div class="field is-horizontal is-flex">
+                <div class="field-label is-normal
+                  is-flex is-flex-grow-0">
+                  <label class="label">Obs.:</label>
+                </div> 
+                <div class="field-body is-flex">
+                  <div class="field">
+                    <textarea
+                      class="textarea"
+                      id="notes"
+                      name="notes"
+                      maxlength="2000"
+                      placeholder="Observações"
+                      .value="${this._notes}"
+                      @blur="${e => {
+                        this._notes = e.target.value;
+                      }}"
+                      required
+                    ></textarea>
+
+                    <datalist id="teams">
+                      <option value="Anestesiologia">Anestesiologia</option>
+                      <option value="Broncoscopia">Broncoscopia</option>
+                      <option value="Cardiologia">Cardiologia</option>
+                      <option value="Cir. Buco-maxilo-facial">
+                        Cir. Buco-maxilo-facial
+                      </option>
+                      <option value="Cirurgia Cabeça e Pescoço">
+                        Cirurgia Cabeça e Pescoço
+                      </option>
+                      <option value="Cirurgia Geral">Cirurgia Geral</option>
+                      <option value="Cirurgia Oncológica">
+                        Cirurgia Oncológica
+                      </option>
+                      <option value="Cirurgia Pediátrica">
+                        Cirurgia Pediátrica
+                      </option>
+                      <option value="Cirurgia Plástica">
+                        Cirurgia Plástica
+                      </option>
+                      <option value="Cirurgia Torácica">
+                        Cirurgia Torácica
+                      </option>
+                      <option value="Cirurgia Vascular">
+                        Cirurgia Vascular
+                      </option>
+                      <option value="Endocrinologia">Endocrinologia</option>
+                      <option value="Gastroenterologia">
+                        Gastroenterologia
+                      </option>
+                      <option value="Ginecologia">Ginecologia</option>
+                      <option value="Mastologia">Mastologia</option>
+                      <option value="Nefrologia (Vascular)">
+                        Nefrologia (Vascular)
+                      </option>
+                      <option value="Neurocirurgia">Neurocirurgia</option>
+                      <option value="Neuroclínica">Neuroclínica</option>
+                      <option value="Obstetrícia">Obstetrícia</option>
+                      <option value="Odontologia">Odontologia</option>
+                      <option value="Oftalmologia">Oftalmologia</option>
+                      <option value="Ortopedia">Ortopedia</option>
+                      <option value="Proctologia">Proctologia</option>
+                      <option value="Transplante Renal">
+                        Transplante Renal
+                      </option>
+                      <option value="Transplante Hepático">
+                        Transplante Hepático
+                      </option>
+                      <option value="Urologia">Urologia</option>
+                    </datalist>
                   </div>
                 </div>
               </div>

@@ -82,6 +82,14 @@ module.exports = function (app) {
       type: DataTypes.STRING,
       allowNull: true,
     },
+    ptDestWard: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    ptDestBed: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     team:{
       type: DataTypes.STRING,
       allowNull: false,
@@ -226,8 +234,21 @@ module.exports = function (app) {
       type: DataTypes.STRING,
       allowNull: true,
     },
+    contaminationRisk: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    antibioticUse: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+      defaultValue: false,
+    },
     procGroup: {
       type: DataTypes.STRING,
+      allowNull: true,
+    },
+    notes: {
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     createdByUserName: {
