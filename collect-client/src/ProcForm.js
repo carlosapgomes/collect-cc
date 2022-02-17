@@ -1001,56 +1001,58 @@ export class ProcForm extends LitElement {
                         id="wasCanceled"
                         type="checkbox"
                         ?checked="${this._wasCanceled}"
-                        @blur="${e => {
+                        @click="${e => {
                           this._wasCanceled = e.target.checked;
                         }}"
                       />
                       <b>Foi cancelada?</b>
                     </label>
                 </div>
+                <fieldset ?disabled="${!this._wasCanceled}">
                 <div
                   class="field  
-                    is-horizontal"
+                  is-horizontal"
                 >
                   <div class="field-label is-normal
-                    is-flex is-flex-grow-0">
-                    <label class="label">Motivo</label>
-                  </div>
+                  is-flex is-flex-grow-0">
+                  <label class="label">Motivo</label>
+                </div>
                   <div class="field-body is-flex">
                     <div class="field">
-                      <input
-                        class="input"
-                        id="cancelationReason"
-                        list="cancelationReasons"
-                        type="text"
-                        placeholder=""
-                        .value="${this._cancelationReason}"
-                        @blur="${e => {
-                          this._cancelationReason = e.target.value;
-                        }}"
-                      />
-                      <datalist id="cancelationReasons">
-                        <option value="Falta de cirurgião"></option>
-                        <option value="Falta de anestesista"></option>
-                        <option value="Falta de enfermeiro"></option>
-                        <option value="Falta de técnico de enfermagem"></option>
-                        <option value="Falta de exames"></option>
-                        <option value="Falta de hemoderivados"></option>
-                        <option value="Falta de jejum"></option>
-                        <option value="Falta de material para o procedimento"></option>
-                        <option value="Falta de vaga UTI"></option>
-                        <option value="Falta de vaga CRPA"></option>
-                        <option value="Falta de TCLE"></option>
-                        <option value="Prioridade para Cir. Urgência"></option>
-                        <option value="Mudança de conduta médica"></option>
-                        <option value="Contra indicação anestésica"></option>
-                        <option value="Óbito"></option>
-                        <option value="Tempo cirúrgico excedido"></option>
-                        <option value="Transferência para outro Hospital"></option>
-                      </datalist>
+                    <input
+                      class="input"
+                      id="cancelationReason"
+                      list="cancelationReasons"
+                      type="text"
+                      placeholder=""
+                      .value="${this._cancelationReason}"
+                      @blur="${e => {
+                        this._cancelationReason = e.target.value;
+                      }}"
+                    />
+                    <datalist id="cancelationReasons">
+                      <option value="Falta de cirurgião"></option>
+                      <option value="Falta de anestesista"></option>
+                      <option value="Falta de enfermeiro"></option>
+                      <option value="Falta de técnico de enfermagem"></option>
+                      <option value="Falta de exames"></option>
+                      <option value="Falta de hemoderivados"></option>
+                      <option value="Falta de jejum"></option>
+                      <option value="Falta de material para o procedimento"></option>
+                      <option value="Falta de vaga UTI"></option>
+                      <option value="Falta de vaga CRPA"></option>
+                      <option value="Falta de TCLE"></option>
+                      <option value="Prioridade para Cir. Urgência"></option>
+                      <option value="Mudança de conduta médica"></option>
+                      <option value="Contra indicação anestésica"></option>
+                      <option value="Óbito"></option>
+                      <option value="Tempo cirúrgico excedido"></option>
+                      <option value="Transferência para outro Hospital"></option>
+                    </datalist>
                     </div>
                   </div>
                 </div>
+                </fieldset>
               </div>
               <div
                 class="is-flex is-flex-direction-row
@@ -1209,7 +1211,7 @@ export class ProcForm extends LitElement {
                         id="antibioticUse"
                         type="checkbox"
                         ?checked="${this._antibioticUse}"
-                        @blur="${e => {
+                        @click="${e => {
                           this._antibioticUse = e.target.checked;
                         }}"
                       />
