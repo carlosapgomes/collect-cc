@@ -14,13 +14,12 @@ export class ProcForm extends LitElement {
   static get properties() {
     return {
       // procedure: {type: Object},
+      editmode: { type: Boolean, state: true },
       _procExecPlace: { type: String, state: true },
       _currentProcStartDateTime: { type: String, state: true },
       _currentProcEndDateTime: { type: String, state: true },
       _currentAnestStartDateTime: { type: String, state: true },
       _currentAnestEndDateTime: { type: String, state: true },
-      _currentProcHour: { type: String, state: true },
-      _currentProcMinute: { type: String, state: true },
       patients: { type: Array },
       _currentPatient: { type: Object, state: true },
       _patientName: { type: String, state: true },
@@ -117,8 +116,6 @@ export class ProcForm extends LitElement {
     // console.log(JSON.stringify(d, null, 2));
     // eslint-disable-next-line no-console
     console.log(JSON.stringify(this._currentProcStartDateTime, null, 2));
-    this._currentProcHour = '00';
-    this._currentProcMinute = '00';
   }
 
   /**
@@ -246,8 +243,6 @@ export class ProcForm extends LitElement {
     this._procExecPlace = '';
     // @ts-ignore
     await document.getElementById('procedure-form').reset();
-    this._currentProcHour = '00';
-    this._currentProcMinute = '00';
     this._procedureName = '';
     this._procTypeDescr = '';
     this._activateProcTypeSearchDropDown = false;

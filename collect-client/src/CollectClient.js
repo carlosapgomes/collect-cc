@@ -19,6 +19,7 @@ export class CollectClient extends LitElement {
       _currentProcedure: { type: Object, state: true },
       _currentProceduresDate: { type: String, state: true },
       _showProcedureEdit: { type: Boolean, state: true },
+      _editProcedureMode: { type: Boolean, state: true },
       // procedures types
       _proceduresTypes: { type: Array, state: true },
       _procTypesRes: { type: Object, state: true },
@@ -104,6 +105,7 @@ export class CollectClient extends LitElement {
     this.addEventListener('login', this._handleLoginEvent);
 
     // Procedures
+    this._editProcedureMode = false;
     this.addEventListener('update-procedures-list', this._updateProceduresList);
     this.addEventListener('edit-procedure', this._editProcedure);
     // this.addEventListener('add-procedure', this._loadShowProcEdit);
@@ -1396,6 +1398,7 @@ export class CollectClient extends LitElement {
           .users="${this._users}"
           .patients="${this._patients}"
           .proctypes="${this._proceduresTypes}"
+          ?editmode="${this._editProcedureMode}"
         ></proc-form>
         <procs-view
           id="procsview"
