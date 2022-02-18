@@ -812,7 +812,6 @@ export class ProcForm extends LitElement {
                         @blur="${e => {
                           this._ward = e.target.value;
                         }}"
-                        required
                       />
                     </div>
                     <datalist id="wards">
@@ -1091,7 +1090,6 @@ export class ProcForm extends LitElement {
                         @input="${e => {
                           this._currentProcEndDateTime = e.target.value;
                         }}"
-                        required
                       />
                     </div>
                   </div>
@@ -1153,7 +1151,6 @@ export class ProcForm extends LitElement {
                         @blur="${e => {
                           this._typeOfSurgery = e.target.value;
                         }}"
-                        required
                       />
                       <datalist id="surgeryTypes">
                         <option value="Eletiva - Ambulatorial"></option>
@@ -1510,7 +1507,6 @@ export class ProcForm extends LitElement {
                               @input="${this._searchCirculatingNurse}"
                               .value="${this._circulatingNurseName}"
                               placeholder="buscar pelo nome ou Coren"
-                              required
                             />
                             <icon-search></icon-search>
                           </div>
@@ -1597,7 +1593,6 @@ export class ProcForm extends LitElement {
                         @blur="${e => {
                           this._anesthesiaSubType = e.target.value;
                         }}"
-                        required
                       />
                       <datalist id="anesthesiaSubTypes">
                         <option value="Anestesia Raquidiana"></option>
@@ -1628,7 +1623,6 @@ export class ProcForm extends LitElement {
                       @blur="${e => {
                         this._riskClassASA = e.target.value;
                       }}"
-                      required
                     />
                     <datalist id="riskClassesASA">
                       <option>ASA I</option>
@@ -1659,7 +1653,6 @@ export class ProcForm extends LitElement {
                         @input="${e => {
                           this._currentAnestStartDateTime = e.target.value;
                         }}"
-                        required
                       />
                     </div>
                   </div>
@@ -1678,7 +1671,6 @@ export class ProcForm extends LitElement {
                         @input="${e => {
                           this._currentAnestEndDateTime = e.target.value;
                         }}"
-                        required
                       />
                     </div>
                   </div>
@@ -1798,59 +1790,7 @@ export class ProcForm extends LitElement {
                       @blur="${e => {
                         this._notes = e.target.value;
                       }}"
-                      required
                     ></textarea>
-
-                    <datalist id="teams">
-                      <option value="Anestesiologia">Anestesiologia</option>
-                      <option value="Broncoscopia">Broncoscopia</option>
-                      <option value="Cardiologia">Cardiologia</option>
-                      <option value="Cir. Buco-maxilo-facial">
-                        Cir. Buco-maxilo-facial
-                      </option>
-                      <option value="Cirurgia Cabeça e Pescoço">
-                        Cirurgia Cabeça e Pescoço
-                      </option>
-                      <option value="Cirurgia Geral">Cirurgia Geral</option>
-                      <option value="Cirurgia Oncológica">
-                        Cirurgia Oncológica
-                      </option>
-                      <option value="Cirurgia Pediátrica">
-                        Cirurgia Pediátrica
-                      </option>
-                      <option value="Cirurgia Plástica">
-                        Cirurgia Plástica
-                      </option>
-                      <option value="Cirurgia Torácica">
-                        Cirurgia Torácica
-                      </option>
-                      <option value="Cirurgia Vascular">
-                        Cirurgia Vascular
-                      </option>
-                      <option value="Endocrinologia">Endocrinologia</option>
-                      <option value="Gastroenterologia">
-                        Gastroenterologia
-                      </option>
-                      <option value="Ginecologia">Ginecologia</option>
-                      <option value="Mastologia">Mastologia</option>
-                      <option value="Nefrologia (Vascular)">
-                        Nefrologia (Vascular)
-                      </option>
-                      <option value="Neurocirurgia">Neurocirurgia</option>
-                      <option value="Neuroclínica">Neuroclínica</option>
-                      <option value="Obstetrícia">Obstetrícia</option>
-                      <option value="Odontologia">Odontologia</option>
-                      <option value="Oftalmologia">Oftalmologia</option>
-                      <option value="Ortopedia">Ortopedia</option>
-                      <option value="Proctologia">Proctologia</option>
-                      <option value="Transplante Renal">
-                        Transplante Renal
-                      </option>
-                      <option value="Transplante Hepático">
-                        Transplante Hepático
-                      </option>
-                      <option value="Urologia">Urologia</option>
-                    </datalist>
                   </div>
                 </div>
               </div>
