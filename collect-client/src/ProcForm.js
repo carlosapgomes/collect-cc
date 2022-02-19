@@ -290,6 +290,9 @@ export class ProcForm extends LitElement {
 
       this._notes = this.procedure.notes;
     }
+    if (this.editmode === false && !this.procedure) {
+      this._clearFields();
+    }
   }
 
   _closeForm() {

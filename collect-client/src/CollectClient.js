@@ -67,7 +67,7 @@ export class CollectClient extends LitElement {
     this._modalMsg = '';
     this._procedures = null;
     this._spinnerHidden = true;
-    this._currentProcedure = {};
+    this._currentProcedure = null;
     this._currentProceduresDate = '';
     this._adminDropDownOpen = false;
     this._users = [];
@@ -117,8 +117,8 @@ export class CollectClient extends LitElement {
     });
     this.addEventListener('close-procedure-form', () => {
       this._currentProcedure = null;
-      this.editmode = false;
-      this._showProcedureEdit = false;
+      this._editProcedureMode = false;
+      // this._showProcedureEdit = false;
     });
 
     // Users
@@ -270,18 +270,16 @@ export class CollectClient extends LitElement {
           });
         }
         break;
-      // case 'procedit':
-      // if (typeof customElements.get('proc-edit') === 'undefined') {
-      // import('./proc-edit.js').then(() => {
-      // this._showProcedureEdit = true;
-      // });
-      // }
-      // break;
-      case 'procform':
+      case 'procedit':
         if (typeof customElements.get('proc-form') === 'undefined') {
-          import('./proc-form.js').then(() => {
-            // this._showProcedureEdit = true;
-          });
+          import('./proc-form.js').then(() => {});
+        }
+        break;
+      case 'procform':
+        this._editProcedureMode = false;
+        this._currentProcedure = null;
+        if (typeof customElements.get('proc-form') === 'undefined') {
+          import('./proc-form.js');
         }
         break;
       case 'procsview':
@@ -466,12 +464,12 @@ export class CollectClient extends LitElement {
     // eslint-disable-next-line no-console
     console.log('entering edit procedure...');
     // console.log(JSON.stringify(e.detail, null, 2));
-    this.editmode = true;
+    this._editProcedureMode = true;
     this._currentProcedure = { ...e.detail };
     // eslint-disable-next-line no-console
     console.log(this._currentProcedure);
     // this._loadShowProcEdit();
-    window.history.pushState({}, '', '/procform');
+    window.history.pushState({}, '', '/procedit');
     this._locationChanged(window.location);
   }
 
@@ -1240,7 +1238,7 @@ export class CollectClient extends LitElement {
           <a
             class="navbar-item has-text-black"
             href="#"
-            style="font-weight:bold;"
+            style="font-weight:bold; font-size:22px;"
           >
             Collect-CC
           </a>
@@ -1386,7 +1384,7 @@ export class CollectClient extends LitElement {
             <br />
             <br />
             <br />
-            <h1 class="title">Coleta de Produção do Centro Cirúrgico</h1>
+            <h1 class="title">Registro de Produção do Centro Cirúrgico</h1>
           </div>
         </section>
 
@@ -1397,7 +1395,9 @@ export class CollectClient extends LitElement {
           })}"
         ></login-form>
         <proc-form
-          class="${classMap({ 'is-hidden': this._page !== 'procform' })}"
+          class="${classMap({
+            'is-hidden': this._page !== 'procform' && this._page !== 'procedit',
+          })}"
           .user="${this._user}"
           .users="${this._users}"
           .patients="${this._patients}"
