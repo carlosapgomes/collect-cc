@@ -153,13 +153,19 @@ export class ProcForm extends LitElement {
 
       this._wasCanceled = this.procedure.wasCanceled;
       this._cancelationReason = this.procedure.cancelationReason;
+      // eslint-disable-next-line no-console
+      console.log(JSON.stringify('about to change dates'));
 
       this._currentProcStartDateTime = DateTime.fromSQL(
         this.procedure.procStartDateTime
-      );
+      ).toFormat("yyyy'-'LL'-'dd'T'HH:mm");
+      // eslint-disable-next-line no-console
+      console.log(this._currentProcStartDateTime);
       this._currentProcEndDateTime = DateTime.fromSQL(
         this.procedure.procEndDateTime
-      );
+      ).toFormat("yyyy'-'LL'-'dd'T'HH:mm");
+      // eslint-disable-next-line no-console
+      console.log(this._currentProcEndDateTime);
 
       this._surgicalComplexity = this.procedure.surgicalComplexity;
       this._typeOfSurgery = this.procedure.typeOfSurgery;
@@ -247,10 +253,10 @@ export class ProcForm extends LitElement {
 
       this._currentAnestStartDateTime = DateTime.fromSQL(
         this.procedure.anestStartDateTime
-      );
+      ).toFormat("yyyy'-'LL'-'dd'T'HH:mm");
       this._currentAnestEndDateTime = DateTime.fromSQL(
         this.procedure.anestEndDateTime
-      );
+      ).toFormat("yyyy'-'LL'-'dd'T'HH:mm");
 
       this._currentProcAnesthesiologists = [];
 
@@ -289,8 +295,7 @@ export class ProcForm extends LitElement {
       }
 
       this._notes = this.procedure.notes;
-    }
-    if (this.editmode === false && !this.procedure) {
+    } else if (!this.editmode && !this.procedure) {
       this._clearFields();
     }
   }
