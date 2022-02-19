@@ -40,7 +40,7 @@ module.exports = function (app) {
     },
     execPlace:{
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     ptName: {
       type: DataTypes.STRING,
@@ -63,7 +63,7 @@ module.exports = function (app) {
       allowNull: false,
     },
     ptGender: {
-      type: DataTypes.ENUM('M', 'F'),
+      type: DataTypes.ENUM('M', 'F','D','NA'),
       allowNull: false,
     },
     ptCity: {
@@ -96,7 +96,7 @@ module.exports = function (app) {
     },
     surgicalRoom:{
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     user1Name: {
       type: DataTypes.STRING,
