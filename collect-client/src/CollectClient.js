@@ -117,6 +117,7 @@ export class CollectClient extends LitElement {
     });
     this.addEventListener('close-procedure-form', () => {
       this._currentProcedure = null;
+      this.editmode = false;
       this._showProcedureEdit = false;
     });
 
@@ -343,7 +344,7 @@ export class CollectClient extends LitElement {
   // Procedures
   //
   _loadShowProcEdit() {
-    // dynamically load proc-form if neccessary
+    // dynamically load proc-edit if neccessary
     if (typeof customElements.get('proc-edit') === 'undefined') {
       import('./proc-edit.js').then(() => {});
     }
@@ -465,10 +466,13 @@ export class CollectClient extends LitElement {
     // eslint-disable-next-line no-console
     console.log('entering edit procedure...');
     // console.log(JSON.stringify(e.detail, null, 2));
+    this.editmode = true;
     this._currentProcedure = { ...e.detail };
     // eslint-disable-next-line no-console
     console.log(this._currentProcedure);
-    this._loadShowProcEdit();
+    // this._loadShowProcEdit();
+    window.history.pushState({}, '', '/procform');
+    this._locationChanged(window.location);
   }
 
   _removeProcedure(e) {
@@ -1399,6 +1403,7 @@ export class CollectClient extends LitElement {
           .patients="${this._patients}"
           .proctypes="${this._proceduresTypes}"
           ?editmode="${this._editProcedureMode}"
+          .procedure="${this._currentProcedure}"
         ></proc-form>
         <procs-view
           id="procsview"

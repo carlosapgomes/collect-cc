@@ -550,23 +550,14 @@ export class ProcForm extends LitElement {
     }
 
     // fire event to save/update procedure
-    if (this.editmode) {
-      this.dispatchEvent(
-        new CustomEvent('update-procedure-form', {
-          detail: p,
-          bubbles: true,
-          composed: true,
-        })
-      );
-    } else {
-      this.dispatchEvent(
-        new CustomEvent('save-procedure-form', {
-          detail: p,
-          bubbles: true,
-          composed: true,
-        })
-      );
-    }
+    this.dispatchEvent(
+      new CustomEvent('save-procedure-form', {
+        detail: p,
+        bubbles: true,
+        composed: true,
+      })
+    );
+
     // clear and close form
     this._closeForm();
   }
