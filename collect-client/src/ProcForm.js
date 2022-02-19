@@ -13,7 +13,7 @@ export class ProcForm extends LitElement {
 
   static get properties() {
     return {
-      // procedure: {type: Object},
+      procedure: { type: Object },
       editmode: { type: Boolean, state: true },
       _currentProcStartDateTime: { type: String, state: true },
       _currentProcEndDateTime: { type: String, state: true },
@@ -236,7 +236,7 @@ export class ProcForm extends LitElement {
       }
       this._circulatingNurse = {
         name: this.procedure.circulatingNurse,
-        ID: this.procedure.circulatingNurseID,
+        id: this.procedure.circulatingNurseID,
       };
       this._circulatingNurseName = this.procedure.circulatingNurse;
       this._circulatingNurseID = this.procedure.circulatingNurseID;
@@ -477,6 +477,7 @@ export class ProcForm extends LitElement {
     if (this.procedure && this.procedure.id) {
       // it is a procedure edit
       p.id = this.procedure.id;
+      p.createdByUserName = this.procedure.createdByUserName;
       p.createdByUserID = this.procedure.createdByUserID;
     } else {
       // it is a new procedure
@@ -549,13 +550,23 @@ export class ProcForm extends LitElement {
     }
 
     // fire event to save/update procedure
-    this.dispatchEvent(
-      new CustomEvent('save-procedure-form', {
-        detail: p,
-        bubbles: true,
-        composed: true,
-      })
-    );
+    if (this.editmode) {
+      this.dispatchEvent(
+        new CustomEvent('update-procedure-form', {
+          detail: p,
+          bubbles: true,
+          composed: true,
+        })
+      );
+    } else {
+      this.dispatchEvent(
+        new CustomEvent('save-procedure-form', {
+          detail: p,
+          bubbles: true,
+          composed: true,
+        })
+      );
+    }
     // clear and close form
     this._closeForm();
   }
@@ -765,7 +776,7 @@ export class ProcForm extends LitElement {
         <div class="column is-6 is-offset-3">
           <div class="container">
             <h1 class="subtitle has-text-centered is-3">
-              Adicionar Procedimento
+              ${this.editmode ? 'Editar' : 'Adicionar'} Procedimento
             </h1>
             <form autocomplete="off" id="procedure-form">
               <!-- patients dropdown search -->
@@ -821,7 +832,8 @@ export class ProcForm extends LitElement {
                                     e.preventDefault();
                                     this._patientSelected(p);
                                   }}"
-                                  >${p.name} - Reg: ${p.recNumber}</a
+                                >
+                                  ${p.name} - Reg: ${p.recNumber}</a
                                 >
                               `
                             )
