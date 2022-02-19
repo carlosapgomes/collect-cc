@@ -15,7 +15,6 @@ export class ProcForm extends LitElement {
     return {
       // procedure: {type: Object},
       editmode: { type: Boolean, state: true },
-      _procExecPlace: { type: String, state: true },
       _currentProcStartDateTime: { type: String, state: true },
       _currentProcEndDateTime: { type: String, state: true },
       _currentAnestStartDateTime: { type: String, state: true },
@@ -64,7 +63,6 @@ export class ProcForm extends LitElement {
 
   constructor() {
     super();
-    this._procExecPlace = '';
     this._patientName = '';
     this._circulatingNurse = {};
     this._circulatingNurseName = '';
@@ -121,112 +119,178 @@ export class ProcForm extends LitElement {
   /**
    * @param {{ has: (arg0: string) => any; }} changedProperties
    */
-  // updated(changedProperties) {
-  // if (changedProperties.has('procedure')) {
-  // if (this.procedure && this.procedure.procDateTime) {
-  // this._createEditLabel = "Editar";
-  // const procDateTime = DateTime.fromSQL(this.procedure.procDateTime);
-  // this._currentProcDate = procDateTime.toISODate();
-  // this._currentProcHour = procDateTime.hour.toLocaleString('pt-BR', {
-  // minimumIntegerDigits: 2,
-  // });
-  // this._currentProcMinute = procDateTime.minute.toLocaleString('pt-BR', {
-  // minimumIntegerDigits: 2,
-  // });
+  updated(changedProperties) {
+    if (
+      this.editmode &&
+      changedProperties.has('procedure') &&
+      this.procedure &&
+      this.procedure.procStartDateTime
+    ) {
+      // eslint-disable-next-line no-console
+      // console.log('procedure changed and is defined');
+      // eslint-disable-next-line no-console
+      // console.log(JSON.stringify(this.procedure, null, 2));
+      this._currentPatient = {
+        name: this.procedure.ptName,
+        recNumber: this.procedure.ptRecN,
+        id: this.procedure.ptID,
+        dateOfBirth: this.procedure.ptDateOfBirth,
+        gender: this.procedure.ptGender,
+      };
+      this._patientName = this._currentPatient.name;
 
-  // this._currentProcType = {
-  // descr: this.procedure.descr,
-  // code: this.procedure.code,
-  // };
-  // this.proctypes = [{...this._currentProcType}];
-  // this._procTypeDescr = this.procedure.descr;
+      this._bed = this.procedure.ptBed;
+      this._ward = this.procedure.ptWard;
+      this._destBed = this.procedure.ptDestBed;
+      this._destWard = this.procedure.ptDestWard;
 
-  // this._currentPatient = {
-  // name: this.procedure.ptName,
-  // recNumber: this.procedure.ptRecN,
-  // id: this.procedure.ptID,
-  // dateOfBirth: this.procedure.ptDateOfBirth,
-  // gender: this.procedure.ptGender,
-  // };
-  // this.patients = [{...this._currentPatient}];
-  // this._patientName = this._currentPatient.name;
+      this._currentProcType = {
+        descr: this.procedure.descr,
+        code: this.procedure.code,
+      };
+      this.proctypes = [{ ...this._currentProcType }];
+      this._procTypeDescr = this.procedure.descr;
 
-  // this._currentUser = {
-  // name: this.procedure.userName,
-  // id: this.procedure.userID,
-  // licenceNumber: this.procedure.userLicenceNumber,
-  // };
-  // this.users = [{...this._currentUser}];
+      this._wasCanceled = this.procedure.wasCanceled;
+      this._cancelationReason = this.procedure.cancelationReason;
 
-  // this._currentProcUsers = [];
-  // this._currentProcUsers.push({
-  // name: this.procedure.user1Name,
-  // id: this.procedure.user1ID,
-  // licenceNumber: this.procedure.user1LicenceNumber,
-  // });
+      this._currentProcStartDateTime = DateTime.fromSQL(
+        this.procedure.procStartDateTime
+      );
+      this._currentProcEndDateTime = DateTime.fromSQL(
+        this.procedure.procEndDateTime
+      );
 
-  // if (
-  // this.procedure.user2Name !== '' &&
-  // this.procedure.user2ID !== '' &&
-  // this.procedure.user2LicenceNumber !== ''
-  // ) {
-  // this._currentProcUsers.push({
-  // name: this.procedure.user2Name,
-  // id: this.procedure.user2ID,
-  // licenceNumber: this.procedure.user2LicenceNumber,
-  // });
-  // }
-  // if (
-  // this.procedure.user3Name !== '' &&
-  // this.procedure.user3ID !== '' &&
-  // this.procedure.user3LicenceNumber !== ''
-  // ) {
-  // this._currentProcUsers.push({
-  // name: this.procedure.user3Name,
-  // id: this.procedure.user3ID,
-  // licenceNumber: this.procedure.user3LicenceNumber,
-  // });
-  // }
-  // if (
-  // this.procedure.user4Name !== '' &&
-  // this.procedure.user4ID !== '' &&
-  // this.procedure.user4LicenceNumber !== ''
-  // ) {
-  // this._currentProcUsers.push({
-  // name: this.procedure.user4Name,
-  // id: this.procedure.user4ID,
-  // licenceNumber: this.procedure.user4LicenceNumber,
-  // });
-  // }
-  // if (
-  // this.procedure.user5Name !== '' &&
-  // this.procedure.user5ID !== '' &&
-  // this.procedure.user5LicenceNumber !== ''
-  // ) {
-  // this._currentProcUsers.push({
-  // name: this.procedure.user5Name,
-  // id: this.procedure.user5ID,
-  // licenceNumber: this.procedure.user5LicenceNumber,
-  // });
-  // }
-  // if (
-  // this.procedure.user6Name !== '' &&
-  // this.procedure.user6ID !== '' &&
-  // this.procedure.user6LicenceNumber !== ''
-  // ) {
-  // this._currentProcUsers.push({
-  // name: this.procedure.user6Name,
-  // id: this.procedure.user6ID,
-  // licenceNumber: this.procedure.user6LicenceNumber,
-  // });
-  // }
-  // this._bed = this.procedure.ptBed;
-  // this._ward = this.procedure.ptWard;
-  // this._procExecPlace = this.procedure.execPlace;
-  // this._team = this.procedure.team;
-  // }
-  // }
-  // }
+      this._surgicalComplexity = this.procedure.surgicalComplexity;
+      this._typeOfSurgery = this.procedure.typeOfSurgery;
+
+      this._contaminationRisk = this.procedure.contaminationRisk;
+      this._antibioticUse = this.procedure.antibioticUse;
+
+      this._procGroup = this.procedure.procGroup;
+      this._surgicalRoom = this.procedure.surgicalRoom;
+
+      this._team = this.procedure.team;
+
+      this._currentProcUsers = [];
+      this._currentProcUsers.push({
+        name: this.procedure.user1Name,
+        id: this.procedure.user1ID,
+        licenceNumber: this.procedure.user1LicenceNumber,
+      });
+
+      if (
+        this.procedure.user2Name !== '' &&
+        this.procedure.user2ID !== '' &&
+        this.procedure.user2LicenceNumber !== ''
+      ) {
+        this._currentProcUsers.push({
+          name: this.procedure.user2Name,
+          id: this.procedure.user2ID,
+          licenceNumber: this.procedure.user2LicenceNumber,
+        });
+      }
+      if (
+        this.procedure.user3Name !== '' &&
+        this.procedure.user3ID !== '' &&
+        this.procedure.user3LicenceNumber !== ''
+      ) {
+        this._currentProcUsers.push({
+          name: this.procedure.user3Name,
+          id: this.procedure.user3ID,
+          licenceNumber: this.procedure.user3LicenceNumber,
+        });
+      }
+      if (
+        this.procedure.user4Name !== '' &&
+        this.procedure.user4ID !== '' &&
+        this.procedure.user4LicenceNumber !== ''
+      ) {
+        this._currentProcUsers.push({
+          name: this.procedure.user4Name,
+          id: this.procedure.user4ID,
+          licenceNumber: this.procedure.user4LicenceNumber,
+        });
+      }
+      if (
+        this.procedure.user5Name !== '' &&
+        this.procedure.user5ID !== '' &&
+        this.procedure.user5LicenceNumber !== ''
+      ) {
+        this._currentProcUsers.push({
+          name: this.procedure.user5Name,
+          id: this.procedure.user5ID,
+          licenceNumber: this.procedure.user5LicenceNumber,
+        });
+      }
+      if (
+        this.procedure.user6Name !== '' &&
+        this.procedure.user6ID !== '' &&
+        this.procedure.user6LicenceNumber !== ''
+      ) {
+        this._currentProcUsers.push({
+          name: this.procedure.user6Name,
+          id: this.procedure.user6ID,
+          licenceNumber: this.procedure.user6LicenceNumber,
+        });
+      }
+      this._circulatingNurse = {
+        name: this.procedure.circulatingNurse,
+        ID: this.procedure.circulatingNurseID,
+      };
+      this._circulatingNurseName = this.procedure.circulatingNurse;
+      this._circulatingNurseID = this.procedure.circulatingNurseID;
+
+      this._anesthesiaType = this.procedure.anesthesiaType;
+      this._anesthesiaSubType = this.procedure.anesthesiaSubType;
+      this._riskClassASA = this.procedure._riskClassASA;
+
+      this._currentAnestStartDateTime = DateTime.fromSQL(
+        this.procedure.anestStartDateTime
+      );
+      this._currentAnestEndDateTime = DateTime.fromSQL(
+        this.procedure.anestEndDateTime
+      );
+
+      this._currentProcAnesthesiologists = [];
+
+      if (
+        this.procedure.anestesiologist1Name !== '' &&
+        this.procedure.anestesiologist1ID !== '' &&
+        this.procedure.anestesiologist1LicenceNumber !== ''
+      ) {
+        this._currentProcUsers.push({
+          name: this.procedure.anestesiologist1Name,
+          id: this.procedure.anestesiologist1ID,
+          licenceNumber: this.procedure.anestesiologist1LicenceNumber,
+        });
+      }
+      if (
+        this.procedure.anestesiologist2Name !== '' &&
+        this.procedure.anestesiologist2ID !== '' &&
+        this.procedure.anestesiologist2LicenceNumber !== ''
+      ) {
+        this._currentProcUsers.push({
+          name: this.procedure.anestesiologist2Name,
+          id: this.procedure.anestesiologist2ID,
+          licenceNumber: this.procedure.anestesiologist2LicenceNumber,
+        });
+      }
+      if (
+        this.procedure.anestesiologist3Name !== '' &&
+        this.procedure.anestesiologist3ID !== '' &&
+        this.procedure.anestesiologist3LicenceNumber !== ''
+      ) {
+        this._currentProcUsers.push({
+          name: this.procedure.anestesiologist3Name,
+          id: this.procedure.anestesiologist3ID,
+          licenceNumber: this.procedure.anestesiologist3LicenceNumber,
+        });
+      }
+
+      this._notes = this.procedure.notes;
+    }
+  }
 
   _closeForm() {
     // clear form
@@ -240,7 +304,6 @@ export class ProcForm extends LitElement {
   async _clearFields() {
     this.procedure = {};
     // this._createEditLabel = "Adicionar";
-    this._procExecPlace = '';
     // @ts-ignore
     await document.getElementById('procedure-form').reset();
     this._procedureName = '';
@@ -349,7 +412,6 @@ export class ProcForm extends LitElement {
     const p = {
       descr: this._currentProcType.descr,
       code: this._currentProcType.code,
-      execPlace: this._procExecPlace,
       procStartDateTime: procStartDateTime.toISO(),
       procEndDateTime: procEndDateTime.toISO(),
       procDuration: parseInt(procDuration.minutes, 10),
@@ -988,64 +1050,64 @@ export class ProcForm extends LitElement {
               >
                 <div
                   class="field  
-                   is-horizontal"
-                >
-                    <label class="checkbox">
-                      <input
-                        id="wasCanceled"
-                        type="checkbox"
-                        ?checked="${this._wasCanceled}"
-                        @click="${e => {
-                          this._wasCanceled = e.target.checked;
-                        }}"
-                      />
-                      <b>Foi cancelada?</b>
-                    </label>
-                </div>
-                <fieldset ?disabled="${!this._wasCanceled}">
-                <div
-                  class="field  
                   is-horizontal"
                 >
-                  <div class="field-label is-normal
-                  is-flex is-flex-grow-0">
-                  <label class="label">Motivo</label>
-                </div>
-                  <div class="field-body is-flex">
-                    <div class="field">
+                  <label class="checkbox">
                     <input
-                      class="input"
-                      id="cancelationReason"
-                      list="cancelationReasons"
-                      type="text"
-                      placeholder=""
-                      .value="${this._cancelationReason}"
-                      @blur="${e => {
-                        this._cancelationReason = e.target.value;
+                      id="wasCanceled"
+                      type="checkbox"
+                      ?checked="${this._wasCanceled}"
+                      @click="${e => {
+                        this._wasCanceled = e.target.checked;
                       }}"
                     />
-                    <datalist id="cancelationReasons">
-                      <option value="Falta de cirurgião"></option>
-                      <option value="Falta de anestesista"></option>
-                      <option value="Falta de enfermeiro"></option>
-                      <option value="Falta de técnico de enfermagem"></option>
-                      <option value="Falta de exames"></option>
-                      <option value="Falta de hemoderivados"></option>
-                      <option value="Falta de jejum"></option>
-                      <option value="Falta de material para o procedimento"></option>
-                      <option value="Falta de vaga UTI"></option>
-                      <option value="Falta de vaga CRPA"></option>
-                      <option value="Falta de TCLE"></option>
-                      <option value="Prioridade para Cir. Urgência"></option>
-                      <option value="Mudança de conduta médica"></option>
-                      <option value="Contra indicação anestésica"></option>
-                      <option value="Óbito"></option>
-                      <option value="Tempo cirúrgico excedido"></option>
-                      <option value="Transferência para outro Hospital"></option>
-                    </datalist>
+                    <b>Foi cancelada?</b>
+                  </label>
+                </div>
+                <fieldset ?disabled="${!this._wasCanceled}">
+                  <div
+                    class="field  
+                    is-horizontal"
+                  >
+                    <div class="field-label is-normal
+                      is-flex is-flex-grow-0">
+                      <label class="label">Motivo</label>
+                    </div>
+                    <div class="field-body is-flex">
+                      <div class="field">
+                        <input
+                          class="input"
+                          id="cancelationReason"
+                          list="cancelationReasons"
+                          type="text"
+                          placeholder=""
+                          .value="${this._cancelationReason}"
+                          @blur="${e => {
+                            this._cancelationReason = e.target.value;
+                          }}"
+                        />
+                        <datalist id="cancelationReasons">
+                          <option value="Falta de cirurgião"></option>
+                          <option value="Falta de anestesista"></option>
+                          <option value="Falta de enfermeiro"></option>
+                          <option value="Falta de técnico de enfermagem"></option>
+                          <option value="Falta de exames"></option>
+                          <option value="Falta de hemoderivados"></option>
+                          <option value="Falta de jejum"></option>
+                          <option value="Falta de material para o procedimento"></option>
+                          <option value="Falta de vaga UTI"></option>
+                          <option value="Falta de vaga CRPA"></option>
+                          <option value="Falta de TCLE"></option>
+                          <option value="Prioridade para Cir. Urgência"></option>
+                          <option value="Mudança de conduta médica"></option>
+                          <option value="Contra indicação anestésica"></option>
+                          <option value="Óbito"></option>
+                          <option value="Tempo cirúrgico excedido"></option>
+                          <option value="Transferência para outro Hospital"></option>
+                        </datalist>
+                      </div>
                     </div>
                   </div>
-                </div>
                 </fieldset>
               </div>
               <div
@@ -1166,7 +1228,7 @@ export class ProcForm extends LitElement {
               >
                 <div
                   class="field  
-                    is-horizontal"
+                  is-horizontal"
                 >
                   <div class="field-label is-normal
                     is-flex is-flex-grow-0">
@@ -1196,19 +1258,19 @@ export class ProcForm extends LitElement {
                 </div>
                 <div
                   class="field  
-                   is-horizontal"
+                  is-horizontal"
                 >
-                    <label class="checkbox">
-                      <input
-                        id="antibioticUse"
-                        type="checkbox"
-                        ?checked="${this._antibioticUse}"
-                        @click="${e => {
-                          this._antibioticUse = e.target.checked;
-                        }}"
-                      />
-                      <b>Usou antibiótico?</b>
-                    </label>
+                  <label class="checkbox">
+                    <input
+                      id="antibioticUse"
+                      type="checkbox"
+                      ?checked="${this._antibioticUse}"
+                      @click="${e => {
+                        this._antibioticUse = e.target.checked;
+                      }}"
+                    />
+                    <b>Usou antibiótico?</b>
+                  </label>
                 </div>
               </div>
               <!-- surgery group and surgical room  -->
@@ -1220,7 +1282,7 @@ export class ProcForm extends LitElement {
               >
                 <div
                   class="field  
-                    is-horizontal"
+                  is-horizontal"
                 >
                   <div class="field-label is-normal
                     is-flex is-flex-grow-0">
@@ -1268,7 +1330,7 @@ export class ProcForm extends LitElement {
                 </div>
                 <div
                   class="field  
-                   is-horizontal"
+                  is-horizontal"
                 >
                   <div class="field-label is-normal
                     is-flex is-flex-grow-0">
@@ -1544,31 +1606,31 @@ export class ProcForm extends LitElement {
                 "
               >
                 <div class="field 
-                   is-horizontal">
+                  is-horizontal">
                   <div class="field-label is-normal">
                     <label class="label">Tipo</label>
                   </div>
                   <div class="field-body">
                     <div class="field">
-                    <input
-                      class="input"
-                      id="anesthesiaType"
-                      list="anesthesiaTypes"
-                      type="text"
-                      placeholder="Tipo de Anestesia"
-                      .value="${this._anesthesiaType}"
-                      @blur="${e => {
-                        this._anesthesiaType = e.target.value;
-                      }}"
-                    />
+                      <input
+                        class="input"
+                        id="anesthesiaType"
+                        list="anesthesiaTypes"
+                        type="text"
+                        placeholder="Tipo de Anestesia"
+                        .value="${this._anesthesiaType}"
+                        @blur="${e => {
+                          this._anesthesiaType = e.target.value;
+                        }}"
+                      />
                       <datalist id="anesthesiaTypes">
-                      <option value="Anestesia Geral"></option>
-                      <option value="Anestesia Local"></option>
-                      <option value="Anestesia Regional"></option>
-                      <option value="Sedação"></option>
+                        <option value="Anestesia Geral"></option>
+                        <option value="Anestesia Local"></option>
+                        <option value="Anestesia Regional"></option>
+                        <option value="Sedação"></option>
                       </datalist>
                     </div>
-                    </div>
+                  </div>
                 </div>
                 <div class="field  
                   is-horizontal">
@@ -1801,8 +1863,8 @@ export class ProcForm extends LitElement {
                   Cancelar/Limpar
                 </button>
               </div>
-            </form>
-          </div>
+        </form>
+      </div>
         </div>
       </section>
     `;
