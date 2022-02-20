@@ -112,8 +112,6 @@ export class ProcForm extends LitElement {
     this._currentAnestEndDateTime = dShort;
     // eslint-disable-next-line no-console
     // console.log(JSON.stringify(d, null, 2));
-    // eslint-disable-next-line no-console
-    console.log(JSON.stringify(this._currentProcStartDateTime, null, 2));
   }
 
   /**
@@ -153,19 +151,13 @@ export class ProcForm extends LitElement {
 
       this._wasCanceled = this.procedure.wasCanceled;
       this._cancelationReason = this.procedure.cancelationReason;
-      // eslint-disable-next-line no-console
-      console.log(JSON.stringify('about to change dates'));
 
       this._currentProcStartDateTime = DateTime.fromSQL(
         this.procedure.procStartDateTime
       ).toFormat("yyyy'-'LL'-'dd'T'HH:mm");
-      // eslint-disable-next-line no-console
-      console.log(this._currentProcStartDateTime);
       this._currentProcEndDateTime = DateTime.fromSQL(
         this.procedure.procEndDateTime
       ).toFormat("yyyy'-'LL'-'dd'T'HH:mm");
-      // eslint-disable-next-line no-console
-      console.log(this._currentProcEndDateTime);
 
       this._surgicalComplexity = this.procedure.surgicalComplexity;
       this._typeOfSurgery = this.procedure.typeOfSurgery;
@@ -249,7 +241,7 @@ export class ProcForm extends LitElement {
 
       this._anesthesiaType = this.procedure.anesthesiaType;
       this._anesthesiaSubType = this.procedure.anesthesiaSubType;
-      this._riskClassASA = this.procedure._riskClassASA;
+      this._riskClassASA = this.procedure.riskClassASA;
 
       this._currentAnestStartDateTime = DateTime.fromSQL(
         this.procedure.anestStartDateTime
@@ -261,36 +253,36 @@ export class ProcForm extends LitElement {
       this._currentProcAnesthesiologists = [];
 
       if (
-        this.procedure.anestesiologist1Name !== '' &&
-        this.procedure.anestesiologist1ID !== '' &&
-        this.procedure.anestesiologist1LicenceNumber !== ''
+        this.procedure.anesthesiologist1Name !== '' &&
+        this.procedure.anesthesiologist1ID !== '' &&
+        this.procedure.anesthesiologist1LicenceNumber !== ''
       ) {
-        this._currentProcUsers.push({
-          name: this.procedure.anestesiologist1Name,
-          id: this.procedure.anestesiologist1ID,
-          licenceNumber: this.procedure.anestesiologist1LicenceNumber,
+        this._currentProcAnesthesiologists.push({
+          name: this.procedure.anesthesiologist1Name,
+          id: this.procedure.anesthesiologist1ID,
+          licenceNumber: this.procedure.anesthesiologist1LicenceNumber,
         });
       }
       if (
-        this.procedure.anestesiologist2Name !== '' &&
-        this.procedure.anestesiologist2ID !== '' &&
-        this.procedure.anestesiologist2LicenceNumber !== ''
+        this.procedure.anesthesiologist2Name !== '' &&
+        this.procedure.anesthesiologist2ID !== '' &&
+        this.procedure.anesthesiologist2LicenceNumber !== ''
       ) {
-        this._currentProcUsers.push({
-          name: this.procedure.anestesiologist2Name,
-          id: this.procedure.anestesiologist2ID,
-          licenceNumber: this.procedure.anestesiologist2LicenceNumber,
+        this._currentProcAnesthesiologists.push({
+          name: this.procedure.anesthesiologist2Name,
+          id: this.procedure.anesthesiologist2ID,
+          licenceNumber: this.procedure.anesthesiologist2LicenceNumber,
         });
       }
       if (
-        this.procedure.anestesiologist3Name !== '' &&
-        this.procedure.anestesiologist3ID !== '' &&
-        this.procedure.anestesiologist3LicenceNumber !== ''
+        this.procedure.anesthesiologist3Name !== '' &&
+        this.procedure.anesthesiologist3ID !== '' &&
+        this.procedure.anesthesiologist3LicenceNumber !== ''
       ) {
-        this._currentProcUsers.push({
-          name: this.procedure.anestesiologist3Name,
-          id: this.procedure.anestesiologist3ID,
-          licenceNumber: this.procedure.anestesiologist3LicenceNumber,
+        this._currentProcAnesthesiologists.push({
+          name: this.procedure.anesthesiologist3Name,
+          id: this.procedure.anesthesiologist3ID,
+          licenceNumber: this.procedure.anesthesiologist3LicenceNumber,
         });
       }
 
@@ -364,7 +356,7 @@ export class ProcForm extends LitElement {
   _saveForm(e) {
     e.preventDefault();
     if (document.getElementById('procedure-form').reportValidity()) {
-      if (this._currentProcUsers.length > 0) {
+      if (this._wasCanceled || this._currentProcUsers.length > 0) {
         this._handleSaveForm();
       } else if (this._currentProcUsers.length === 0) {
         this.dispatchEvent(
@@ -379,16 +371,6 @@ export class ProcForm extends LitElement {
   }
 
   _handleSaveForm() {
-    // eslint-disable-next-line no-console
-    // console.log(
-    // `currentProcDate: ${this._currentProcDate}\n
-    // currentProcHour: ${this._currentProcHour}\n
-    // currentProcMinute: ${this._currentProcMinute}`
-    // );
-
-    // const dateTime = DateTime.fromISO(
-    // `${this._currentProcDate}T${this._currentProcHour}:${this._currentProcMinute}:00.000-03:00`
-    // );
     const procStartDateTime = DateTime.fromISO(this._currentProcStartDateTime);
     const procEndDateTime = DateTime.fromISO(this._currentProcEndDateTime);
     const procDuration = procEndDateTime
@@ -401,21 +383,9 @@ export class ProcForm extends LitElement {
     const anestDuration = anestEndDateTime
       .diff(anestStartDateTime, 'minutes')
       .toObject();
-    // eslint-disable-next-line no-console
-    // console.log(JSON.stringify(dateTime, null, 2));
-    // eslint-disable-next-line no-console
-    // console.log(`pt dateOfBirth: ${this._currentPatient.dateOfBirth}`);
     const ptDOB = DateTime.fromSQL(this._currentPatient.dateOfBirth);
-    // eslint-disable-next-line no-console
-    // console.log(`ptDOB: ${ptDOB}`);
     const ageObj = procStartDateTime.diff(ptDOB, 'years').toObject();
     const age = parseInt(ageObj.years, 10);
-    // eslint-disable-next-line no-console
-    // console.log(`age: ${age} years`);
-    // eslint-disable-next-line no-console
-    // console.log(`dateTime.format: ${dateTime.toISO()}`);
-    // eslint-disable-next-line no-console
-    // console.log(`pt dateOfBirth: ${ptDOB.toISO()}`);
 
     const p = {
       descr: this._currentProcType.descr,
@@ -478,6 +448,7 @@ export class ProcForm extends LitElement {
       anesthesiologist3ID: '',
       anesthesiaType: this._anesthesiaType,
       anesthesiaSubType: this._anesthesiaSubType,
+      riskClassASA: this._riskClassASA,
       notes: this._notes,
       updatedByUserName: this.user.name,
       updatedByUserID: this.user.id,
@@ -533,26 +504,26 @@ export class ProcForm extends LitElement {
     if (
       this._circulatingNurse &&
       this._circulatingNurse.name &&
-      this.circulatingNurseID
+      this._circulatingNurse.id
     ) {
       p.circulatingNurse = this._circulatingNurse.name;
-      p.circulatingNurseID = this._circulatingNurseID;
+      p.circulatingNurseID = this._circulatingNurse.id;
     }
     if (this._currentProcAnesthesiologists.length > 0) {
       const u = this._currentProcAnesthesiologists.shift();
-      p.anestesiologist1Name = u.name;
+      p.anesthesiologist1Name = u.name;
       p.anesthesiologist1ID = u.id;
       p.anesthesiologist1LicenceNumber = u.licenceNumber;
     }
     if (this._currentProcAnesthesiologists.length > 0) {
       const u = this._currentProcAnesthesiologists.shift();
-      p.anestesiologist2Name = u.name;
+      p.anesthesiologist2Name = u.name;
       p.anesthesiologist2ID = u.id;
       p.anesthesiologist2LicenceNumber = u.licenceNumber;
     }
     if (this._currentProcAnesthesiologists.length > 0) {
       const u = this._currentProcAnesthesiologists.shift();
-      p.anestesiologist3Name = u.name;
+      p.anesthesiologist3Name = u.name;
       p.anesthesiologist3ID = u.id;
       p.anesthesiologist3LicenceNumber = u.licenceNumber;
     }
