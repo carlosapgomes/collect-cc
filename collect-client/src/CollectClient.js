@@ -427,7 +427,6 @@ export class CollectClient extends LitElement {
         // console.log(procsList.data);
         // eslint-disable-next-line no-console
         // console.log(JSON.stringify(procsList, null, 2));
-        this._spinnerHidden = true;
         if (typeof procsList.data !== 'undefined') {
           // we got some data
           this._procsres = { ...procsList };
@@ -440,8 +439,10 @@ export class CollectClient extends LitElement {
           e.detail.$paginate === false
         ) {
           // console.log(JSON.stringify(e.detail, null, 2));
+          this._spinnerHidden = false;
           sheets([...procsList], { ...this._user });
         }
+        this._spinnerHidden = true;
       } catch (err) {
         this._spinnerHidden = true;
         this._modalMsg = `Erro ao buscar lista de procedimentos: ${err}`;
