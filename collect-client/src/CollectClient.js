@@ -108,7 +108,6 @@ export class CollectClient extends LitElement {
     this._editProcedureMode = false;
     this.addEventListener('update-procedures-list', this._updateProceduresList);
     this.addEventListener('edit-procedure', this._editProcedure);
-    // this.addEventListener('add-procedure', this._loadShowProcEdit);
     this.addEventListener('remove-procedure', this._removeProcedure);
     this.addEventListener('save-procedure-form', this._saveProcedure);
     this.addEventListener('close-procedure-edit', () => {
@@ -341,15 +340,6 @@ export class CollectClient extends LitElement {
   //
   // Procedures
   //
-  _loadShowProcEdit() {
-    // dynamically load proc-edit if neccessary
-    if (typeof customElements.get('proc-edit') === 'undefined') {
-      import('./proc-edit.js').then(() => {});
-    }
-    this._showProcedureEdit = true;
-    // window.history.pushState({}, '', '/procedit');
-    // this._locationChanged(window.location);
-  }
 
   async _updateProceduresList(e) {
     if (this._user.isLoginEnabled) {
@@ -462,13 +452,12 @@ export class CollectClient extends LitElement {
 
   _editProcedure(e) {
     // eslint-disable-next-line no-console
-    console.log('entering edit procedure...');
+    // console.log('entering edit procedure...');
     // console.log(JSON.stringify(e.detail, null, 2));
     this._editProcedureMode = true;
     this._currentProcedure = { ...e.detail };
     // eslint-disable-next-line no-console
-    console.log(this._currentProcedure);
-    // this._loadShowProcEdit();
+    // console.log(this._currentProcedure);
     window.history.pushState({}, '', '/procedit');
     this._locationChanged(window.location);
   }
@@ -1446,15 +1435,6 @@ export class CollectClient extends LitElement {
       </footer>
 
       <!-- dynamic elements -->
-      <proc-edit
-        class="${classMap({ 'is-hidden': !this._showProcedureEdit })}"
-        ?activate="${this._showProcedureEdit}"
-        .user="${this._user}"
-        .users="${this._users}"
-        .procedure="${this._currentProcedure}"
-        .patients="${this._patients}"
-        .proctypes="${this._proceduresTypes}"
-      ></proc-edit>
       <user-form
         class="${classMap({ 'is-hidden': !this._showUserForm })}"
         ?activate="${this._showUserForm}"
