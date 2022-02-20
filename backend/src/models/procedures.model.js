@@ -38,10 +38,10 @@ module.exports = function (app) {
       type: DataTypes.NUMBER,
       allowNull: false,
     },
-    execPlace:{
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
+    // execPlace:{
+    // type: DataTypes.STRING,
+    // allowNull: true,
+    // },
     ptName: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -178,39 +178,39 @@ module.exports = function (app) {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    anestesiologist1Name: {
+    anesthesiologist1Name: {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    anestesiologist1LicenceNumber: {
+    anesthesiologist1LicenceNumber: {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    anestesiologist1ID: {
+    anesthesiologist1ID: {
       type: DataTypes.STRING,
       allowNull: true,
     },    
-    anestesiologist2Name: {
+    anesthesiologist2Name: {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    anestesiologist2LicenceNumber: {
+    anesthesiologist2LicenceNumber: {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    anestesiologist2ID: {
+    anesthesiologist2ID: {
       type: DataTypes.STRING,
       allowNull: true,
     },    
-    anestesiologist3Name: {
+    anesthesiologist3Name: {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    anestesiologist3LicenceNumber: {
+    anesthesiologist3LicenceNumber: {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    anestesiologist3ID: {
+    anesthesiologist3ID: {
       type: DataTypes.STRING,
       allowNull: true,
     },    
