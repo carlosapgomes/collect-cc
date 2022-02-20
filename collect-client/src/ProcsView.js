@@ -411,14 +411,53 @@ export class ProcsView extends LitElement {
                       }}"
                     >
                       <option value="all">Todas</option>
+                      <option value="Anestesiologia">Anestesiologia</option>
+                      <option value="Broncoscopia">Broncoscopia</option>
+                      <option value="Cardiologia">Cardiologia</option>
+                      <option value="Cir. Buco-maxilo-facial">
+                        Cir. Buco-maxilo-facial
+                      </option>
+                      <option value="Cirurgia Cabeça e Pescoço">
+                        Cirurgia Cabeça e Pescoço
+                      </option>
                       <option value="Cirurgia Geral">Cirurgia Geral</option>
-                      <option value="Cirurgia Plástica">Cirurgia Plástica</option>
-                      <option value="Cirurgia Pediátrica">Cirurgia Pediátrica</option>
-                      <option value="Cirurgia Vascular">Cirurgia Vascular</option>
-                      <option value="Ginecologia Obstetrícia">Ginecologia Obstetrícia</option>
+                      <option value="Cirurgia Oncológica">
+                        Cirurgia Oncológica
+                      </option>
+                      <option value="Cirurgia Pediátrica">
+                        Cirurgia Pediátrica
+                      </option>
+                      <option value="Cirurgia Plástica">
+                        Cirurgia Plástica
+                      </option>
+                      <option value="Cirurgia Torácica">
+                        Cirurgia Torácica
+                      </option>
+                      <option value="Cirurgia Vascular">
+                        Cirurgia Vascular
+                      </option>
+                      <option value="Endocrinologia">Endocrinologia</option>
+                      <option value="Gastroenterologia">
+                        Gastroenterologia
+                      </option>
+                      <option value="Ginecologia">Ginecologia</option>
+                      <option value="Mastologia">Mastologia</option>
+                      <option value="Nefrologia (Vascular)">
+                        Nefrologia (Vascular)
+                      </option>
                       <option value="Neurocirurgia">Neurocirurgia</option>
+                      <option value="Neuroclínica">Neuroclínica</option>
+                      <option value="Obstetrícia">Obstetrícia</option>
+                      <option value="Odontologia">Odontologia</option>
+                      <option value="Oftalmologia">Oftalmologia</option>
+                      <option value="Ortopedia">Ortopedia</option>
                       <option value="Proctologia">Proctologia</option>
-                      <option value="Radiointervensão">Radiointervensão</option>
+                      <option value="Transplante Renal">
+                        Transplante Renal
+                      </option>
+                      <option value="Transplante Hepático">
+                        Transplante Hepático
+                      </option>
                       <option value="Urologia">Urologia</option>
                     </select>
                   </div>
