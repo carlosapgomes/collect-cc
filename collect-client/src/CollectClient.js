@@ -444,7 +444,7 @@ export class CollectClient extends LitElement {
         }
       } catch (err) {
         this._spinnerHidden = true;
-        this._modalMsg = `Erro ao buscar lista de tipos de procedimentos: ${err}`;
+        this._modalMsg = `Erro ao buscar lista de procedimentos: ${err}`;
         this._toggleModal = true;
       }
     }
