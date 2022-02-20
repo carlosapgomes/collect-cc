@@ -38,10 +38,6 @@ module.exports = function (app) {
       type: DataTypes.NUMBER,
       allowNull: false,
     },
-    // execPlace:{
-    // type: DataTypes.STRING,
-    // allowNull: true,
-    // },
     ptName: {
       type: DataTypes.STRING,
       allowNull: false,
