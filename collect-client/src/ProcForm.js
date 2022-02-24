@@ -162,16 +162,16 @@ export class ProcForm extends LitElement {
 
       this._currentProcPtAtSiteDateTime = DateTime.fromSQL(
         this.procedure.ptAtSiteDateTime
-      ).toFormat('yyyy-LL-ddTHH:mm');
+      ).toFormat("yyyy'-'LL'-'dd'T'HH:mm");
       this._currentProcSurgeonAtSiteDateTime = DateTime.fromSQL(
         this.procedure.surgeonAtSiteDateTime
-      ).toFormat('yyyy-LL-ddTHH:mm');
+      ).toFormat("yyyy'-'LL'-'dd'T'HH:mm");
       this._currentProcAnestAtSiteDateTime = DateTime.fromSQL(
         this.procedure.anestAtSiteDateTime
-      ).toFormat('yyyy-LL-ddTHH:mm');
+      ).toFormat("yyyy'-'LL'-'dd'T'HH:mm");
       this._currentProcStartAuthByAnestDateTime = DateTime.fromSQL(
         this.procedure.startOfProcAuthByAnestDateTime
-      ).toFormat('yyyy-LL-ddTHH:mm');
+      ).toFormat("yyyy'-'LL'-'dd'T'HH:mm");
       this._currentProcStartDateTime = DateTime.fromSQL(
         this.procedure.procStartDateTime
       ).toFormat("yyyy'-'LL'-'dd'T'HH:mm");
@@ -399,7 +399,7 @@ export class ProcForm extends LitElement {
       this._currentProcPtAtSiteDateTime
     );
     const surgeonAtSiteDateTime = DateTime.fromISO(
-      this._currentProcSurgAtSiteDateTime
+      this._currentProcSurgeonAtSiteDateTime
     );
     const anestAtSiteDateTime = DateTime.fromISO(
       this._currentProcAnestAtSiteDateTime
@@ -1024,7 +1024,7 @@ export class ProcForm extends LitElement {
                         type="datetime-local"
                         .value="${this._currentProcSurgeonAtSiteDateTime}"
                         @input="${e => {
-                          this._currentProcPtSurgeonSiteDateTime =
+                          this._currentProcSurgeonAtSiteDateTime =
                             e.target.value;
                         }}"
                         required
