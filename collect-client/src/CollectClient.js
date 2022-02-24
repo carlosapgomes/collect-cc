@@ -728,7 +728,7 @@ export class CollectClient extends LitElement {
     if (this._user.isLoginEnabled) {
       this._users = [];
       // eslint-disable-next-line no-console
-      console.log(`searching for users: ${e.detail}`);
+      // console.log(`searching for users: ${e.detail}`);
       this._spinnerHidden = false;
       let skip = 0;
       if (e.detail && e.detail.skip) {
