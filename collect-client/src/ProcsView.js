@@ -130,35 +130,48 @@ export class ProcsView extends LitElement {
   _updateProcedures(e) {
     e.preventDefault();
     const dt = this.date.toISO();
-    if (this.user.isAdmin) {
-      this.dispatchEvent(
-        new CustomEvent('update-procedures-list', {
-          detail: {
-            searchByDate: this._searchByDate,
-            searchByPersonTeam: this._searchByPersonTeam,
-            date: dt,
-            searchID: this._currentSearchUserID,
-            searchTeam: this._currentSearchTeam,
-          },
-          bubbles: true,
-          composed: true,
-        })
-      );
-    } else {
-      this.dispatchEvent(
-        new CustomEvent('update-procedures-list', {
-          detail: {
-            searchByDate: this._searchByDate,
-            searchByPersonTeam: 'person',
-            date: dt,
-            searchID: this.user.id,
-            searchTeam: '',
-          },
-          bubbles: true,
-          composed: true,
-        })
-      );
-    }
+    this.dispatchEvent(
+      new CustomEvent('update-procedures-list', {
+        detail: {
+          searchByDate: this._searchByDate,
+          searchByPersonTeam: this._searchByPersonTeam,
+          date: dt,
+          searchID: this._currentSearchUserID,
+          searchTeam: this._currentSearchTeam,
+        },
+        bubbles: true,
+        composed: true,
+      })
+    );
+    // if (this.user.isAdmin) {
+    // this.dispatchEvent(
+    // new CustomEvent('update-procedures-list', {
+    // detail: {
+    // searchByDate: this._searchByDate,
+    // searchByPersonTeam: this._searchByPersonTeam,
+    // date: dt,
+    // searchID: this._currentSearchUserID,
+    // searchTeam: this._currentSearchTeam,
+    // },
+    // bubbles: true,
+    // composed: true,
+    // })
+    // );
+    // } else {
+    // this.dispatchEvent(
+    // new CustomEvent('update-procedures-list', {
+    // detail: {
+    // searchByDate: this._searchByDate,
+    // searchByPersonTeam: 'person',
+    // date: dt,
+    // searchID: this.user.id,
+    // searchTeam: '',
+    // },
+    // bubbles: true,
+    // composed: true,
+    // })
+    // );
+    // }
   }
 
   _searchUser(e) {
@@ -316,9 +329,7 @@ export class ProcsView extends LitElement {
                   />
                 </div></div>
 
-              <div class="${classMap({
-                'is-hidden': this.user && !this.user.isAdmin,
-              })}">
+              <div>
                 <div class="field is-horizontal">
                   <div class="field-body">    
                     <div class="field">
