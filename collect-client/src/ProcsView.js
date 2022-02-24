@@ -513,24 +513,16 @@ export class ProcsView extends LitElement {
                                   ?disabled=${!this.user ||
                                   !(
                                     this.user.isAdmin ||
-                                    (this.user.id.toString() ===
-                                      p.createdByUserID &&
-                                      this.timestamp
-                                        .diff(DateTime.fromSQL(p.createdAt))
-                                        .as('hours') < 48)
+                                    this.timestamp
+                                      .diff(DateTime.fromSQL(p.createdAt))
+                                      .as('hours') < 48
                                   )}
                                   class="button is-white
                                 is-align-self-flex-end
                                 has-tooltip-arrow
                                 has-tooltip-top
                                 ${classMap({
-                                    'is-hidden':
-                                      !this.user ||
-                                      !(
-                                        this.user.isAdmin ||
-                                        this.user.id.toString() ===
-                                          p.createdByUserID
-                                      ),
+                                    'is-hidden': !this.user,
                                   })}"
                                   data-tooltip="Editar"
                                   @click="${() => {
