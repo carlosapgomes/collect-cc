@@ -527,30 +527,21 @@ export class CollectClient extends LitElement {
         try {
           // eslint-disable-next-line no-console
           console.log('updating procedure');
-          // verify if current user isAdmin or has created this
-          // procedure himself
-          if (
-            this._user.isAdmin ||
-            this._user.id.toString() === p.createdByUserID
-          ) {
-            // remove procedure's property that must never changed
-            delete p.createdByUserID;
-            await this.client.service('procedures').patch(p.id, { ...p });
-            this._spinnerHidden = true;
-            this._modalMsg = 'Procedimento gravado com sucesso!';
-            this._toggleModal = true;
-            // eslint-disable-next-line no-console
-            // console.log(`Procedure updated: ${JSON.stringify(res, null, 2)}`);
-            this.dispatchEvent(
-              new CustomEvent('update-procedures-list', {
-                detail: { queryByDate: p.procStartDateTime },
-                bubbles: true,
-                composed: true,
-              })
-            );
-          } else {
-            throw new Error('Current user can not update this procedure');
-          }
+          // remove procedure's property that must never changed
+          delete p.createdByUserID;
+          await this.client.service('procedures').patch(p.id, { ...p });
+          this._spinnerHidden = true;
+          this._modalMsg = 'Procedimento gravado com sucesso!';
+          this._toggleModal = true;
+          // eslint-disable-next-line no-console
+          // console.log(`Procedure updated: ${JSON.stringify(res, null, 2)}`);
+          this.dispatchEvent(
+            new CustomEvent('update-procedures-list', {
+              detail: { queryByDate: p.procStartDateTime },
+              bubbles: true,
+              composed: true,
+            })
+          );
         } catch (err) {
           // eslint-disable-next-line no-console
           console.log(`could not update procedure: ${err}`);
