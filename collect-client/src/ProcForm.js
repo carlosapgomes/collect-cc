@@ -15,6 +15,10 @@ export class ProcForm extends LitElement {
     return {
       procedure: { type: Object },
       editmode: { type: Boolean, state: true },
+      _currentProcPtAtSiteDateTime: { type: String, state: true },
+      _currentProcSurgeonAtSiteDateTime: { type: String, state: true },
+      _currentProcAnestAtSiteDateTime: { type: String, state: true },
+      _currentProcStartAuthByAnestDateTime: { type: String, state: true },
       _currentProcStartDateTime: { type: String, state: true },
       _currentProcEndDateTime: { type: String, state: true },
       _currentAnestStartDateTime: { type: String, state: true },
@@ -106,6 +110,10 @@ export class ProcForm extends LitElement {
     const d = DateTime.local().toISO();
     // remove seconds and milliseconds from iso string date
     const dShort = d.slice(0, 16);
+    this._currentProcPtAtSiteDateTime = dShort;
+    this._currentProcSurgeonAtSiteDateTime = dShort;
+    this._currentProcAnestAtSiteDateTime = dShort;
+    this._currentProcStartAuthByAnestDateTime = dShort;
     this._currentProcStartDateTime = dShort;
     this._currentProcEndDateTime = dShort;
     this._currentAnestStartDateTime = dShort;
@@ -152,6 +160,18 @@ export class ProcForm extends LitElement {
       this._wasCanceled = this.procedure.wasCanceled;
       this._cancelationReason = this.procedure.cancelationReason;
 
+      this._currentProcPtAtSiteDateTime = DateTime.fromSQL(
+        this.procedure.ptAtSiteDateTime
+      ).toFormat('yyyy-LL-ddTHH:mm');
+      this._currentProcSurgeonAtSiteDateTime = DateTime.fromSQL(
+        this.procedure.surgeonAtSiteDateTime
+      ).toFormat('yyyy-LL-ddTHH:mm');
+      this._currentProcAnestAtSiteDateTime = DateTime.fromSQL(
+        this.procedure.anestAtSiteDateTime
+      ).toFormat('yyyy-LL-ddTHH:mm');
+      this._currentProcStartAuthByAnestDateTime = DateTime.fromSQL(
+        this.procedure.startOfProcAuthByAnestDateTime
+      ).toFormat('yyyy-LL-ddTHH:mm');
       this._currentProcStartDateTime = DateTime.fromSQL(
         this.procedure.procStartDateTime
       ).toFormat("yyyy'-'LL'-'dd'T'HH:mm");
@@ -346,6 +366,10 @@ export class ProcForm extends LitElement {
       const d = DateTime.local().toISO();
       // remove seconds and milliseconds from iso string date
       const dShort = d.slice(0, 16);
+      this._currentProcPtAtSiteDateTime = dShort;
+      this._currentProcSurgeonAtSiteDateTime = dShort;
+      this._currentProcAnestAtSiteDateTime = dShort;
+      this._currentProcStartAuthByAnestDateTime = dShort;
       this._currentProcStartDateTime = dShort;
       this._currentProcEndDateTime = dShort;
       this._currentAnestStartDateTime = dShort;
@@ -371,6 +395,18 @@ export class ProcForm extends LitElement {
   }
 
   _handleSaveForm() {
+    const ptAtSiteDateTime = DateTime.fromISO(
+      this._currentProcPtAtSiteDateTime
+    );
+    const surgeonAtSiteDateTime = DateTime.fromISO(
+      this._currentProcSurgAtSiteDateTime
+    );
+    const anestAtSiteDateTime = DateTime.fromISO(
+      this._currentProcAnestAtSiteDateTime
+    );
+    const startOfProcAuthByAnestDateTime = DateTime.fromISO(
+      this._currentProcStartAuthByAnestDateTime
+    );
     const procStartDateTime = DateTime.fromISO(this._currentProcStartDateTime);
     const procEndDateTime = DateTime.fromISO(this._currentProcEndDateTime);
     const procDuration = procEndDateTime
@@ -390,6 +426,10 @@ export class ProcForm extends LitElement {
     const p = {
       descr: this._currentProcType.descr,
       code: this._currentProcType.code,
+      ptAtSiteDateTime: ptAtSiteDateTime.toISO(),
+      surgeonAtSiteDateTime: surgeonAtSiteDateTime.toISO(),
+      anestAtSiteDateTime: anestAtSiteDateTime.toISO(),
+      startOfProcAuthByAnestDateTime: startOfProcAuthByAnestDateTime.toISO(),
       procStartDateTime: procStartDateTime.toISO(),
       procEndDateTime: procEndDateTime.toISO(),
       procDuration: parseInt(procDuration.minutes, 10),
@@ -802,8 +842,7 @@ export class ProcForm extends LitElement {
                                     e.preventDefault();
                                     this._patientSelected(p);
                                   }}"
-                                >
-                                  ${p.name} - Reg: ${p.recNumber}</a
+                                  >${p.name} - Reg: ${p.recNumber}</a
                                 >
                               `
                             )
@@ -954,6 +993,84 @@ export class ProcForm extends LitElement {
                   </div>
                 </div>
               </div>
+                <div class="field is-horizontal">
+                  <div class="field-label is-normal">
+                    <label><b>Paciente em sala</b></label>
+                  </div>
+                  <div class="field-body">
+                    <div class="field">
+                      <input
+                        class="input"
+                        id="ptatsitedatetime"
+                        type="datetime-local"
+                        .value="${this._currentProcPtAtSiteDateTime}"
+                        @input="${e => {
+                          this._currentProcPtAtSiteDateTime = e.target.value;
+                        }}"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="field is-horizontal">
+                  <div class="field-label is-normal">
+                    <label><b>Cirurgião em sala</b></label>
+                  </div>
+                  <div class="field-body">
+                    <div class="field">
+                      <input
+                        class="input"
+                        id="surgeonatsitedatetime"
+                        type="datetime-local"
+                        .value="${this._currentProcSurgeonAtSiteDateTime}"
+                        @input="${e => {
+                          this._currentProcPtSurgeonSiteDateTime =
+                            e.target.value;
+                        }}"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="field is-horizontal">
+                  <div class="field-label is-normal">
+                    <label><b>Anestesista em sala</b></label>
+                  </div>
+                  <div class="field-body">
+                    <div class="field">
+                      <input
+                        class="input"
+                        id="anestatsitedatetime"
+                        type="datetime-local"
+                        .value="${this._currentProcAnestAtSiteDateTime}"
+                        @input="${e => {
+                          this._currentProcAnestAtSiteDateTime = e.target.value;
+                        }}"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="field is-horizontal">
+                  <div class="field-label is-normal">
+                    <label><b>Liberação para início</b></label>
+                  </div>
+                  <div class="field-body">
+                    <div class="field">
+                      <input
+                        class="input"
+                        id="startofprocauthbyanestdatetime"
+                        type="datetime-local"
+                        .value="${this._currentProcStartAuthByAnestDateTime}"
+                        @input="${e => {
+                          this._currentProcStartAuthByAnestDateTime =
+                            e.target.value;
+                        }}"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
               <!-- procedure type dropdown search -->
               <div
                 class="dropdown is-expanded 

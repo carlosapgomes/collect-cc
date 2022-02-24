@@ -14,6 +14,27 @@ module.exports = function (app) {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    // DateTime of patient arrival at surgical room
+    ptAtSiteDateTime: { 
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    // DateTime of surgeon arrival at surgical room
+    surgeonAtSiteDateTime: { 
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    // DateTime of anesthesiologist arrival at surgical room
+    anestAtSiteDateTime: { 
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    // DateTime of authorization for the procedure start by 
+    // the anesthesiologist
+    startOfProcAuthByAnestDateTime: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
     procStartDateTime: {
       type: DataTypes.DATE,
       allowNull: false,
