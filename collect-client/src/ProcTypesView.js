@@ -182,7 +182,7 @@ export class ProcTypesView extends LitElement {
                 class="input"
                 type="search"
                 @input="${this._searchProcType}"
-                placeholder="buscar pelo nome ou registro"
+                placeholder="buscar pelo nome ou código"
                 required
               />
               <icon-search></icon-search>

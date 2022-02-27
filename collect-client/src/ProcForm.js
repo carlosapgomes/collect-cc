@@ -1090,7 +1090,7 @@ export class ProcForm extends LitElement {
                             type="search"
                             @input="${this._searchProcType}"
                             .value="${this._procTypeDescr}"
-                            placeholder="buscar pelo nome"
+                            placeholder="buscar pelo nome ou código"
                             required
                           />
                           <icon-search></icon-search>
