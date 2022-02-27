@@ -219,7 +219,7 @@ export class CollectClient extends LitElement {
     } catch (err) {
       this._spinnerHidden = true;
       // eslint-disable-next-line no-console
-      console.log(err.message);
+      // console.log(err.message);
       this._modalMsg = `Ocorreu um erro: ${err.message}`;
       this._toggleModal = true;
     }
