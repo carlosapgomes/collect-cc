@@ -217,14 +217,22 @@ export class UsersView extends LitElement {
                             >
                               <icon-edit></icon-edit>
                             </div>
+                            <label class="checkbox">
+                              <input
+                                type="checkbox"
+                                ?checked="${u.isListingEnabled}"
+                                disabled
+                              />
+                              Listagem
+                            </label>
 
                             <label class="checkbox">
                               <input
                                 type="checkbox"
-                                ?checked="${u.isEnabled}"
+                                ?checked="${u.isLoginEnabled}"
                                 disabled
                               />
-                              Habilitado
+                              Login
                             </label>
                             <label class="checkbox">
                               <input
