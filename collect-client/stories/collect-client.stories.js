@@ -9,11 +9,14 @@ export default {
   },
 };
 
-function Template({ title, backgroundColor }) {
+function Template(args) {
   return html`
     <collect-client
-      style="--collect-client-background-color: ${backgroundColor || 'white'}"
-      .title=${title}
+      style="--collect-client-background-color: ${args.backgroundColor ||
+      'white'}"
+      ?_loggedIn=${args.loggedIn}
+      ?_isAdmin=${args.isAdmin}
+      ._user=${args.user}
     >
     </collect-client>
   `;
@@ -21,5 +24,28 @@ function Template({ title, backgroundColor }) {
 
 export const App = Template.bind({});
 App.args = {
-  title: 'My app',
+  loggedIn: false,
+  isAdmin: false,
+  user: null,
+  backgroundColor: 'white',
+};
+
+export const LoggedIn = Template.bind({});
+LoggedIn.args = {
+  loggedIn: true,
+  isAdmin: false,
+  user: {
+    name: 'user.one',
+  },
+  backgroundColor: 'white',
+};
+
+export const Admin = Template.bind({});
+Admin.args = {
+  loggedIn: true,
+  isAdmin: true,
+  user: {
+    name: 'user.admin',
+  },
+  backgroundColor: 'white',
 };
