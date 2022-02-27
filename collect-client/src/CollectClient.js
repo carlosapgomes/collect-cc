@@ -589,7 +589,7 @@ export class CollectClient extends LitElement {
       // clear users list
       this._users = [];
       // eslint-disable-next-line no-console
-      console.log('updating users list ...');
+      // console.log('updating users list ...');
       this._spinnerHidden = false;
       let skip = 0;
       if (e.detail && e.detail.skip) {
@@ -704,7 +704,7 @@ export class CollectClient extends LitElement {
       } else {
         try {
           // eslint-disable-next-line no-console
-          console.log('creating user');
+          // console.log('creating user');
           await this.client.service('users').create({ ...u });
           this._spinnerHidden = true;
           this._modalMsg = 'Usuário gravado com sucesso!';

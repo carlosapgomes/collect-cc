@@ -1561,7 +1561,7 @@ export class ProcForm extends LitElement {
                                   type="search"
                                   @input="${this._searchUser}"
                                   .value="${this._userName}"
-                                  placeholder="buscar pelo nome ou registro de classe"
+                                  placeholder="buscar pelo nome ou CRM"
                                 />
                                 <icon-search></icon-search>
                               </div>
