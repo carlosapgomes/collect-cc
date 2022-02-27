@@ -643,8 +643,6 @@ export class ProcForm extends LitElement {
   }
 
   _circulatingNurseSelected(u) {
-    // eslint-disable-next-line no-console
-    // console.log(JSON.stringify(u, null, 2));
     if (!u.licenceNumber) {
       this.dispatchEvent(
         new CustomEvent('show-modal-message', {
@@ -663,9 +661,9 @@ export class ProcForm extends LitElement {
   }
 
   _userSelected(u) {
-    this._userName = u.name;
-    // eslint-disable-next-line no-console
-    // console.log(JSON.stringify(u, null, 2));
+    this._userName = '';
+    const el = document.getElementById('procusers');
+    el.value = '';
     if (!u.licenceNumber) {
       this.dispatchEvent(
         new CustomEvent('show-modal-message', {
@@ -684,9 +682,10 @@ export class ProcForm extends LitElement {
   }
 
   _anesthesiologistSelected(u) {
-    this._anesthesiologistName = u.name;
+    this._anesthesiologistName = '';
     // eslint-disable-next-line no-console
-    // console.log(JSON.stringify(u, null, 2));
+    const el = document.getElementById('procanest');
+    el.value = '';
     if (!u.licenceNumber) {
       this.dispatchEvent(
         new CustomEvent('show-modal-message', {
