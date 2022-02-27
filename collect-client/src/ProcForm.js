@@ -597,14 +597,14 @@ export class ProcForm extends LitElement {
         })
       );
       this._activateUserSearchDropDown = true;
+    } else {
+      this._activateUserSearchDropDown = false;
     }
   }
 
   _searchAnesthesiologist(e) {
     // eslint-disable-next-line no-console
     // console.log(e.target.value);
-    // fire event to hide procedure form from parent's view
-
     if (e.target.value.length > 2) {
       this.dispatchEvent(
         new CustomEvent('search-user', {
@@ -617,14 +617,14 @@ export class ProcForm extends LitElement {
         })
       );
       this._activateAnesthesiologistSearchDropDown = true;
+    } else {
+      this._activateAnesthesiologistSearchDropDown = false;
     }
   }
 
   _searchCirculatingNurse(e) {
     // eslint-disable-next-line no-console
     // console.log(e.target.value);
-    // fire event to hide procedure form from parent's view
-
     if (e.target.value.length > 2) {
       this.dispatchEvent(
         new CustomEvent('search-user', {
@@ -637,6 +637,8 @@ export class ProcForm extends LitElement {
         })
       );
       this._activateCirculatingNurseSearchDropDown = true;
+    } else {
+      this._activateCirculatingNurseSearchDropDown = false;
     }
   }
 
@@ -705,8 +707,6 @@ export class ProcForm extends LitElement {
   _searchPatient(e) {
     // eslint-disable-next-line no-console
     // console.log(e.target.value);
-    // fire event to hide procedure form from parent's view
-
     if (e.target.value.length > 2) {
       this.dispatchEvent(
         new CustomEvent('search-patient', {
@@ -719,6 +719,8 @@ export class ProcForm extends LitElement {
         })
       );
       this._activatePatientSearchDropDown = true;
+    } else {
+      this._activatePatientSearchDropDown = false;
     }
   }
 
@@ -747,6 +749,8 @@ export class ProcForm extends LitElement {
         })
       );
       this._activateProcTypeSearchDropDown = true;
+    } else {
+      this._activateProcTypeSearchDropDown = false;
     }
   }
 
