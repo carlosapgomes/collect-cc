@@ -4,6 +4,7 @@ import { LitElement, html } from 'lit-element';
 import { classMap } from 'lit-html/directives/class-map.js';
 import { DateTime } from 'luxon';
 import sheets from './utilities/sheets.js';
+import './icons/icon-user.js';
 
 export class CollectClient extends LitElement {
   // use lightDOM
@@ -1324,6 +1325,19 @@ export class CollectClient extends LitElement {
           </div>
 
           <div class="navbar-end">
+            <div
+              class="navbar-item 
+              ${classMap({ 'is-hidden': !this._loggedIn })}
+              "
+            >
+              <span class="mr-2">
+                <icon-user></icon-user>
+              </span>
+              <span>
+                ${this._user && this._user.name ? this._user.name : ''}
+              </span>
+            </div>
+
             <div class="navbar-item">
               <div class="buttons">
                 <a
