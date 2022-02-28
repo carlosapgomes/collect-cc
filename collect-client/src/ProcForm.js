@@ -1639,12 +1639,12 @@ export class ProcForm extends LitElement {
                                   <div
                                     class="is-flex 
                                     is-flex-direction-row
-                                      is-justify-content-space-between
-                                        is-align-items-center
-                                          has-background-light"
+                                    is-justify-content-space-between
+                                    is-align-items-center
+                                    has-background-light"
                                   >
                                     <div class="pl-2">
-                                      ${u.name} - ${u.profBoardName} - n.:
+                                      ${u.name} - Reg. Classe - n.:
                                       ${u.licenceNumber}
                                     </div>
                                     <button
@@ -1938,7 +1938,7 @@ export class ProcForm extends LitElement {
                                           has-background-light"
                                   >
                                     <div class="pl-2">
-                                      ${u.name} - ${u.profBoardName} - n.:
+                                      ${u.name} - Reg. Classe - n.:
                                       ${u.licenceNumber}
                                     </div>
                                     <button
