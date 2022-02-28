@@ -345,7 +345,7 @@ export class CollectClient extends LitElement {
   async _updateProceduresList(e) {
     if (this._user.isLoginEnabled) {
       // eslint-disable-next-line no-console
-      console.log('updating procedures list ...');
+      // console.log('updating procedures list ...');
       // eslint-disable-next-line no-console
       // console.log(JSON.stringify(e.detail, null, 2));
       this._spinnerHidden = false;

@@ -19,6 +19,11 @@ module.exports = function (app) {
       type: DataTypes.DATE,
       allowNull: false,
     },
+    // DateTime when patient left the surgical room
+    ptLeftSiteDateTime: { 
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
     // DateTime of surgeon arrival at surgical room
     surgeonAtSiteDateTime: { 
       type: DataTypes.DATE,

@@ -16,6 +16,7 @@ export class ProcForm extends LitElement {
       procedure: { type: Object },
       editmode: { type: Boolean, state: true },
       _currentProcPtAtSiteDateTime: { type: String, state: true },
+      _currentProcPtLeftSiteDateTime: { type: String, state: true },
       _currentProcSurgeonAtSiteDateTime: { type: String, state: true },
       _currentProcAnestAtSiteDateTime: { type: String, state: true },
       _currentProcStartAuthByAnestDateTime: { type: String, state: true },
@@ -111,6 +112,7 @@ export class ProcForm extends LitElement {
     // remove seconds and milliseconds from iso string date
     const dShort = d.slice(0, 16);
     this._currentProcPtAtSiteDateTime = dShort;
+    this._currentProcPtLeftSiteDateTime = dShort;
     this._currentProcSurgeonAtSiteDateTime = dShort;
     this._currentProcAnestAtSiteDateTime = dShort;
     this._currentProcStartAuthByAnestDateTime = dShort;
@@ -162,6 +164,9 @@ export class ProcForm extends LitElement {
 
       this._currentProcPtAtSiteDateTime = DateTime.fromSQL(
         this.procedure.ptAtSiteDateTime
+      ).toFormat("yyyy'-'LL'-'dd'T'HH:mm");
+      this._currentProcPtLeftSiteDateTime = DateTime.fromSQL(
+        this.procedure.ptLeftSiteDateTime
       ).toFormat("yyyy'-'LL'-'dd'T'HH:mm");
       this._currentProcSurgeonAtSiteDateTime = DateTime.fromSQL(
         this.procedure.surgeonAtSiteDateTime
@@ -367,6 +372,7 @@ export class ProcForm extends LitElement {
       // remove seconds and milliseconds from iso string date
       const dShort = d.slice(0, 16);
       this._currentProcPtAtSiteDateTime = dShort;
+      this._currentProcPtLeftSiteDateTime = dShort;
       this._currentProcSurgeonAtSiteDateTime = dShort;
       this._currentProcAnestAtSiteDateTime = dShort;
       this._currentProcStartAuthByAnestDateTime = dShort;
@@ -398,6 +404,9 @@ export class ProcForm extends LitElement {
     const ptAtSiteDateTime = DateTime.fromISO(
       this._currentProcPtAtSiteDateTime
     );
+    const ptLeftSiteDateTime = DateTime.fromISO(
+      this._currentProcPtLeftSiteDateTime
+    );
     const surgeonAtSiteDateTime = DateTime.fromISO(
       this._currentProcSurgeonAtSiteDateTime
     );
@@ -427,6 +436,7 @@ export class ProcForm extends LitElement {
       descr: this._currentProcType.descr,
       code: this._currentProcType.code,
       ptAtSiteDateTime: ptAtSiteDateTime.toISO(),
+      ptLeftSiteDateTime: ptLeftSiteDateTime.toISO(),
       surgeonAtSiteDateTime: surgeonAtSiteDateTime.toISO(),
       anestAtSiteDateTime: anestAtSiteDateTime.toISO(),
       startOfProcAuthByAnestDateTime: startOfProcAuthByAnestDateTime.toISO(),
@@ -997,7 +1007,7 @@ export class ProcForm extends LitElement {
               </div>
                 <div class="field is-horizontal">
                   <div class="field-label is-normal">
-                    <label><b>Paciente em sala</b></label>
+                    <label><b>Pct. em sala</b></label>
                   </div>
                   <div class="field-body">
                     <div class="field">
@@ -1008,6 +1018,25 @@ export class ProcForm extends LitElement {
                         .value="${this._currentProcPtAtSiteDateTime}"
                         @input="${e => {
                           this._currentProcPtAtSiteDateTime = e.target.value;
+                        }}"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="field is-horizontal">
+                  <div class="field-label is-normal">
+                    <label><b>Pct. saiu da sala</b></label>
+                  </div>
+                  <div class="field-body">
+                    <div class="field">
+                      <input
+                        class="input"
+                        id="ptleftsitedatetime"
+                        type="datetime-local"
+                        .value="${this._currentProcPtLeftSiteDateTime}"
+                        @input="${e => {
+                          this._currentProcPtLeftSiteDateTime = e.target.value;
                         }}"
                         required
                       />
