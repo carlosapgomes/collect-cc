@@ -22,7 +22,7 @@ Instale o `git`:
 Após logar como `root`
 
 Clone o projeto:
-`git clone https://github.com/carlosapgomes/collect-cc.git`
+`git clone https://github.com/carlosapgomes/collect-cc.git collect`
 
 Vá ao diretório do projeto,
 
