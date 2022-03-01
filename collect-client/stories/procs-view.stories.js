@@ -15,13 +15,23 @@ function Template() {
       descr: 'procedure 1',
       ptName: 'Patient Name 1',
       user1Name: 'Doctor Name 1',
+      team: 'team 1',
       procStartDateTime: DateTime.local().toSQL(),
+      createdByUserName: 'User 1',
+      createdAt: DateTime.local().toSQL(),
+      updatedByUserName: 'User 2',
+      updatedAt: DateTime.local().toSQL(),
     },
     {
       descr: 'procedure 2',
       ptName: 'Patient Name 2',
       user1Name: 'Doctor Name 2',
+      team: 'team 2',
       procStartDateTime: DateTime.local().toSQL(),
+      createdByUserName: 'User 1',
+      createdAt: DateTime.local().toSQL(),
+      updatedByUserName: 'User 2',
+      updatedAt: DateTime.local().toSQL(),
     },
   ];
   const user = {

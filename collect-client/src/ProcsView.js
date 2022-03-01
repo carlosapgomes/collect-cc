@@ -513,8 +513,20 @@ export class ProcsView extends LitElement {
                                   )}<br />
                                   Paciente: ${p.ptName}<br />
                                   Equipe: ${p.team} <br />
-                                  Executante(s): ${ProcsView._getTeamNames(p)}
+                                  Executante(s):
+                                  ${ProcsView._getTeamNames(p)}<br />
                                 </small>
+                                <div class="is-size-7">
+                                  Criado por: ${p.createdByUserName}
+                                  ${DateTime.fromSQL(p.createdAt, {
+                                    locale: 'pt-BR',
+                                  }).toLocaleString(DateTime.DATETIME_SHORT)}
+                                  <br />
+                                  Atualizado por: ${p.updatedByUserName}
+                                  ${DateTime.fromSQL(p.updatedAt, {
+                                    locale: 'pt-BR',
+                                  }).toLocaleString(DateTime.DATETIME_SHORT)}
+                                </div>
                               </div>
                               <div
                                 class="is-flex 

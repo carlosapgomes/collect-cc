@@ -64,6 +64,10 @@ export default function sheets(procedures, user) {
     'Potencial de Contaminação',
     'Usou Antibiótico',
     'Observação',
+    'Criado por',
+    'Criado em',
+    'Atualizado por',
+    'Atualizado em',
   ];
   const rows = procedures.map(p => [
     DateTime.fromSQL(p.procStartDateTime).toFormat('dd/LL/yyyy'),
@@ -120,6 +124,10 @@ export default function sheets(procedures, user) {
     p.contaminationRisk,
     p.antibioticUse === 1 ? 'SIM' : 'NÃO',
     p.notes,
+    p.createdByUserName,
+    DateTime.fromSQL(p.createdAt).toFormat('dd/LL/yyyy HH:mm'),
+    p.updatedByUserName,
+    DateTime.fromSQL(p.updatedAt).toFormat('dd/LL/yyyy HH:mm'),
   ]);
   const wsData = [header, ...rows];
   // console.log(JSON.stringify(wsData,null,2));
