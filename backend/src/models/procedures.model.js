@@ -279,6 +279,11 @@ module.exports = function (app) {
       type: DataTypes.STRING,
       allowNull: true,
     },
+    ptDeadOnOpRoom: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+      defaultValue: false,
+    },
     notes: {
       type: DataTypes.TEXT,
       allowNull: true,

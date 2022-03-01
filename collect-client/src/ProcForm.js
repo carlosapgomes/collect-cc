@@ -63,6 +63,7 @@ export class ProcForm extends LitElement {
       _anesthesiaSubType: { type: String, state: true },
       _riskClassASA: { type: String, state: true },
       _notes: { type: String, state: true },
+      _ptDeadOnOpRoom: { type: String, state: true },
     };
   }
 
@@ -105,6 +106,7 @@ export class ProcForm extends LitElement {
     this._anesthesiaSubType = '';
     this._riskClassASA = '';
     this._notes = '';
+    this._ptDeadOnOpRoom = false;
   }
 
   firstUpdated() {
@@ -137,7 +139,7 @@ export class ProcForm extends LitElement {
       // eslint-disable-next-line no-console
       // console.log('procedure changed and is defined');
       // eslint-disable-next-line no-console
-      // console.log(JSON.stringify(this.procedure, null, 2));
+      console.log(JSON.stringify(this.procedure, null, 2));
       this._currentPatient = {
         name: this.procedure.ptName,
         recNumber: this.procedure.ptRecN,
@@ -189,6 +191,7 @@ export class ProcForm extends LitElement {
 
       this._contaminationRisk = this.procedure.contaminationRisk;
       this._antibioticUse = this.procedure.antibioticUse;
+      // this._antibioticUse = (this.procedure.antibioticUse === 1);
 
       this._procGroup = this.procedure.procGroup;
       this._surgicalRoom = this.procedure.surgicalRoom;
@@ -310,7 +313,7 @@ export class ProcForm extends LitElement {
           licenceNumber: this.procedure.anesthesiologist3LicenceNumber,
         });
       }
-
+      this._ptDeadOnOpRoom = this.procedure.ptDeadOnOpRoom;
       this._notes = this.procedure.notes;
     } else if (!this.editmode && !this.procedure) {
       this._clearFields();
@@ -366,6 +369,7 @@ export class ProcForm extends LitElement {
     this._anesthesiaSubType = '';
     this._riskClassASA = '';
     this._notes = '';
+    this._ptDeadOnOpRoom = false;
     // try to circunvent a race condition with the above procedure-form reset
     setTimeout(() => {
       const d = DateTime.local().toISO();
@@ -499,6 +503,7 @@ export class ProcForm extends LitElement {
       anesthesiaType: this._anesthesiaType,
       anesthesiaSubType: this._anesthesiaSubType,
       riskClassASA: this._riskClassASA,
+      ptDeadOnOpRoom: this._ptDeadOnOpRoom,
       notes: this._notes,
       updatedByUserName: this.user.name,
       updatedByUserID: this.user.id,
@@ -1360,36 +1365,6 @@ export class ProcForm extends LitElement {
                   class="field  
                   is-horizontal"
                 >
-                  <div class="field-label is-normal
-                    is-flex is-flex-grow-0">
-                    <label class="label">Contaminação</label>
-                  </div>
-                  <div class="field-body is-flex">
-                    <div class="field">
-                      <input
-                        class="input"
-                        id="contaminationRisk"
-                        list="contaminationRiskTypes"
-                        type="text"
-                        placeholder=""
-                        .value="${this._contaminationRisk}"
-                        @blur="${e => {
-                          this._contaminationRisk = e.target.value;
-                        }}"
-                      />
-                      <datalist id="contaminationRiskTypes">
-                        <option value="Limpa"></option>
-                        <option value="Potencialmente contaminada"></option>
-                        <option value="Contaminada"></option>
-                        <option value="Infectada"></option>
-                      </datalist>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="field  
-                  is-horizontal"
-                >
                   <label class="checkbox">
                     <input
                       id="antibioticUse"
@@ -1402,62 +1377,7 @@ export class ProcForm extends LitElement {
                     <b>Usou antibiótico?</b>
                   </label>
                 </div>
-              </div>
-              <!-- surgery group and surgical room  -->
-              <div
-                class="field
-                is-flex is-flex-direction-row
-                is-justify-content-space-between 	
-                "
-              >
-                <div
-                  class="field  
-                  is-horizontal"
-                >
-                  <div class="field-label is-normal
-                    is-flex is-flex-grow-0">
-                    <label class="label">Grupo</label>
-                  </div>
-                  <div class="field-body is-flex">
-                    <div class="field">
-                      <input
-                        class="input"
-                        id="procGroup"
-                        list="proceduresGroups"
-                        type="text"
-                        placeholder="Grupo de procedimento"
-                        .value="${this._procGroup}"
-                        @blur="${e => {
-                          this._procGroup = e.target.value;
-                        }}"
-                      />
-                      <datalist id="proceduresGroups">
-                        <option value="CG - Biópsias"></option>
-                        <option value="CG - Colectomias"></option>
-                        <option value="CG - Enterectomias"></option>
-                        <option value="CG - Esofagectomias"></option>
-                        <option value="CG - Gastrectomias"></option>
-                        <option value="CG - Hepatectomias"></option>
-                        <option value="CG - Pancreatectomias"></option>
-                        <option value="CG - Parede Abdominal"></option>
-                        <option value="CG - Vesícula e Vias Biliares"></option>
-                        <option value="NC - Aneurisma Cerebral"></option>
-                        <option value="NC - Biópsias"></option>
-                        <option value="NC - Bloqueios"></option>
-                        <option value="NC - Cirurgia de Coluna"></option>
-                        <option value="NC - Cranioplastia"></option>
-                        <option
-                          value="NC - Derivações/Ventriculostomia (DVE/DVP)"
-                        ></option>
-                        <option
-                          value="NC - Descompressão/Drenagem de Hematoma"
-                        ></option>
-                        <option value="NC - Fístulas e Malformações"></option>
-                        <option value="NC - Tumor Cerebral"></option>
-                      </datalist>
-                    </div>
-                  </div>
-                </div>
+              <!-- surgical room  -->
                 <div
                   class="field  
                   is-horizontal"
@@ -1495,6 +1415,36 @@ export class ProcForm extends LitElement {
                   </div>
                 </div>
               </div>
+                <div
+                  class="field  
+                  is-horizontal"
+                >
+                  <div class="field-label is-normal
+                    is-flex is-flex-grow-0">
+                    <label class="label">Contaminação</label>
+                  </div>
+                  <div class="field-body is-flex">
+                    <div class="field">
+                      <input
+                        class="input"
+                        id="contaminationRisk"
+                        list="contaminationRiskTypes"
+                        type="text"
+                        placeholder=""
+                        .value="${this._contaminationRisk}"
+                        @blur="${e => {
+                          this._contaminationRisk = e.target.value;
+                        }}"
+                      />
+                      <datalist id="contaminationRiskTypes">
+                        <option value="Limpa"></option>
+                        <option value="Potencialmente contaminada"></option>
+                        <option value="Contaminada"></option>
+                        <option value="Infectada"></option>
+                      </datalist>
+                    </div>
+                  </div>
+                </div>
               <div class="field is-horizontal is-flex">
                 <div class="field-label is-normal
                   is-flex is-flex-grow-0">
@@ -1960,6 +1910,19 @@ export class ProcForm extends LitElement {
                 </div>
               </div>
           </br>
+                <div class="field is-horizontal">
+                  <label class="checkbox">
+                    <input
+                      id="ptdeadonoproom"
+                      type="checkbox"
+                      ?checked="${this._ptDeadOnOpRoom}"
+                      @click="${e => {
+                        this._ptDeadOnOpRoom = e.target.checked;
+                      }}"
+                    />
+                    <b>Óbito em sala?</b>
+                  </label>
+                </div>
               <div class="field is-horizontal is-flex">
                 <div class="field-label is-normal
                   is-flex is-flex-grow-0">
