@@ -275,10 +275,6 @@ module.exports = function (app) {
       allowNull: true,
       defaultValue: false,
     },
-    procGroup: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
     ptDeadOnOpRoom: {
       type: DataTypes.BOOLEAN,
       allowNull: true,

@@ -42,7 +42,6 @@ export class ProcForm extends LitElement {
       _wasCanceled: { type: Boolean, state: true },
       _cancelationReason: { type: String, state: true },
       _antibioticUse: { type: Boolean, state: true },
-      _procGroup: { type: String, state: true },
       _activateUserSearchDropDown: { type: Boolean, state: true },
       _activateCirculatingNurseSearchDropDown: { type: Boolean, state: true },
       proctypes: { type: Array },
@@ -89,7 +88,6 @@ export class ProcForm extends LitElement {
     this._wasCanceled = false;
     this._cancelationReason = '';
     this._antibioticUse = false;
-    this._procGroup = '';
     this._currentUser = {};
     this._activateUserSearchDropDown = false;
     this.proctypes = [];
@@ -193,7 +191,6 @@ export class ProcForm extends LitElement {
       this._antibioticUse = this.procedure.antibioticUse;
       // this._antibioticUse = (this.procedure.antibioticUse === 1);
 
-      this._procGroup = this.procedure.procGroup;
       this._surgicalRoom = this.procedure.surgicalRoom;
 
       this._team = this.procedure.team;
@@ -355,7 +352,6 @@ export class ProcForm extends LitElement {
     this._wasCanceled = false;
     this._cancelationReason = '';
     this._antibioticUse = false;
-    this._procGroup = '';
     this._userName = '';
     this._activateUserSearchDropDown = false;
     this._activateCirculatingNurseSearchDropDown = false;
@@ -466,7 +462,6 @@ export class ProcForm extends LitElement {
       surgicalRoom: this._surgicalRoom,
       surgicalComplexity: this._surgicalComplexity,
       typeOfSurgery: this._typeOfSurgery,
-      procGroup: this._procGroup,
       contaminationRisk: this._contaminationRisk,
       wasCanceled: this._wasCanceled,
       cancelationReason: this._cancelationReason,
