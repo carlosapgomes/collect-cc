@@ -1393,6 +1393,7 @@ export class ProcForm extends LitElement {
                         @blur="${e => {
                           this._surgicalRoom = e.target.value;
                         }}"
+                        required
                       />
                       <datalist id="surgicalRooms">
                         <option value="Sala 01"></option>
