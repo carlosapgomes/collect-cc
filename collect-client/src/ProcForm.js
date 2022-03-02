@@ -35,6 +35,8 @@ export class ProcForm extends LitElement {
       _team: { type: String, state: true },
       _circulatingNurse: { type: Object, state: true },
       _circulatingNurseName: { type: String, state: true },
+      _currentProcCirculatinNurses: { type: Array, state: true },
+      _maxCirculatingNursesCount: { type: Number, state: true },
       _surgicalRoom: { type: String, state: true },
       _surgicalComplexity: { type: String, state: true },
       _typeOfSurgery: { type: String, state: true },
@@ -71,6 +73,8 @@ export class ProcForm extends LitElement {
     this._patientName = '';
     this._circulatingNurse = {};
     this._circulatingNurseName = '';
+    this._currentProcCirculatinNurses = [];
+    this._maxCirculatingNursesCount = 2;
     this._activateCirculatingNurseSearchDropDown = false;
     this._currentPatient = {};
     this._activatePatientSearchDropDown = false;
@@ -94,9 +98,9 @@ export class ProcForm extends LitElement {
     this._procTypeDescr = '';
     this._activateProcTypeSearchDropDown = false;
     this._showRequiredSurgReport = false;
-    this._maxUsersCount = 5;
+    this._maxUsersCount = 6;
     this._currentProcUsers = [];
-    this._maxAnesthesiologistsCount = 2;
+    this._maxAnesthesiologistsCount = 3;
     this._currentProcAnesthesiologists = [];
     this._anesthesiologistName = '';
     this._activateAnesthesiologistSearchDropDown = false;
@@ -196,11 +200,13 @@ export class ProcForm extends LitElement {
       this._team = this.procedure.team;
 
       this._currentProcUsers = [];
+      this._maxUsersCount = 6;
       this._currentProcUsers.push({
         name: this.procedure.user1Name,
         id: this.procedure.user1ID,
         licenceNumber: this.procedure.user1LicenceNumber,
       });
+      this._maxUsersCount -= 1;
 
       if (
         this.procedure.user2Name !== '' &&
@@ -212,6 +218,7 @@ export class ProcForm extends LitElement {
           id: this.procedure.user2ID,
           licenceNumber: this.procedure.user2LicenceNumber,
         });
+        this._maxUsersCount -= 1;
       }
       if (
         this.procedure.user3Name !== '' &&
@@ -223,6 +230,7 @@ export class ProcForm extends LitElement {
           id: this.procedure.user3ID,
           licenceNumber: this.procedure.user3LicenceNumber,
         });
+        this._maxUsersCount -= 1;
       }
       if (
         this.procedure.user4Name !== '' &&
@@ -234,6 +242,7 @@ export class ProcForm extends LitElement {
           id: this.procedure.user4ID,
           licenceNumber: this.procedure.user4LicenceNumber,
         });
+        this._maxUsersCount -= 1;
       }
       if (
         this.procedure.user5Name !== '' &&
@@ -245,6 +254,7 @@ export class ProcForm extends LitElement {
           id: this.procedure.user5ID,
           licenceNumber: this.procedure.user5LicenceNumber,
         });
+        this._maxUsersCount -= 1;
       }
       if (
         this.procedure.user6Name !== '' &&
@@ -256,13 +266,34 @@ export class ProcForm extends LitElement {
           id: this.procedure.user6ID,
           licenceNumber: this.procedure.user6LicenceNumber,
         });
+        this._maxUsersCount -= 1;
       }
-      this._circulatingNurse = {
-        name: this.procedure.circulatingNurse,
-        id: this.procedure.circulatingNurseID,
-      };
-      this._circulatingNurseName = this.procedure.circulatingNurse;
-      this._circulatingNurseID = this.procedure.circulatingNurseID;
+      this._currentProcCirculatinNurses = [];
+      this._maxCirculatingNursesCount = 2;
+      if (
+        this.procedure.circulatingNurse1Name !== '' &&
+        this.procedure.circulatingNurse1ID !== '' &&
+        this.procedure.circulatingNurse1LicenceNumber !== ''
+      ) {
+        this._currentProcCirculatinNurses.push({
+          name: this.procedure.circulatingNurse1Name,
+          id: this.procedure.circulatingNurse1ID,
+          licenceNumber: this.procedure.circulatingNurse1LicenceNumber,
+        });
+        this._maxCirculatingNursesCount -= 1;
+      }
+      if (
+        this.procedure.circulatingNurse2Name !== '' &&
+        this.procedure.circulatingNurse2ID !== '' &&
+        this.procedure.circulatingNurse2LicenceNumber !== ''
+      ) {
+        this._currentProcCirculatinNurses.push({
+          name: this.procedure.circulatingNurse2Name,
+          id: this.procedure.circulatingNurse2ID,
+          licenceNumber: this.procedure.circulatingNurse2LicenceNumber,
+        });
+        this._maxCirculatingNursesCount -= 1;
+      }
 
       this._anesthesiaType = this.procedure.anesthesiaType;
       this._anesthesiaSubType = this.procedure.anesthesiaSubType;
@@ -276,6 +307,7 @@ export class ProcForm extends LitElement {
       ).toFormat("yyyy'-'LL'-'dd'T'HH:mm");
 
       this._currentProcAnesthesiologists = [];
+      this._maxAnesthesiologistsCount = 3;
 
       if (
         this.procedure.anesthesiologist1Name !== '' &&
@@ -287,6 +319,7 @@ export class ProcForm extends LitElement {
           id: this.procedure.anesthesiologist1ID,
           licenceNumber: this.procedure.anesthesiologist1LicenceNumber,
         });
+        this._maxAnesthesiologistsCount -= 1;
       }
       if (
         this.procedure.anesthesiologist2Name !== '' &&
@@ -298,6 +331,7 @@ export class ProcForm extends LitElement {
           id: this.procedure.anesthesiologist2ID,
           licenceNumber: this.procedure.anesthesiologist2LicenceNumber,
         });
+        this._maxAnesthesiologistsCount -= 1;
       }
       if (
         this.procedure.anesthesiologist3Name !== '' &&
@@ -309,6 +343,7 @@ export class ProcForm extends LitElement {
           id: this.procedure.anesthesiologist3ID,
           licenceNumber: this.procedure.anesthesiologist3LicenceNumber,
         });
+        this._maxAnesthesiologistsCount -= 1;
       }
       this._ptDeadOnOpRoom = this.procedure.ptDeadOnOpRoom;
       this._notes = this.procedure.notes;
@@ -338,6 +373,8 @@ export class ProcForm extends LitElement {
     this._patientName = '';
     this._circulatingNurse = {};
     this._circulatingNurseName = '';
+    this._maxCirculatingNursesCount = 2;
+    this._currentProcCirculatinNurses = [];
     this._currentPatient = {};
     this._activatePatientSearchDropDown = false;
     this._ward = '';
@@ -357,8 +394,8 @@ export class ProcForm extends LitElement {
     this._activateCirculatingNurseSearchDropDown = false;
     this._activateAnesthesiologistSearchDropDown = false;
     this._currentProcUsers = [];
-    this._maxUsersCount = 5;
-    this._maxAnesthesiologistsCount = 2;
+    this._maxUsersCount = 6;
+    this._maxAnesthesiologistsCount = 3;
     this._currentProcAnesthesiologists = [];
     this._anesthesiologistName = '';
     this._anesthesiaType = '';
@@ -484,8 +521,12 @@ export class ProcForm extends LitElement {
       user6Name: '',
       user6ID: '',
       user6LicenceNumber: '',
-      circulatingNurse: '',
-      circulatingNurseID: '',
+      circulatingNurse1Name: '',
+      circulatingNurse1ID: '',
+      circulatingNurse1LicenceNumber: '',
+      circulatingNurse2Name: '',
+      circulatingNurse2ID: '',
+      circulatingNurse2LicenceNumber: '',
       anesthesiologist1Name: '',
       anesthesiologist1LicenceNumber: '',
       anesthesiologist1ID: '',
@@ -551,13 +592,17 @@ export class ProcForm extends LitElement {
       p.user6LicenceNumber = u.licenceNumber;
     }
 
-    if (
-      this._circulatingNurse &&
-      this._circulatingNurse.name &&
-      this._circulatingNurse.id
-    ) {
-      p.circulatingNurse = this._circulatingNurse.name;
-      p.circulatingNurseID = this._circulatingNurse.id;
+    if (this._currentProcCirculatinNurses.length > 0) {
+      const u = this._currentProcCirculatinNurses.shift();
+      p.circulatingNurse1Name = u.name;
+      p.circulatingNurse1ID = u.id;
+      p.circulatingNurse1LicenceNumber = u.licenceNumber;
+    }
+    if (this._currentProcCirculatinNurses.length > 0) {
+      const u = this._currentProcCirculatinNurses.shift();
+      p.circulatingNurse2Name = u.name;
+      p.circulatingNurse2ID = u.id;
+      p.circulatingNurse2LicenceNumber = u.licenceNumber;
     }
     if (this._currentProcAnesthesiologists.length > 0) {
       const u = this._currentProcAnesthesiologists.shift();
@@ -653,6 +698,9 @@ export class ProcForm extends LitElement {
   }
 
   _circulatingNurseSelected(u) {
+    this._circulatingNurseName = '';
+    const el = document.getElementById('circulatingnurse');
+    el.value = '';
     if (!u.licenceNumber) {
       this.dispatchEvent(
         new CustomEvent('show-modal-message', {
@@ -663,9 +711,10 @@ export class ProcForm extends LitElement {
           composed: true,
         })
       );
-    } else {
+    } else if (this._maxCirculatingNursesCount > 0) {
+      this._currentProcCirculatinNurses.push({ ...u });
+      this._maxCirculatingNursesCount -= 1;
       this._circulatingNurse = { ...u };
-      this._circulatingNurseName = u.name;
     }
     this._activateCirculatingNurseSearchDropDown = false;
   }
@@ -684,7 +733,7 @@ export class ProcForm extends LitElement {
           composed: true,
         })
       );
-    } else if (this._maxUsersCount >= 0) {
+    } else if (this._maxUsersCount > 0) {
       this._currentProcUsers.push({ ...u });
       this._maxUsersCount -= 1;
     }
@@ -706,7 +755,7 @@ export class ProcForm extends LitElement {
           composed: true,
         })
       );
-    } else if (this._maxAnesthesiologistsCount >= 0) {
+    } else if (this._maxAnesthesiologistsCount > 0) {
       this._currentProcAnesthesiologists.push({ ...u });
       this._maxAnesthesiologistsCount -= 1;
     }
@@ -1612,61 +1661,97 @@ export class ProcForm extends LitElement {
                 </div>
               </div>
               <br />
-              <!-- circulating nurse dropdown search -->
-              <div
-                class="is-flex
-                is-flex-direction-row"
-              >
-                <div
-                  class="dropdown 
-                  ${classMap({
-                    'is-active': this._activateCirculatingNurseSearchDropDown,
-                  })}"
-                >
-                  <div class="field is-flex-grow-5 is-horizontal">
+              <!-- circulating nurses dropdown search -->
+              <div class="card">
+                <div class="card-content">
+                  <div class="content">
                     <div
-                      style="padding-right: 20px; padding-top: 8px;"
-                      class="label is-normal"
+                      class="dropdown is-up is-expanded ${classMap({
+                        'is-active':
+                          this._activateCirculatingNurseSearchDropDown,
+                      })}"
                     >
-                      <label><b>Circulante</b></label>
-                    </div>
-                    <div class="field-body">
                       <div class="dropdown-trigger">
-                        <div class="field">
-                          <div class="control is-expanded has-icons-right">
-                            <input
-                              class="input"
-                              type="search"
-                              @input="${this._searchCirculatingNurse}"
-                              .value="${this._circulatingNurseName}"
-                              placeholder="buscar pelo nome ou Coren"
-                            />
-                            <icon-search></icon-search>
+                        <div class="field is-horizontal">
+                          <div class="field-label is-normal">
+                            <label><b>Circulante(s)</b></label>
+                          </div>
+                          <div class="field-body">
+                            <div class="field">
+                              <div class="control is-expanded has-icons-right">
+                                <input
+                                  id="circulatingnurse"
+                                  class="input"
+                                  type="search"
+                                  @input="${this._searchCirculatingNurse}"
+                                  .value="${this._circulatingNurseName}"
+                                  placeholder="buscar pelo nome ou Coren"
+                                />
+                                <icon-search></icon-search>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
+                      <div
+                        class="dropdown-menu"
+                        id="dropdown-nurses"
+                        role="menu"
+                      >
+                        <div class="dropdown-content">
+                          ${
+                            this.users
+                              ? this.users.map(
+                                  u => html` <a
+                                    href="#"
+                                    class="dropdown-item"
+                                    @click="${e => {
+                                      e.preventDefault();
+                                      this._circulatingNurseSelected(u);
+                                    }}"
+                                    @keydown="${e => {
+                                      e.preventDefault();
+                                      this._circulatingNurseSelected(u);
+                                    }}"
+                                  >
+                                    ${u.name} - ${u.licenceNumber}
+                                  </a>`
+                                )
+                              : html`<p></p>`
+                          }
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                  <div class="dropdown-menu" id="dropdown-nurse" role="menu">
-                    <div class="dropdown-content">
+                    <div>
                       ${
-                        this.users
-                          ? this.users.map(
-                              u => html` <a
-                                href="#"
-                                class="dropdown-item"
-                                @click="${e => {
-                                  e.preventDefault();
-                                  this._circulatingNurseSelected(u);
-                                }}"
-                                @keydown="${e => {
-                                  e.preventDefault();
-                                  this._circulatingNurseSelected(u);
-                                }}"
-                                >${u.name} - Reg: ${u.licenceNumber}
-                              </a>`
+                        this._currentProcCirculatinNurses
+                          ? this._currentProcCirculatinNurses.map(
+                              (u, i) =>
+                                html`
+                                  <div
+                                    class="is-flex 
+                                    is-flex-direction-row
+                                      is-justify-content-space-between
+                                        is-align-items-center
+                                          has-background-light"
+                                  >
+                                    <div class="pl-2">
+                                      ${u.name} - Reg. Classe - n.:
+                                      ${u.licenceNumber}
+                                    </div>
+                                    <button
+                                      class="button is-light"
+                                      @click="${e => {
+                                        e.preventDefault();
+                                        this._removeProcCirculatingNurse(i);
+                                      }}"
+                                    >
+                                      <icon-trash></icon-trash>
+                                    </button>
+                                  </div>
+                                `
                             )
-                          : html`<p></p>`
+                          : html`<p></p> `
                       }
                     </div>
                   </div>

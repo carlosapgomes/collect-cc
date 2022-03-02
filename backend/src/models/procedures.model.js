@@ -192,14 +192,30 @@ module.exports = function (app) {
       type: DataTypes.STRING,
       allowNull: true,
     },    
-    circulatingNurse: {
+    circulatingNurse1Name: {
       type: DataTypes.STRING,
       allowNull: true,
     },    
-    circulatingNurseID: {
+    circulatingNurse1ID: {
       type: DataTypes.STRING,
       allowNull: true,
-    },
+    },    
+    circulatingNurse1LicenceNumber: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },    
+    circulatingNurse2Name: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },    
+    circulatingNurse2ID: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },    
+    circulatingNurse2LicenceNumber: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },    
     anesthesiologist1Name: {
       type: DataTypes.STRING,
       allowNull: true,
