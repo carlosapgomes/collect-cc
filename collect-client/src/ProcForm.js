@@ -141,7 +141,7 @@ export class ProcForm extends LitElement {
       // eslint-disable-next-line no-console
       // console.log('procedure changed and is defined');
       // eslint-disable-next-line no-console
-      console.log(JSON.stringify(this.procedure, null, 2));
+      // console.log(JSON.stringify(this.procedure, null, 2));
       this._currentPatient = {
         name: this.procedure.ptName,
         recNumber: this.procedure.ptRecN,

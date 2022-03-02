@@ -340,7 +340,6 @@ export class ProcsView extends LitElement {
                         <label class="radio">
                           <input 
                             type="radio" 
-                            checked
                             name="searchByPersonTeam"
                             @click="${() => {
                               this._searchByPersonTeam = 'person';
@@ -351,6 +350,7 @@ export class ProcsView extends LitElement {
                         <label class="radio">
                           <input 
                             type="radio" 
+                            checked
                             name="searchByPersonTeam"
                             @click="${() => {
                               this._searchByPersonTeam = 'team';
