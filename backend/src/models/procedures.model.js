@@ -24,6 +24,10 @@ module.exports = function (app) {
       type: DataTypes.DATE,
       allowNull: false,
     },
+    surgicalRoomOccupDuration: {
+      type: DataTypes.NUMBER,
+      allowNull: false,
+    },
     // DateTime of surgeon arrival at surgical room
     surgeonAtSiteDateTime: { 
       type: DataTypes.DATE,

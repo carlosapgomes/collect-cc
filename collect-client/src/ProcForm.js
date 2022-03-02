@@ -444,6 +444,9 @@ export class ProcForm extends LitElement {
     const ptLeftSiteDateTime = DateTime.fromISO(
       this._currentProcPtLeftSiteDateTime
     );
+    const surgicalRoomOccupDuration = ptLeftSiteDateTime
+      .diff(ptAtSiteDateTime, 'minutes')
+      .toObject();
     const surgeonAtSiteDateTime = DateTime.fromISO(
       this._currentProcSurgeonAtSiteDateTime
     );
@@ -474,6 +477,10 @@ export class ProcForm extends LitElement {
       code: this._currentProcType.code,
       ptAtSiteDateTime: ptAtSiteDateTime.toISO(),
       ptLeftSiteDateTime: ptLeftSiteDateTime.toISO(),
+      surgicalRoomOccupDuration: parseInt(
+        surgicalRoomOccupDuration.minutes,
+        10
+      ),
       surgeonAtSiteDateTime: surgeonAtSiteDateTime.toISO(),
       anestAtSiteDateTime: anestAtSiteDateTime.toISO(),
       startOfProcAuthByAnestDateTime: startOfProcAuthByAnestDateTime.toISO(),
