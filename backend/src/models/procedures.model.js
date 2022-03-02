@@ -92,6 +92,10 @@ module.exports = function (app) {
       type: DataTypes.ENUM('M', 'F','D','NA'),
       allowNull: false,
     },
+    ptIsOncologic: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
     ptCity: {
       type: DataTypes.STRING,
       allowNull: true,

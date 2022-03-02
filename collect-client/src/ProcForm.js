@@ -64,7 +64,8 @@ export class ProcForm extends LitElement {
       _anesthesiaSubType: { type: String, state: true },
       _riskClassASA: { type: String, state: true },
       _notes: { type: String, state: true },
-      _ptDeadOnOpRoom: { type: String, state: true },
+      _ptDeadOnOpRoom: { type: Boolean, state: true },
+      _ptIsOncologic: { type: Boolean, state: true },
     };
   }
 
@@ -109,6 +110,7 @@ export class ProcForm extends LitElement {
     this._riskClassASA = '';
     this._notes = '';
     this._ptDeadOnOpRoom = false;
+    this._ptIsOncologic = false;
   }
 
   firstUpdated() {
@@ -346,6 +348,7 @@ export class ProcForm extends LitElement {
         this._maxAnesthesiologistsCount -= 1;
       }
       this._ptDeadOnOpRoom = this.procedure.ptDeadOnOpRoom;
+      this._ptIsOncologic = this.procedure.ptIsOncologic;
       this._notes = this.procedure.notes;
     } else if (!this.editmode && !this.procedure) {
       this._clearFields();
@@ -403,6 +406,7 @@ export class ProcForm extends LitElement {
     this._riskClassASA = '';
     this._notes = '';
     this._ptDeadOnOpRoom = false;
+    this._ptIsOncologic = false;
     // try to circunvent a race condition with the above procedure-form reset
     setTimeout(() => {
       const d = DateTime.local().toISO();
@@ -547,6 +551,7 @@ export class ProcForm extends LitElement {
       anesthesiaSubType: this._anesthesiaSubType,
       riskClassASA: this._riskClassASA,
       ptDeadOnOpRoom: this._ptDeadOnOpRoom,
+      ptIsOncologic: this._ptIsOncologic,
       notes: this._notes,
       updatedByUserName: this.user.name,
       updatedByUserID: this.user.id,
@@ -1062,6 +1067,57 @@ export class ProcForm extends LitElement {
                 </div>
               </div>
                 <div class="field is-horizontal">
+                  <label class="checkbox">
+                    <input
+                      id="ptisoncologic"
+                      type="checkbox"
+                      ?checked="${this._ptIsOncologic}"
+                      @click="${e => {
+                        this._ptIsOncologic = e.target.checked;
+                      }}"
+                    />
+                    <b>É paciente oncológico?</b>
+                  </label>
+                </div>
+              <!-- surgical room  -->
+                <div
+                  class="field  
+                  is-horizontal"
+                >
+                  <div class="field-label is-normal
+                    is-flex is-flex-grow-0">
+                    <label class="label">Sala</label>
+                  </div>
+                  <div class="field-body is-flex">
+                    <div class="field">
+                      <input
+                        class="input"
+                        id="surgicalRoom"
+                        list="surgicalRooms"
+                        type="text"
+                        placeholder="Sala"
+                        .value="${this._surgicalRoom}"
+                        @blur="${e => {
+                          this._surgicalRoom = e.target.value;
+                        }}"
+                        required
+                      />
+                      <datalist id="surgicalRooms">
+                        <option value="Sala 01"></option>
+                        <option value="Sala 02"></option>
+                        <option value="Sala 03"></option>
+                        <option value="Sala 04"></option>
+                        <option value="Sala 05"></option>
+                        <option value="Sala 06"></option>
+                        <option value="Sala 07"></option>
+                        <option value="Sala 08"></option>
+                        <option value="Sala 09"></option>
+                        <option value="Sala 10"></option>
+                      </datalist>
+                    </div>
+                  </div>
+                </div>
+                <div class="field is-horizontal">
                   <div class="field-label is-normal">
                     <label><b>Pct. em sala</b></label>
                   </div>
@@ -1158,6 +1214,7 @@ export class ProcForm extends LitElement {
                     </div>
                   </div>
                 </div>
+              </br>
               <!-- procedure type dropdown search -->
               <div
                 class="dropdown is-expanded 
@@ -1247,7 +1304,7 @@ export class ProcForm extends LitElement {
                         this._wasCanceled = e.target.checked;
                       }}"
                     />
-                    <b>Foi cancelada?</b>
+                    <b>Foi cancelado?</b>
                   </label>
                 </div>
                 <fieldset ?disabled="${!this._wasCanceled}">
@@ -1427,44 +1484,6 @@ export class ProcForm extends LitElement {
                     />
                     <b>Usou antibiótico?</b>
                   </label>
-                </div>
-              <!-- surgical room  -->
-                <div
-                  class="field  
-                  is-horizontal"
-                >
-                  <div class="field-label is-normal
-                    is-flex is-flex-grow-0">
-                    <label class="label">Sala</label>
-                  </div>
-                  <div class="field-body is-flex">
-                    <div class="field">
-                      <input
-                        class="input"
-                        id="surgicalRoom"
-                        list="surgicalRooms"
-                        type="text"
-                        placeholder="Sala"
-                        .value="${this._surgicalRoom}"
-                        @blur="${e => {
-                          this._surgicalRoom = e.target.value;
-                        }}"
-                        required
-                      />
-                      <datalist id="surgicalRooms">
-                        <option value="Sala 01"></option>
-                        <option value="Sala 02"></option>
-                        <option value="Sala 03"></option>
-                        <option value="Sala 04"></option>
-                        <option value="Sala 05"></option>
-                        <option value="Sala 06"></option>
-                        <option value="Sala 07"></option>
-                        <option value="Sala 08"></option>
-                        <option value="Sala 09"></option>
-                        <option value="Sala 10"></option>
-                      </datalist>
-                    </div>
-                  </div>
                 </div>
               </div>
                 <div
@@ -1764,6 +1783,7 @@ export class ProcForm extends LitElement {
                   </div>
                 </div>
               </div>
+            </br>
               <p><b>Anestesia</b></p>
             </br>
               <!-- Anesthesia type and subtype-->
