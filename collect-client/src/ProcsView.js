@@ -42,7 +42,7 @@ export class ProcsView extends LitElement {
     this._searchByDate = 'day';
     this._searchByPersonTeam = 'person';
     this._userName = '';
-    this._toggleUserOrTeamSearch = true;
+    this._toggleUserOrTeamSearch = false;
     this._currentSearchTeam = 'all';
     this._currentSearchUserID = '';
   }
