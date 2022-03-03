@@ -1076,7 +1076,7 @@ export class ProcForm extends LitElement {
                         this._ptIsOncologic = e.target.checked;
                       }}"
                     />
-                    <b>É paciente oncológico?</b>
+                    <b>Paciente oncológico</b>
                   </label>
                 </div>
               <!-- surgical room  -->
@@ -1304,7 +1304,7 @@ export class ProcForm extends LitElement {
                         this._wasCanceled = e.target.checked;
                       }}"
                     />
-                    <b>Foi cancelado?</b>
+                    <b>Procedimento cancelado</b>
                   </label>
                 </div>
                 <fieldset ?disabled="${!this._wasCanceled}">
@@ -1482,7 +1482,7 @@ export class ProcForm extends LitElement {
                         this._antibioticUse = e.target.checked;
                       }}"
                     />
-                    <b>Usou antibiótico?</b>
+                    <b>Usou antibiótico</b>
                   </label>
                 </div>
               </div>
@@ -2028,7 +2028,7 @@ export class ProcForm extends LitElement {
                         this._ptDeadOnOpRoom = e.target.checked;
                       }}"
                     />
-                    <b>Óbito em sala?</b>
+                    <b>Óbito em sala</b>
                   </label>
                 </div>
               <div class="field is-horizontal is-flex">
