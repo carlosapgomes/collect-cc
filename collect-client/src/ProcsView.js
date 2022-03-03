@@ -42,7 +42,7 @@ export class ProcsView extends LitElement {
     this._searchByDate = 'day';
     this._searchByPersonTeam = 'person';
     this._userName = '';
-    this._toggleUserOrTeamSearch = false;
+    this._toggleUserOrTeamSearch = true;
     this._currentSearchTeam = 'all';
     this._currentSearchUserID = '';
   }
@@ -340,6 +340,7 @@ export class ProcsView extends LitElement {
                         <label class="radio">
                           <input 
                             type="radio" 
+                            checked
                             name="searchByPersonTeam"
                             @click="${() => {
                               this._searchByPersonTeam = 'person';
@@ -350,7 +351,6 @@ export class ProcsView extends LitElement {
                         <label class="radio">
                           <input 
                             type="radio" 
-                            checked
                             name="searchByPersonTeam"
                             @click="${() => {
                               this._searchByPersonTeam = 'team';

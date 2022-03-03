@@ -400,6 +400,7 @@ export class CollectClient extends LitElement {
           { user5ID: id },
           { user6ID: id },
           { createdByUserID: id },
+          { updatedByUserID: id },
         ];
       }
       if (e.detail && e.detail.searchByPersonTeam === 'team') {
