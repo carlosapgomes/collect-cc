@@ -745,7 +745,7 @@ export class CollectClient extends LitElement {
           query: {
             $skip: skip,
             isListingEnabled: {
-              $ne: false,
+              $ne: 0,
             },
             $or: [
               {
