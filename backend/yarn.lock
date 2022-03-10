@@ -814,6 +814,11 @@ csv-parser@^3.0.0:
   dependencies:
     minimist "^1.2.0"
 
+csvjson@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/csvjson/-/csvjson-5.1.0.tgz#f055660824ebfb44dc089d901267fdc5d9e8414a"
+  integrity sha512-OqALQHA0k2rEGluOWikwFq5qtkRUDyoWP2u0UJy8uFjFx5FPMjPzx7D2Hn2KjBLpc8jkGrT9HDNgTUfopDlqVg==
+
 dashdash@^1.12.0:
   version "1.14.1"
   resolved "https://registry.yarnpkg.com/dashdash/-/dashdash-1.14.1.tgz#853cfa0f7cbe2fed5de20326b8dd581035f6e2f0"
