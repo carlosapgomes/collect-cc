@@ -136,3 +136,5 @@ yarn-debug.log*
 yarn-error.log*
 *.sqlite
 restartBackend.sh
+*.csv
+
