@@ -853,6 +853,12 @@ export class ProcForm extends LitElement {
     this._currentProcAnesthesiologists = [...anesthesiologists];
   }
 
+  _removeProcCirculatingNurse(i) {
+    const circulatingnurses = [...this._currentProcCirculatinNurses];
+    circulatingnurses.splice(i, 1);
+    this._currentProcCirculatinNurses = [...circulatingnurses];
+  }
+
   render() {
     return html`
       <section class="section">
