@@ -736,6 +736,16 @@ export class CollectClient extends LitElement {
       if (e.detail && e.detail.skip) {
         skip = e.detail.skip;
       }
+      let isListingEnabled = {};
+      if (e.detail && e.detail.allUsers) {
+        isListingEnabled = {
+          $in: [0, 1],
+        };
+      } else {
+        isListingEnabled = {
+          $ne: 0,
+        };
+      }
       let search = '';
       if (e.detail && e.detail.search) {
         search = e.detail.search;
@@ -744,9 +754,7 @@ export class CollectClient extends LitElement {
         const usersList = await this.client.service('users').find({
           query: {
             $skip: skip,
-            isListingEnabled: {
-              $ne: 0,
-            },
+            isListingEnabled,
             $or: [
               {
                 name: {

@@ -107,6 +107,7 @@ export class UsersView extends LitElement {
           detail: {
             search: e.target.value,
             skip: 0,
+            allUsers: true,
           },
           bubbles: true,
           composed: true,
